@@ -1,6 +1,5 @@
-Este juego fue creado enteramente con IA para probar las capacidades de Astra.
-
 <div align="center">
+Este juego fue creado enteramente con IA para probar las capacidades de Astra.
 
 # El Cuartico: ¡Estamos grabando!
 
