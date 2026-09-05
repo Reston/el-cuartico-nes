@@ -10,7 +10,7 @@ Este juego fue creado enteramente con IA para probar las capacidades de Astra.
 
 **NES · MMC5 · Un jugador · v0.10.1**
 
-[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/feature/daniel-art-polish/dist/el-cuartico-v0.10.1-mmc5.nes) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
+[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.10.1-mmc5.nes) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
@@ -20,8 +20,8 @@ que quieras. Cada victoria deja un sello; consigue los tres para publicar el epi
 
 ## Edición episodio remix
 
-La edición remix **v0.10.0** ya está aprobada e integrada en `main`.
-Esta rama, **`feature/daniel-art-polish`**, añade una prueba de arte para Daniel.
+La versión **v0.10.1**, con el episodio remix y el nuevo arte de Daniel,
+está aprobada e integrada en `main`.
 [Ver los cambios visuales](docs/DANIEL-ARTE.md).
 [Guía del episodio remix](docs/PRUEBA-REMIX.md).
 
@@ -55,7 +55,7 @@ Esta rama, **`feature/daniel-art-polish`**, añade una prueba de arte para Danie
 
 ## Jugar ahora
 
-1. Descarga [**el-cuartico-v0.10.1-mmc5.nes**](https://raw.githubusercontent.com/Reston/el-cuartico-nes/feature/daniel-art-polish/dist/el-cuartico-v0.10.1-mmc5.nes).
+1. Descarga [**el-cuartico-v0.10.1-mmc5.nes**](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.10.1-mmc5.nes).
 2. Ábrelo en un emulador con soporte **MMC5**, como FCEUmm o Mesen.
 3. Usa el **control 1**, región **NTSC** y velocidad normal. No hace falta BIOS.
 
@@ -166,7 +166,7 @@ superior, Pillow y cc65. El script de instalación descarga las herramientas en
 `tools/`; esos binarios no se incluyen en Git.
 
 ```powershell
-git clone --branch feature/daniel-art-polish https://github.com/Reston/el-cuartico-nes.git
+git clone https://github.com/Reston/el-cuartico-nes.git
 cd el-cuartico-nes
 python -m pip install -r requirements.txt
 python tools/bootstrap.py

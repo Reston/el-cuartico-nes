@@ -1,9 +1,9 @@
-# ¿Dónde está Daniel? — prueba de arte
+# ¿Dónde está Daniel? — mejora de arte
 
-**v0.10.1**, rama `feature/daniel-art-polish`. El episodio remix aprobado sigue
-publicado en `main` como v0.10.0. Esta prueba mantiene sus mecánicas y objetivos.
+**v0.10.1**, aprobada e integrada en `main` después de probar la rama
+`feature/daniel-art-polish`. Mantiene las mecánicas y objetivos del episodio remix.
 
-| Versión aprobada | Nuevo arte de la búsqueda |
+| Arte anterior | Nuevo arte de la búsqueda |
 | :---: | :---: |
 | ![Antes](media/daniel-antes.png) | ![Ahora](media/daniel.png) |
 

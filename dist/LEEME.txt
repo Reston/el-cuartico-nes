@@ -1,6 +1,5 @@
-EL CUARTICO: ESTAMOS GRABANDO! - v0.10.1 EXPERIMENTAL - MMC5
-Prueba de arte de Daniel: feature/daniel-art-polish.
-main conserva la version aprobada v0.10.0.
+EL CUARTICO: ESTAMOS GRABANDO! - v0.10.1 - MMC5
+Version aprobada e integrada en main, con el nuevo arte de Daniel.
 
 Abre el-cuartico-v0.10.1-mmc5.nes. Control 1, NTSC, velocidad normal.
 Inicia desde cero, sin estados guardados de otra version.
@@ -29,4 +28,4 @@ A desde el final: REMIX. START desde el final: nueva campana normal.
 REMIX: mas senuelos, otras notas, tres enfoques y cuatro senales.
 Los paneles siguen sin limite de tiempo. No hay guardado por bateria.
 
-Guia: https://github.com/Reston/el-cuartico-nes/blob/feature/daniel-art-polish/docs/DANIEL-ARTE.md
+Guia: https://github.com/Reston/el-cuartico-nes/blob/main/docs/DANIEL-ARTE.md
