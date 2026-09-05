@@ -30,7 +30,7 @@ El objetivo del mezclador cambia entre aciertos y no depende de una posición fi
 
 ## Pruebas
 
-Primero compila con `./build.ps1`. `tools/test_all.py` ejecuta siete suites de
+Primero compila con `./build.ps1`. `tools/test_all.py` ejecuta ocho suites de
 FCEUmm; `--mesen` añade una campaña independiente con Mesen. Los resultados se
 guardan en `build/`, junto a la ROM de trabajo, símbolos y capturas. Cada suite
 falla con un código distinto de cero si detecta una regresión.
@@ -62,3 +62,28 @@ Los cuatro paneles de Chucho congelan segundos, fracción de segundo y plazos de
 averías. El reloj continúa al cerrar o completar un panel; la interfaz muestra
 SIN LÍMITE durante la reparación. La prueba de permanencia supera 80 segundos
 sin consumir recursos y verifica la reanudación al regresar al estudio.
+
+## Edición de prueba v0.10.0
+
+La rama `feature/episode-remix` añade un estado LOUNGE para recorrer el estudio.
+HUB conserva el menú y su actualización atómica. La franja de contexto tiene
+32 caracteres en la fila 3 y se publica en NMI; en Daniel, la referencia facial
+ocupa las filas 4 y 5 para dejar libre esa franja y la navegación inferior.
+
+Los eventos se barajan al comenzar Chucho y aparecen tras las reparaciones 3, 6
+y 9. Cada uno activa una estación con 18 segundos de plazo exterior. El plazo,
+el reloj y los corazones permanecen congelados al abrir cualquier panel. Un evento
+vencido limpia su estado visual. Los errores del panel solo afectan la medalla.
+
+Los tres actos usan pistas 2, 6 y 7 a 15 cuadros por corchea. Cambian al llegar
+a 7 y 13 aciertos, vacían la cola y cuentan 120 cuadros antes de seguir. Sus
+paletas cambian dentro de NMI, sin cargar una pantalla ni interrumpir el pulso.
+
+Los distritos impares reflejan tanto la calle como sus posiciones y atributos.
+Remix ocupa hasta las 24 plazas disponibles; conserva la selección por distancia,
+la persistencia al volver y el límite de ocho sprites por línea.
+
+`episode_test.py` recorre el estudio y completa las campañas normal y remix con
+entradas de control; comprueba eventos, premios, medallas, actos, audio y final.
+La ROM conserva el tamaño del cartucho. BOOTDATA aloja tablas pequeñas en el
+banco fijo; el enlazador comprueba los límites restantes de PRG y RAM.

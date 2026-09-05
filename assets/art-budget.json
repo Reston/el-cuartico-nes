@@ -5,12 +5,12 @@
     "studio": 199,
     "stage": 181,
     "plaza0": 175,
-    "plaza1": 174,
-    "plaza2": 174,
-    "district11": 175,
-    "district21": 175,
-    "district22": 157,
-    "district23": 166
+    "plaza1": 192,
+    "plaza2": 187,
+    "district11": 192,
+    "district21": 188,
+    "district22": 171,
+    "district23": 188
   },
   "sprite_tiles": 256,
   "chr_bytes": 262144,

@@ -9,7 +9,9 @@ def pulse(k):h.frames(1,[k]);h.frames(1)
 def settle():
  for _ in range(30):
   h.frames(1)
-  if r('hud_on'):return
+  if r('hud_on'):
+   h.frames(3) # Finish the first rendered frame before a one-frame controller tap.
+   return
  raise AssertionError('screen did not settle')
 def peak():
  ys=[h.C.c_uint8.from_address(h.ram+0x200+i*4).value for i in range(64)]
@@ -25,6 +27,7 @@ for f in range(7000):
   check(clock==tuple(r(n) for n in ['seconds','tick']),'Task '+str(t+1)+' freezes both seconds and fractional time')
   h.screenshot('repair-panel-'+str(t)+'.png')
   check(r('repairs')<12,'Station '+str(t+1)+' opens its own repair panel')
+  health_before=r('health')
   if t==0:
    if r('task_order',r('task_cursor'))==0:pulse(5)
    pulse(8)
@@ -40,6 +43,7 @@ for f in range(7000):
    check(start_frame+waited>=319 and crossed_byte,'Memory playback lasts over five seconds without an 8-bit timer overflow')
    pulse([6,7,4,5][(r('task_code',0)+1)%4])
   check(r('task_error')>0 and r('task_progress')==0,'Wrong input in task '+str(t+1)+' gives feedback without credit')
+  check(r('task_mistakes')>0 and r('health')==health_before,'Repair input errors count toward optional medals, without costing hearts')
   if not cancelled:
    before=r('repairs');pulse(0);settle()
    check(not r('task_active') and r('repairs')==before,'B cancels a repair without awarding a take')

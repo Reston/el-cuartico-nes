@@ -210,6 +210,30 @@ def plaza_frames(rect,text,scene,district=0):
             for xx in (109,119,129):
                 rect(im,xx,156,7,10,1);d.ellipse((xx-2,147,xx+8,157),fill=3)
             rect(im,99,168,42,5,2)
+    # Each neighborhood has a recognizable silhouette and its own street surface.
+    if scene==1:
+        for x in (8,184):
+            d.polygon([(x,47),(x+32,35),(x+64,47)],fill=2)
+            rect(im,x+4,45,56,2,1)
+        for x in (88,160):
+            rect(im,x,128,4,28,1);rect(im,x-2,125,8,5,2)
+    if scene==2:
+        # Hanging festival bunting above the lanes and a tiled garden promenade.
+        d.line((0,40,80,43,176,40,255,43),fill=1)
+        for x in range(8,256,24):
+            d.polygon([(x,41),(x+7,41),(x+3,46)],fill=2)
+        for x in range(40,216,16):
+            rect(im,x,218,8,2,1)
+    if district==2:
+        # Sculpture court: long stone plinth instead of a round fountain.
+        rect(im,96,166,48,8,1);rect(im,100,167,40,2,3)
+        for x in (104,128):rect(im,x,172,8,2,2)
+    if district==3:
+        # Flower arcade, with trellis work along the outside walls.
+        for x in (0,240):
+            for y in range(98,126,8):
+                d.line((x,y,x+15,y+7),fill=2)
+                d.line((x+15,y,x,y+7),fill=2)
     frames=[]
     for f in range(4):
         q=im.copy()
@@ -219,7 +243,13 @@ def plaza_frames(rect,text,scene,district=0):
         for i,(x,y) in enumerate([(88,208),(168,208)]):
             rect(q,x,y+2,5,3,1);rect(q,x+4,y,3,3,1)
             if f%2:rect(q,x-1,y+1,3,1,1)
+        if district&1:
+            # Mirror the street and its hiding paths together, keeping all signs readable.
+            q.paste(q.crop((0,96,256,224)).transpose(Image.Transpose.FLIP_LEFT_RIGHT),(0,96))
         frames.append(q)
+    if district&1:
+        xs=[240-x for x in xs]
+        for y in range(6,14):pals[y].reverse()
     return frames,lambda x,y:pals[y][x] if y<15 else 0,xs,ys
 
 

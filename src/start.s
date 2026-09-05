@@ -1,8 +1,8 @@
 .export _wait_frame, _pad_read, _main_entry
 .export __STARTUP__ : absolute = 1
 .export _frame, _ready, _hud, _hud_on, _art_bank, _sprite_bank, _ex_on, _title_extended
-.export _menu_dirty, _menu_rows
-.import _main, _spr, zerobss, copydata, incsp3
+.export _menu_dirty, _menu_rows, _status_row
+.import _main, _spr, _mode, _music_act, zerobss, copydata, incsp3
 .importzp c_sp, ptr1
 .segment "HEADER"
 .byte "NES",$1A,8,32,$50,0,0,0,0,0,0,0,0,0
@@ -16,6 +16,7 @@ _hud: .res 32
 _ex_on: .res 1
 _menu_dirty: .res 1
 _menu_rows: .res 96
+_status_row: .res 32
 .segment "STARTUP"
 _main_entry:
  sei
@@ -192,6 +193,23 @@ nmi:
  lda #1
  sta $5104
 @normal:
+ ; Musical act lighting changes only during vblank, without stopping the chart.
+ lda _mode
+ cmp #2
+ bne @lighting_done
+ bit $2002
+ lda #$3f
+ sta $2006
+ lda #$0d
+ sta $2006
+ ldx _music_act
+ lda act_dark,x
+ sta $2007
+ lda act_mid,x
+ sta $2007
+ lda act_light,x
+ sta $2007
+@lighting_done:
  lda #0
  sta $2003
  lda #2
@@ -244,6 +262,18 @@ nmi:
  inx
  cpx #32
  bne @hud
+ ; Context and reactions have a reserved row, above the play field.
+ lda #$20
+ sta $2006
+ lda #$60
+ sta $2006
+ ldx #0
+@status:
+ lda _status_row,x
+ sta $2007
+ inx
+ cpx #32
+ bne @status
 @scroll:
  lda #0
  sta $2005
@@ -257,6 +287,9 @@ nmi:
  pla
  rti
 irq: rti
+act_dark: .byte $04,$01,$06
+act_mid: .byte $14,$11,$16
+act_light: .byte $34,$31,$36
 .segment "SCENES"
 .export _studio, _title, _stage, _plaza
 title_exram: .incbin "assets/title.exram"

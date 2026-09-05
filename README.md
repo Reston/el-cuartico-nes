@@ -6,15 +6,38 @@
 
 <img src="docs/media/portada.png" alt="Portada ilustrada de El Cuartico: Estamos grabando" width="260">
 
-**NES · MMC5 · Un jugador · v0.9.2**
+**NES · MMC5 · Un jugador · v0.10.0**
 
-[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.9.2-mmc5.nes) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
+[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/feature/episode-remix/dist/el-cuartico-v0.10.0-mmc5.nes) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
 Un juego *homebrew* inspirado en **El Cuartico**, hecho para jugarse en emuladores
 de NES. Elige a **Chucho, Estefania o Daniel** y completa sus desafíos en el orden
 que quieras. Cada victoria deja un sello; consigue los tres para publicar el episodio.
+
+## Edición de prueba: episodio remix
+
+Esta entrega vive en **`feature/episode-remix`**, para probarla antes de fusionarla.
+La rama `main` conserva la versión anterior. [Guía de prueba](docs/PRUEBA-REMIX.md).
+
+- **Reacciones:** mensajes breves de los personajes y celebración al reparar.
+- **Chucho:** apagón, acople y grabación en directo, en orden variable. Resolver
+  la estación indicada da 200 puntos y recupera un corazón si te falta alguno.
+- **Puzles:** más combinaciones de cables y objetivos de enfoque variables.
+- **Estefania:** calentamiento, pasito y remate, con música y luces propias.
+- **Daniel:** mercado, paseo musical, jardín, patio de arte y calle de flores,
+  con caminos reflejados y puntos de referencia distintos.
+- **Estudio compartido:** pulsa B en la selección, camina hasta un personaje y
+  pulsa A. B vuelve al menú de retratos.
+- **Medallas y final:** las tomas limpias conservan su medalla en el menú;
+  tres medallas perfectas tienen un reconocimiento en el cierre. B anima la fiesta.
+- **Remix:** después de ganar los tres juegos, A inicia otra campaña con más
+  señuelos y variantes. Start comienza una campaña normal.
+
+| El estudio compartido | Tres actos musicales | Fiesta del episodio |
+| :---: | :---: | :---: |
+| ![Estudio para elegir juego](docs/media/estudio.png) | ![Segundo acto](docs/media/acto-2.png) | ![Celebración final](docs/media/final.png) |
 
 ## Un vistazo al juego
 
@@ -28,7 +51,7 @@ que quieras. Cada victoria deja un sello; consigue los tres para publicar el epi
 
 ## Jugar ahora
 
-1. Descarga [**el-cuartico-v0.9.2-mmc5.nes**](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.9.2-mmc5.nes).
+1. Descarga [**el-cuartico-v0.10.0-mmc5.nes**](https://raw.githubusercontent.com/Reston/el-cuartico-nes/feature/episode-remix/dist/el-cuartico-v0.10.0-mmc5.nes).
 2. Ábrelo en un emulador con soporte **MMC5**, como FCEUmm o Mesen.
 3. Usa el **control 1**, región **NTSC** y velocidad normal. No hace falta BIOS.
 
@@ -70,6 +93,11 @@ pero no quitan corazones. Dentro de los minijuegos aparece **SIN LÍMITE**: tant
 el reloj del episodio como los plazos de las otras averías quedan congelados.
 Tómate el tiempo que necesites; el reloj solo corre cuando vuelves al estudio.
 
+Después de las reparaciones 3, 6 y 9 aparece un evento. Atiende la estación
+indicada en la franja superior para conseguir su premio; los eventos mantienen
+la pausa del reloj dentro del panel. El apagón cambia la luz del estudio y el
+acople desafina el monitor hasta que reparas los cables.
+
 Cada cuarta reparación añade **tres segundos**. Encadenar reparaciones aumenta el
 multiplicador de puntos. Dejar vencer una avería en el estudio cuesta un corazón.
 
@@ -77,7 +105,9 @@ multiplicador de puntos. Dejar vencer una avería en el estudio cuesta un coraz�
 
 Pulsa **A, B o la dirección indicada** cuando el símbolo llegue al recuadro.
 La primera A es una práctica sin tiempo; después hay una cuenta de cuatro tiempos.
-Consigue **20 aciertos** antes de acumular cinco fallos.
+Consigue **20 aciertos** antes de acumular cinco fallos. Al alcanzar 7 y 13 aciertos
+cambian la música, las luces y el patrón de notas. Cada acto vuelve a contar cuatro
+tiempos: ninguna nota pendiente se cobra como fallo durante el cambio.
 
 Los aciertos precisos dan puntos extra, y cada cinco aciertos consecutivos de la
 secuencia añaden otros 100 puntos. La música y las notas se detienen juntas al pausar.
@@ -109,10 +139,20 @@ al usar la lupa. Encuentra a Daniel una vez en cada mundo para conseguir su sell
 | Selección | Izquierda/derecha o Select para elegir; A o Start para empezar. |
 | Durante un juego | Start pausa. |
 | En pausa | Start continúa, A reinicia el intento y B vuelve a la selección. |
-| Final del episodio | Start comienza una campaña nueva. |
+| Estudio compartido | Cruceta para caminar, A junto a un personaje, B para volver al menú. |
+| Final del episodio | B anima la fiesta, A comienza Remix y Start una campaña normal. |
 
 Los sellos de victoria duran la sesión actual y se conservan al reintentar otro
-juego. No hay guardado por batería. Usa estados del emulador únicamente con la
+juego. Las medallas son opcionales: tres por una partida sin errores; dos si no
+superas dos fallos ni dos errores de reparación; una por las demás victorias.
+Equivocarte dentro de un panel no quita corazones, pero cuenta para esa medalla.
+
+En **Remix**, el enfoque pide tres confirmaciones y la mezcladora cuatro aciertos.
+Estefania usa otras combinaciones de botones, y Daniel tiene 16, 40 y 96 personas
+repartidas entre uno, dos y cuatro lugares. Se conservan los tiempos normales,
+la velocidad pausada de memoria y los paneles sin límite.
+
+No hay guardado por batería. Usa estados del emulador únicamente con la
 misma versión de la ROM y el mismo núcleo.
 
 ## Compilar el juego
@@ -122,7 +162,7 @@ superior, Pillow y cc65. El script de instalación descarga las herramientas en
 `tools/`; esos binarios no se incluyen en Git.
 
 ```powershell
-git clone https://github.com/Reston/el-cuartico-nes.git
+git clone --branch feature/episode-remix https://github.com/Reston/el-cuartico-nes.git
 cd el-cuartico-nes
 python -m pip install -r requirements.txt
 python tools/bootstrap.py

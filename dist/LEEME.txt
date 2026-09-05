@@ -1,26 +1,31 @@
-EL CUARTICO: ESTAMOS GRABANDO! - Version 0.9.2 - MMC5
+EL CUARTICO: ESTAMOS GRABANDO! - v0.10.0 EXPERIMENTAL - MMC5
+Rama: feature/episode-remix. La version estable sigue en main.
 
-Abre el-cuartico.nes en tu emulador NES. Control 1, region NTSC.
-Inicia desde cero, sin estados guardados de versiones anteriores.
+Abre el-cuartico-v0.10.0-mmc5.nes. Control 1, NTSC, velocidad normal.
+Inicia desde cero, sin estados guardados de otra version.
 
-Elige Chucho, Estefania o Daniel con izquierda/derecha o SELECT.
-A o START empieza. Completa los tres juegos para publicar el episodio.
+MENU: izquierda/derecha o SELECT elige. A/START juega. B abre el estudio.
+ESTUDIO: camina hasta un personaje y pulsa A. B vuelve al menu.
 
-CHUCHO: repara 12 fallos. Cruceta mueve, B corre, A abre una reparacion.
-Arriba izquierda: une numeros con arriba/abajo y A.
-Arriba derecha: ajusta el enfoque con izquierda/derecha y confirma con A.
-Abajo izquierda: pulsa A en el recuadro tres veces; cambia de lugar tras cada acierto.
-Abajo derecha: mira y repite cuatro direcciones, ahora a un ritmo mas lento.
-B cierra el panel. SIN LIMITE: el reloj y los otros fallos esperan mientras reparas.
-Cada cuatro reparaciones ganas tres segundos. Ya no hay carrito.
+CHUCHO: 12 reparaciones. Cruceta mueve, B corre y A abre el panel.
+Cables: arriba/abajo y A. Enfoque: izquierda/derecha y A.
+Mezcladora: A en el recuadro. Memoria: mira y repite las direcciones.
+B cierra el panel. SIN LIMITE: el reloj y las otras averias esperan.
+Tras 3, 6 y 9 reparaciones hay un evento: sigue la indicacion superior.
+Resolverlo da 200 puntos y recupera un corazon, hasta el maximo de cinco.
 
-ESTEFANIA: pulsa el simbolo cuando llega al recuadro. 20 aciertos;
-cinco fallos maximo. La primera A es practica sin tiempo.
+ESTEFANIA: 20 aciertos antes de cinco fallos. Primera A de practica.
+Pulsa el simbolo al llegar al recuadro. Hay tres actos, con musica y luces
+propias. Al cambiar de acto, espera la nueva cuenta de cuatro tiempos.
 
-DANIEL: explora uno, dos y luego cuatro lugares conectados.
-La franja CRUZA indica por que bordes puedes pasar a otra zona.
-B: lupa y precision. A: elige la persona enfocada. Error: -5 segundos.
-Las indicaciones no cubren a las personas; los pajaros se ocultan con la lupa.
+DANIEL: explora uno, dos y cuatro lugares. CRUZA indica las salidas.
+B: lupa y precision. A: elige. Error: -5 segundos.
 
 START pausa. En pausa: START sigue, A reinicia, B vuelve al menu.
-Consulta README.md en https://github.com/Reston/el-cuartico-nes para controles e instalacion.
+Las medallas son opcionales; los errores de reparacion no quitan corazones.
+Gana los tres juegos para publicar el episodio. B anima la fiesta.
+A desde el final: REMIX. START desde el final: nueva campana normal.
+REMIX: mas senuelos, otras notas, tres enfoques y cuatro senales.
+Los paneles siguen sin limite de tiempo. No hay guardado por bateria.
+
+Guia: https://github.com/Reston/el-cuartico-nes/blob/feature/episode-remix/docs/PRUEBA-REMIX.md
