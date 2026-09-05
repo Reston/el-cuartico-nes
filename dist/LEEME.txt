@@ -1,5 +1,5 @@
-EL CUARTICO: ESTAMOS GRABANDO! - v0.10.0 EXPERIMENTAL - MMC5
-Rama: feature/episode-remix. La version estable sigue en main.
+EL CUARTICO: ESTAMOS GRABANDO! - v0.10.0 - MMC5
+Version aprobada e integrada en main.
 
 Abre el-cuartico-v0.10.0-mmc5.nes. Control 1, NTSC, velocidad normal.
 Inicia desde cero, sin estados guardados de otra version.
@@ -28,4 +28,4 @@ A desde el final: REMIX. START desde el final: nueva campana normal.
 REMIX: mas senuelos, otras notas, tres enfoques y cuatro senales.
 Los paneles siguen sin limite de tiempo. No hay guardado por bateria.
 
-Guia: https://github.com/Reston/el-cuartico-nes/blob/feature/episode-remix/docs/PRUEBA-REMIX.md
+Guia: https://github.com/Reston/el-cuartico-nes/blob/main/docs/PRUEBA-REMIX.md

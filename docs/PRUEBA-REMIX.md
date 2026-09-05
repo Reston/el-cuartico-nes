@@ -1,7 +1,7 @@
 # Probar la edición remix
 
-Compilación experimental v0.10.0 de `feature/episode-remix`. No está fusionada
-con `main`. Descarga la ROM de `dist/` en esta rama e inicia una partida nueva.
+Versión v0.10.0 aprobada e integrada en `main` después de probar
+`feature/episode-remix`. Descarga la ROM de `dist/` e inicia una partida nueva.
 
 ## Lo primero que conviene probar
 

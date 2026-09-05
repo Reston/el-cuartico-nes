@@ -10,7 +10,7 @@ Este juego fue creado enteramente con IA para probar las capacidades de Astra.
 
 **NES · MMC5 · Un jugador · v0.10.0**
 
-[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/feature/episode-remix/dist/el-cuartico-v0.10.0-mmc5.nes) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
+[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.10.0-mmc5.nes) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
@@ -18,10 +18,10 @@ Un juego *homebrew* inspirado en **El Cuartico**, hecho para jugarse en emulador
 de NES. Elige a **Chucho, Estefania o Daniel** y completa sus desafíos en el orden
 que quieras. Cada victoria deja un sello; consigue los tres para publicar el episodio.
 
-## Edición de prueba: episodio remix
+## Edición episodio remix
 
-Esta entrega vive en **`feature/episode-remix`**, para probarla antes de fusionarla.
-La rama `main` conserva la versión anterior. [Guía de prueba](docs/PRUEBA-REMIX.md).
+Versión **v0.10.0** aprobada e integrada en `main`.
+[Guía del episodio remix](docs/PRUEBA-REMIX.md).
 
 - **Reacciones:** mensajes breves de los personajes y celebración al reparar.
 - **Chucho:** apagón, acople y grabación en directo, en orden variable. Resolver
@@ -53,7 +53,7 @@ La rama `main` conserva la versión anterior. [Guía de prueba](docs/PRUEBA-REMI
 
 ## Jugar ahora
 
-1. Descarga [**el-cuartico-v0.10.0-mmc5.nes**](https://raw.githubusercontent.com/Reston/el-cuartico-nes/feature/episode-remix/dist/el-cuartico-v0.10.0-mmc5.nes).
+1. Descarga [**el-cuartico-v0.10.0-mmc5.nes**](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.10.0-mmc5.nes).
 2. Ábrelo en un emulador con soporte **MMC5**, como FCEUmm o Mesen.
 3. Usa el **control 1**, región **NTSC** y velocidad normal. No hace falta BIOS.
 
@@ -164,7 +164,7 @@ superior, Pillow y cc65. El script de instalación descarga las herramientas en
 `tools/`; esos binarios no se incluyen en Git.
 
 ```powershell
-git clone --branch feature/episode-remix https://github.com/Reston/el-cuartico-nes.git
+git clone https://github.com/Reston/el-cuartico-nes.git
 cd el-cuartico-nes
 python -m pip install -r requirements.txt
 python tools/bootstrap.py
