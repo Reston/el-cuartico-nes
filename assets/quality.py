@@ -1,7 +1,7 @@
 """Original MMC5 art: joint four-frame tile encoding and scene-specific palettes."""
 from PIL import Image, ImageDraw
 from art import scenes
-from likeness import bust, character, performer, repairer
+from likeness import bust, character, performer, repairer, plaza_person
 
 
 def studio_frames(rect,text):
@@ -143,14 +143,29 @@ def plaza_frames(rect,text,scene,district=0):
             rect(im,xx-2,90,20,2,1)
         rect(im,x+32,76,16,20,1);rect(im,x+34,78,12,16,2)
         rect(im,x+43,84,1,2,3);rect(im,x+30,94,20,2,1)
+    # Recessed windows, projecting sills and striped canvas awnings.
+    for x in (0,176):
+        for xx in (x+8,x+56):
+            rect(im,xx+2,78,3,8,1)
+            rect(im,xx+3,79,3,2,3)
+            rect(im,xx-2,89,20,1,2);rect(im,xx-1,91,18,2,1)
+        for xx in range(x,x+80,8):
+            rect(im,xx,71,4,4,1);rect(im,xx+4,71,4,3,3)
+        rect(im,x+34,78,2,15,3);rect(im,x+30,95,24,1,1)
     # Central arch frames the fountain while leaving the reference portrait clear.
-    rect(im,96,48,64,32,2)
-    d.ellipse((100,52,155,98),fill=1);rect(im,104,72,48,24,0)
-    text(im,104,56,'el',3);text(im,96,80,'cuartico',1)
+    d.arc((96,48,159,111),180,360,fill=1,width=5)
+    d.arc((99,51,156,108),180,360,fill=3,width=2)
+    for x in (96,152):
+        rect(im,x,78,8,18,1);rect(im,x+1,78,5,16,3)
+        for y in (81,88,94):rect(im,x+1,y,5,1,2)
+    d.ellipse((120,56,135,71),fill=2,outline=1)
+    text(im,124,60,'C',1)
+    rect(im,96,80,64,9,3);text(im,96,80,'CUARTICO',1)
     # Repeated paving stones: small highlights rather than a bright blank field.
     for y in range(100,224,16):
         for x in range(0,256,32):
             rect(im,x+(8 if y%32 else 0),y,7,1,2)
+            rect(im,x+(8 if y%32 else 0)+8,y+1,1,2,3)
     # Low shaded planters with clustered leaves, trunks and edge highlights.
     for x in (0,224):
         region(x,128,32,32,2)
@@ -160,16 +175,23 @@ def plaza_frames(rect,text,scene,district=0):
             d.ellipse((x+dx,dy,x+dx+11,dy+11),fill=2)
             rect(im,x+dx+3,dy+2,5,2,3)
         rect(im,x+23,142,5,4,1)
+        d.line((x+7,145,x+12,140,x+19,139),fill=1)
+        rect(im,x+3,156,25,1,2)
     # Fountain basin and jets use their own blue subpalette.
     region(96,128,48,48,3)
     d.ellipse((96,144,143,171),fill=1);d.ellipse((98,142,141,165),fill=3)
     d.ellipse((102,145,137,161),fill=2)
     rect(im,118,128,4,27,3);rect(im,110,133,20,4,1);rect(im,112,132,16,2,3)
     for xx in (106,132):rect(im,xx,138,2,15,3)
+    d.arc((96,144,143,171),0,180,fill=2,width=2)
+    d.arc((103,144,136,159),10,170,fill=3)
+    rect(im,113,130,14,2,2)
     for x,y in [(48,144),(176,160)]:
         for dy in (0,3,8):rect(im,x,y+dy,32,2,1)
         rect(im,x+3,y+10,2,5,1);rect(im,x+27,y+10,2,5,1)
         rect(im,x+1,y+1,30,1,3)
+        rect(im,x+1,y+9,30,1,2)
+        rect(im,x+4,y+2,1,7,2);rect(im,x+26,y+2,1,7,2)
     for x,y in [(32,112),(192,128)]:
         d.ellipse((x,y,x+15,y+7),fill=3);d.line((x,y+4,x+15,y+4),fill=2)
         rect(im,x+6,y+8,3,13,1);rect(im,x+2,y+19,11,2,1)
@@ -192,6 +214,7 @@ def plaza_frames(rect,text,scene,district=0):
     ys=[96,96,96,96,96,96,96,112,112,144,176,176,144,160,176,176,176,192,112,128,144,160,176,192]
     # Each district has a different landmark, retaining the clear hiding paths.
     if district:
+        region(96,128,48,48,0)
         rect(im,96,128,48,48,0)
         if district==1:
             # Bandstand, speakers and a striped canopy.
@@ -234,6 +257,23 @@ def plaza_frames(rect,text,scene,district=0):
             for y in range(98,126,8):
                 d.line((x,y,x+15,y+7),fill=2)
                 d.line((x+15,y,x,y+7),fill=2)
+    # Foreground flower beds frame the square, without filling the search lanes.
+    for x,w in [(0,80),(208,48)]:
+        region(x,208,w,16,2)
+        rect(im,x,214,w,10,1);rect(im,x,213,w,2,3)
+        for xx in range(x+4,x+w,8):
+            rect(im,xx,217,2,5,2)
+            d.ellipse((xx-2,210,xx+3,214),fill=2)
+            rect(im,xx,210,1,2,3)
+    # Two compact streetside planters occupy gaps between the hiding slots.
+    for x,y in [(80,176),(144,176)]:
+        region(x,y,16,32,2)
+        d.ellipse((x+2,y+13,x+13,y+25),fill=1)
+        rect(im,x+2,y+14,12,2,3)
+        d.ellipse((x,y+3,x+15,y+14),fill=2)
+        d.line((x+4,y+6,x+10,y+5),fill=3)
+    # Keep every possible face unobstructed, including the denser remix crowd.
+    for x,y in zip(xs,ys):rect(im,x,y,16,24,0)
     frames=[]
     for f in range(4):
         q=im.copy()
@@ -256,6 +296,11 @@ def plaza_frames(rect,text,scene,district=0):
 def build(root,FONT,rect,text,pack,sprites):
     import json
     banks=[];budgets={};portrait_banks=[]
+    search_tiles=[]
+    for kind in range(6):
+        person=plaza_person(kind)
+        for y in range(0,24,8):
+            for x in range(0,16,8):search_tiles.append(pack(person.crop((x,y,x+8,y+8))))
     def encode(name,frames,pal,people=False):
         # The key includes every animation frame so shared tiles never diverge.
         font_ink=1 if people else 3
@@ -291,7 +336,7 @@ def build(root,FONT,rect,text,pack,sprites):
             root.joinpath('title-anim.inc').write_text('\n'.join(asm)+'\n')
         for f in range(4):
             b=b''.join(k[f] for k in tilekeys)+bytes((limit-len(tilekeys))*16)
-            if people:b+=b''.join(sprites[:36])
+            if people:b+=b''.join(search_tiles)
             if extended:
                 banks.append(b[:4096]);portrait_banks.append(b[4096:8192])
             else:banks.append(b)
@@ -367,6 +412,7 @@ def build(root,FONT,rect,text,pack,sprites):
     # Magnifier bank keeps shared icons but replaces the performer with enlarged
     # face combinations. It is used only while B is held in Daniel's search.
     lens=sprites[:64]
+    lens[24:28]=search_tiles[:4]
     for i,ch in enumerate('LUPA'):
         q=Image.new('L',(8,8));text(q,0,0,ch);lens[56+i]=pack(q)
     combos=[(2,2),(0,0),(1,1),(2,0),(0,2),(1,0)]
@@ -388,5 +434,9 @@ def build(root,FONT,rect,text,pack,sprites):
     for scene,district in [(1,1),(2,1),(2,2),(2,3)]:
         frames,pal,xs,ys=plaza_frames(rect,text,scene,district)
         encode('district'+str(scene)+str(district),frames,pal,True)
+    # Search-only sprite bank keeps the reference face consistent with the crowd.
+    search_sprites=sprites[:];search_sprites[24:28]=search_tiles[:4]
+    assert len(banks)==46
+    banks.append(b''.join(search_sprites))
     root.joinpath('mmc5.chr').write_bytes(b''.join(banks)+bytes(262144-len(banks)*4096))
     root.joinpath('art-budget.json').write_text(json.dumps({'banks_used':len(banks),'backgrounds':budgets,'sprite_tiles':len(sprites),'chr_bytes':262144,'extended_attributes':'title/result/ending, 8x8 palettes and two simultaneous tile pages'},indent=2))

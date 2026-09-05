@@ -21,7 +21,7 @@ def steady(n=128,keys=()):
         visuals.add(hashlib.sha256(h.screen[0]).hexdigest())
     return (r('anim_tick')-a)%256,(r('frame')-f)%256,banks,visuals
 budget=json.loads((h.root/'assets/art-budget.json').read_text())
-check(budget['banks_used']==46 and budget['chr_bytes']==262144,'46 populated graphics banks fit 256 KiB CHR ROM')
+check(budget['banks_used']==47 and budget['chr_bytes']==262144,'47 populated graphics banks fit 256 KiB CHR ROM')
 nt=(h.root/'assets/title.nam').read_bytes()
 ex=(h.root/'assets/title.exram').read_bytes()
 check(set(v&63 for v in ex[:960])=={0,26},'Portrait screen uses two simultaneous 4 KiB CHR pages')
@@ -30,10 +30,10 @@ check(budget['backgrounds']['title']>256,'Portrait art exceeds the old single-pa
 check(budget['sprite_tiles']==256,'Larger repairer frames fit the normal 256-tile sprite page')
 # True Daniel remains visually unique in both tiny and detailed face sets.
 chrdata=h.rom[16+131072:]
-combos=[(24,25,26,27),(0,1,2,3),(12,13,14,15),(24,25,2,3),(0,1,26,27),(12,13,2,3)]
-small=[b''.join(chrdata[24*4096+t*16:24*4096+(t+1)*16] for t in c) for c in combos]
+small=[chrdata[12*4096+(220+i*6)*16:12*4096+(224+i*6)*16] for i in range(6)]
 large=[chrdata[25*4096+(64+i*16)*16:25*4096+(80+i*16)*16] for i in range(6)]
 check(len(set(small))==len(set(large))==6,'All six plaza faces and lens faces remain visually distinct')
+check(chrdata[46*4096+24*16:46*4096+28*16]==small[0] and chrdata[25*4096+24*16:25*4096+28*16]==small[0], 'Reference portrait matches Daniel with and without the lens')
 for host,base,name in [(None,0,'hub'),(0,4,'studio'),(1,8,'stage'),(2,12,'plaza')]:
     boot(host);h.frames(20)
     check(r('ex_on')==int(host is None),'Extended portrait mode is selected only on the hub: '+name)
@@ -68,7 +68,7 @@ check(r('found')==0 and before-r('seconds')<=1,'Inspecting does not guess or app
 h.screenshot('mmc5-magnifier.png')
 dt,df,_,_=steady(120,[0]);check(dt==df==120,'Magnifier runs at one update per NTSC frame')
 check(sprite_peak()<=8,'Magnifier respects normal sprite limits')
-h.frames(3);check(r('sprite_bank')==96,'Releasing B restores the regular sprite bank')
+h.frames(3);check(r('sprite_bank')==184,'Releasing B restores the dedicated search sprite bank')
 h.press(8);h.frames(55);check(r('found')==1 and r('round_no')==1,'A still confirms the inspected target')
 check(16<=r('art_bank')<=19,'Second search selects the market art banks')
 h.press(3);paused=(r('art_bank'),r('anim_tick'),r('song_step'),r('song_tick'));h.frames(80)

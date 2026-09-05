@@ -3,7 +3,7 @@
 ## Cartucho y código
 
 El juego usa un encabezado iNES, mapper **MMC5 (5)**, 128 KiB de PRG y 256 KiB de
-CHR. Hay 46 bancos gráficos de 4 KiB ocupados. La memoria de batería no se utiliza.
+CHR. Hay 47 bancos gráficos de 4 KiB ocupados. La memoria de batería no se utiliza.
 
 - `src/game.c`: estados, entrada, campaña y minijuegos.
 - `src/start.s`: arranque 6502, NMI, DMA de sprites y configuración MMC5.
@@ -87,3 +87,15 @@ la persistencia al volver y el límite de ocho sprites por línea.
 entradas de control; comprueba eventos, premios, medallas, actos, audio y final.
 La ROM conserva el tamaño del cartucho. BOOTDATA aloja tablas pequeñas en el
 banco fijo; el enlazador comprueba los límites restantes de PRG y RAM.
+
+## Arte de Daniel v0.10.1
+
+La búsqueda usa seis figuras de 16 × 24 píxeles independientes de los sprites
+de Chucho y Estefania. Sus 36 tiles ocupan el final de cada banco de plaza;
+`search_person` publica seis tiles contiguos por figura. El banco 46 contiene los
+sprites de búsqueda y la nueva referencia facial. La lupa conserva su banco 25,
+con la misma referencia pequeña. Los demás juegos mantienen sus bancos anteriores.
+
+Las siete áreas respetan el máximo de 220 tiles de escenario por banco. Los
+posibles escondites se despejan antes de codificar el fondo, también para Remix;
+los atributos de 16 × 16 y los caminos reflejados conservan sus posiciones.

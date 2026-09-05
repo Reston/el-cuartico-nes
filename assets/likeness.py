@@ -189,3 +189,42 @@ def repairer(frame):
     d.polygon([(7,14),(10,13),(12,14),(14,13),(17,14),(17,15),(13,15),(11,15),(7,15),(6,16)],fill=1)
     d.line((9,17,14,17),fill=1)
     return im
+
+
+def plaza_person(kind):
+    """Dedicated 16x24 search portraits, independent of the other host sprites.
+
+    Types keep the same hair/beard combinations as the magnifier. A broad head,
+    cream tee and denim trousers retain Daniel's photo likeness at NES scale.
+    """
+    im=Image.new('L',(16,24));d=ImageDraw.Draw(im)
+    top,bottom=[(2,2),(0,0),(1,1),(2,0),(0,2),(1,0)][kind]
+    # Separate shoes, trouser legs, a curved shirt and bent elbows.
+    d.line((5,19,5,22),fill=3,width=2);d.line((10,19,10,22),fill=3,width=2)
+    d.line((3,23,6,23),fill=1);d.line((9,23,12,23),fill=1)
+    d.polygon([(4,14),(11,14),(13,17),(11,20),(4,20),(2,17)],fill=2,outline=1)
+    d.line((3,16,1,18,2,19),fill=2);d.line((12,16,14,18,13,19),fill=2)
+    d.line((4,16,4,19),fill=3);d.line((11,16,11,19),fill=3)
+    d.ellipse((2,2,13,14),fill=2,outline=1)
+    if top==2:
+        d.polygon([(1,7),(0,4),(2,2),(6,0),(10,0),(13,2),(15,5),(13,7),(12,4),(9,3),(6,5),(3,4),(3,7)],fill=1)
+        d.line((3,2,7,1,10,1),fill=3)
+        d.rectangle((2,6,6,9),outline=1);d.rectangle((9,6,13,9),outline=1)
+        d.line((6,7,9,7),fill=1);d.point((4,8),fill=1);d.point((11,8),fill=1)
+    elif top==0:
+        d.polygon([(2,6),(1,4),(3,1),(10,0),(13,2),(14,5),(12,5),(11,3),(6,4),(3,4),(3,6)],fill=1)
+        d.ellipse((2,6,6,9),outline=3);d.ellipse((9,6,13,9),outline=3)
+        d.point((4,8),fill=1);d.point((11,8),fill=1);d.point((7,7),fill=1)
+    else:
+        d.polygon([(1,10),(1,4),(4,1),(9,0),(13,2),(15,7),(14,14),(15,19),(11,19),(12,12),(12,5),(8,3),(5,5),(3,10),(4,19),(1,18)],fill=1)
+        d.point((5,8),fill=1);d.point((10,8),fill=1)
+    d.point((7,10),fill=3)
+    if bottom==2:
+        d.polygon([(2,10),(5,11),(7,10),(9,10),(11,11),(13,10),(12,14),(9,16),(6,16),(3,14)],fill=1)
+        d.line((5,12,10,12),fill=2);d.line((6,14,9,14),fill=3)
+    elif bottom==0:
+        d.line((5,11,10,11),fill=1);d.line((6,13,9,13),fill=1)
+    else:
+        d.line((5,12,10,12),fill=1);d.line((6,13,9,13),fill=2)
+        d.line((5,16,6,19),fill=3);d.line((10,16,10,19),fill=3)
+    return im

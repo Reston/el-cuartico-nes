@@ -1,16 +1,16 @@
 {
-  "banks_used": 46,
+  "banks_used": 47,
   "backgrounds": {
     "title": 281,
     "studio": 199,
     "stage": 181,
-    "plaza0": 175,
-    "plaza1": 192,
-    "plaza2": 187,
-    "district11": 192,
-    "district21": 188,
-    "district22": 171,
-    "district23": 188
+    "plaza0": 204,
+    "plaza1": 219,
+    "plaza2": 216,
+    "district11": 220,
+    "district21": 218,
+    "district22": 201,
+    "district23": 219
   },
   "sprite_tiles": 256,
   "chr_bytes": 262144,
