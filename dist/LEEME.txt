@@ -1,4 +1,4 @@
-EL CUARTICO: ESTAMOS GRABANDO! - Version 0.9.1 - MMC5
+EL CUARTICO: ESTAMOS GRABANDO! - Version 0.9.2 - MMC5
 
 Abre el-cuartico.nes en tu emulador NES. Control 1, region NTSC.
 Inicia desde cero, sin estados guardados de versiones anteriores.
@@ -11,7 +11,7 @@ Arriba izquierda: une numeros con arriba/abajo y A.
 Arriba derecha: ajusta el enfoque con izquierda/derecha y confirma con A.
 Abajo izquierda: pulsa A en el recuadro tres veces; cambia de lugar tras cada acierto.
 Abajo derecha: mira y repite cuatro direcciones, ahora a un ritmo mas lento.
-B cierra el panel. El reloj del episodio sigue; los otros fallos esperan.
+B cierra el panel. SIN LIMITE: el reloj y los otros fallos esperan mientras reparas.
 Cada cuatro reparaciones ganas tres segundos. Ya no hay carrito.
 
 ESTEFANIA: pulsa el simbolo cuando llega al recuadro. 20 aciertos;

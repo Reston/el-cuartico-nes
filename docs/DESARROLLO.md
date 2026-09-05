@@ -55,3 +55,10 @@ no se guarda un ZIP del propio repositorio dentro de sí mismo.
 Las pruebas de escritorio cubren FCEUmm y Mesen CE. La ROM actual necesita una
 prueba adicional en hardware portátil; no debe confundirse el funcionamiento
 del emulador de escritorio con una prueba física en R36S o Retroid.
+
+## Ajuste de dificultad en v0.9.2
+
+Los cuatro paneles de Chucho congelan segundos, fracción de segundo y plazos de
+averías. El reloj continúa al cerrar o completar un panel; la interfaz muestra
+SIN LÍMITE durante la reparación. La prueba de permanencia supera 80 segundos
+sin consumir recursos y verifica la reanudación al regresar al estudio.

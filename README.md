@@ -6,9 +6,9 @@
 
 <img src="docs/media/portada.png" alt="Portada ilustrada de El Cuartico: Estamos grabando" width="260">
 
-**NES · MMC5 · Un jugador · v0.9.1**
+**NES · MMC5 · Un jugador · v0.9.2**
 
-[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.9.1-mmc5.nes) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
+[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.9.2-mmc5.nes) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
@@ -28,7 +28,7 @@ que quieras. Cada victoria deja un sello; consigue los tres para publicar el epi
 
 ## Jugar ahora
 
-1. Descarga [**el-cuartico-v0.9.1-mmc5.nes**](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.9.1-mmc5.nes).
+1. Descarga [**el-cuartico-v0.9.2-mmc5.nes**](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.9.2-mmc5.nes).
 2. Ábrelo en un emulador con soporte **MMC5**, como FCEUmm o Mesen.
 3. Usa el **control 1**, región **NTSC** y velocidad normal. No hace falta BIOS.
 
@@ -66,8 +66,9 @@ su minijuego. **B** permite correr cuando el indicador está listo.
 | Abajo a la derecha | Memoria | Observa cuatro direcciones y repítelas con la cruceta. Cada flecha se muestra durante un segundo, con pausas entre ellas. |
 
 **B cierra el panel** sin reparar la estación. Los errores tienen respuesta visual,
-pero no quitan corazones. El reloj del episodio sigue corriendo dentro del panel;
-los plazos de las otras averías esperan hasta que vuelvas al estudio.
+pero no quitan corazones. Dentro de los minijuegos aparece **SIN LÍMITE**: tanto
+el reloj del episodio como los plazos de las otras averías quedan congelados.
+Tómate el tiempo que necesites; el reloj solo corre cuando vuelves al estudio.
 
 Cada cuarta reparación añade **tres segundos**. Encadenar reparaciones aumenta el
 multiplicador de puntos. Dejar vencer una avería en el estudio cuesta un corazón.

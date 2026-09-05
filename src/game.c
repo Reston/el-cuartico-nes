@@ -124,7 +124,10 @@ void hud_text(const char* s){u8 i=0;while(*s&&i<32)hud[i++]=*s++;while(i<32)hud[
 void hud_two(u8 p,u8 n){hud[p]='0'+n/10;hud[p+1]='0'+n%10;}
 void hud_update(void){
  if(paused){hud_text(" START:SIGUE A:RETRY B:SALIR");return;}
- if(mode==REPAIR){hud_text(" EN VIVO 00/12 75S RACHA X1");hud_two(9,repairs);hud_two(15,seconds);hud[26]='0'+combo;}
+ if(mode==REPAIR){
+  if(task_active){hud_text(" REPARA 00/12  SIN LIMITE");hud_two(8,repairs);}
+  else{hud_text(" EN VIVO 00/12 75S RACHA X1");hud_two(9,repairs);hud_two(15,seconds);hud[26]='0'+combo;}
+ }
  else if(mode==RHYTHM){hud_text(" SKETCH 00/20 X00 FALLOS 0/5");hud_two(8,hits);hud_two(15,rhythm_chain);hud[25]='0'+misses;}
  else if(mode==SEARCH){hud_text(" BUSCA 0/3     60S      A:ELIGE");hud[7]='0'+found;hud_two(15,seconds);hud[19]='Z';hud[20]='O';hud[21]='N';hud[22]='A';hud[23]=' ' ;hud[24]='1'+district;hud[25]='/';hud[26]='0'+district_count;hud[27]=hud[28]=hud[29]=hud[30]=hud[31]=32;}
  hud_dirty=0;
@@ -500,8 +503,7 @@ void main(void){mode=HUB;host=0;completed=0;rng=91;score=0;best=0;previous_targe
    if(pressed&START){paused=!paused;if(paused)silence();else music_restore=1;hud_update();continue;}
    if(paused){if(pressed&B)hub();else if(pressed&A)start_game();continue;}
    audio();if(feedback)--feedback;if(cheer)--cheer;
-   if(mode==REPAIR){studio_step();if(mode==REPAIR&&++tick==60){tick=0;
-    if(task_active){hud_dirty=1;if(!--seconds){task_active=0;finish(0);}}else repair_second();}}
+   if(mode==REPAIR){studio_step();if(mode==REPAIR&&!task_active&&++tick==60){tick=0;repair_second();}}
    else if(mode==RHYTHM)rhythm_step();
    else search_step();
    if(mode>=REPAIR&&mode<=SEARCH&&hud_dirty)hud_update();

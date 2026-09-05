@@ -19,7 +19,11 @@ for f in range(7000):
  if r('mode')!=1:break
  if not r('hud_on'):h.frames(1);continue
  if r('task_active') and r('repair_task') not in seen:
-  t=r('repair_task');seen.add(t);settle();h.screenshot('repair-panel-'+str(t)+'.png')
+  t=r('repair_task');seen.add(t);settle()
+  clock=tuple(r(n) for n in ['seconds','tick'])
+  h.frames(75)
+  check(clock==tuple(r(n) for n in ['seconds','tick']),'Task '+str(t+1)+' freezes both seconds and fractional time')
+  h.screenshot('repair-panel-'+str(t)+'.png')
   check(r('repairs')<12,'Station '+str(t+1)+' opens its own repair panel')
   if t==0:
    if r('task_order',r('task_cursor'))==0:pulse(5)
@@ -29,11 +33,11 @@ for f in range(7000):
    while abs(r('task_value')-r('task_target'))<9:h.frames(1)
    pulse(8)
   else:
-   waited=0;crossed_byte=False
+   start_frame=r('task_frame')+256*r('task_frame',1);waited=0;crossed_byte=False
    while not r('task_phase'):
     crossed_byte|=(r('task_frame')+256*r('task_frame',1))>=256
     h.frames(1);waited+=1
-   check(waited>=300 and crossed_byte,'Memory playback lasts over five seconds without an 8-bit timer overflow')
+   check(start_frame+waited>=319 and crossed_byte,'Memory playback lasts over five seconds without an 8-bit timer overflow')
    pulse([6,7,4,5][(r('task_code',0)+1)%4])
   check(r('task_error')>0 and r('task_progress')==0,'Wrong input in task '+str(t+1)+' gives feedback without credit')
   if not cancelled:
@@ -43,7 +47,7 @@ for f in range(7000):
    cancelled=True
   if not paused:
    alarms=tuple(r('alarm',i) for i in range(4));sec=r('seconds');h.frames(60)
-   check(tuple(r('alarm',i) for i in range(4))==alarms and r('seconds')==sec-1,'Episode time runs while other fault deadlines freeze in the panel')
+   check(tuple(r('alarm',i) for i in range(4))==alarms and r('seconds')==sec,'Episode time and fault deadlines both freeze in the panel')
    pulse(3);saved=tuple(r(n) for n in ['task_value','task_progress','task_frame','task_phase','seconds'])
    h.frames(90,[7]);check(saved==tuple(r(n) for n in ['task_value','task_progress','task_frame','task_phase','seconds']),'Start pauses the repair panel and timer')
    pulse(3);paused=True
@@ -69,11 +73,13 @@ for f in range(400):
  if r('task_active') and r('hud_on'):break
  h.frames(1,repair_keys(f) if r('hud_on') else [])
 assert r('task_active')
-for _ in range(5000):
- h.frames(1)
- if r('mode')==4:break
-h.frames(25)
-check(r('mode')==4 and not r('last_win') and r('seconds')==0,'Running out of episode time inside a panel loses cleanly')
-h.press(8);settle()
-check(r('mode')==1 and not r('task_active') and r('repairs')==0,'Retry after a panel timeout returns to a fresh studio')
+saved=tuple(r(n) for n in ['seconds','tick','health','repairs'])+tuple(r('alarm',i) for i in range(4))
+h.frames(5000)
+check(r('mode')==1 and r('task_active') and saved==tuple(r(n) for n in ['seconds','tick','health','repairs'])+tuple(r('alarm',i) for i in range(4)),'Spending over 80 seconds in a repair does not consume time, hearts or fault deadlines')
+hud=bytes(r('hud',i) for i in range(32))
+check(b'SIN LIMITE' in hud,'Repair HUD clearly indicates there is no time limit')
+pulse(0);settle();sec=r('seconds');h.frames(120)
+check(not r('task_active') and r('seconds')==sec-2,'Leaving the panel resumes the studio clock at its previous value')
+pulse(3);h.press(8);settle()
+check(r('mode')==1 and not r('task_active') and r('repairs')==0,'Retry still returns to a fresh studio')
 h.close()
