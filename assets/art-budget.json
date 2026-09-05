@@ -1,0 +1,18 @@
+{
+  "banks_used": 46,
+  "backgrounds": {
+    "title": 281,
+    "studio": 199,
+    "stage": 181,
+    "plaza0": 175,
+    "plaza1": 174,
+    "plaza2": 174,
+    "district11": 175,
+    "district21": 175,
+    "district22": 157,
+    "district23": 166
+  },
+  "sprite_tiles": 256,
+  "chr_bytes": 262144,
+  "extended_attributes": "title/result/ending, 8x8 palettes and two simultaneous tile pages"
+}

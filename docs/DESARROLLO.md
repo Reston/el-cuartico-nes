@@ -1,0 +1,57 @@
+# Desarrollo
+
+## Cartucho y código
+
+El juego usa un encabezado iNES, mapper **MMC5 (5)**, 128 KiB de PRG y 256 KiB de
+CHR. Hay 46 bancos gráficos de 4 KiB ocupados. La memoria de batería no se utiliza.
+
+- `src/game.c`: estados, entrada, campaña y minijuegos.
+- `src/start.s`: arranque 6502, NMI, DMA de sprites y configuración MMC5.
+- `src/music.h`: temas y efectos de la APU.
+- `src/nes.cfg`: mapa de memoria de cc65.
+- `assets/likeness.py`: personajes y poses mediante píxeles indexados.
+- `assets/quality.py`: escenas, animaciones, tiles y atributos MMC5.
+- `assets/generate.py`: punto de entrada para generar los recursos gráficos.
+
+Los recursos se generan sin leer fotografías externas. Las imágenes del README
+son ilustración y capturas del juego; no son necesarias para compilar.
+
+## Renderizado
+
+El menú cambia sus etiquetas y marcadores durante vblank; no se vuelve a cargar
+la pantalla al elegir otro personaje. Las animaciones intercambian bancos CHR.
+Las personas de Daniel usan tiles de fondo, reservando sprites para el cursor,
+la lupa y los efectos. Sus caras permanecen visibles gracias a la prioridad de
+fondo de las esquinas de selección.
+
+Los paneles de reparación comparten el juego de tiles del estudio. El temporizador
+de la secuencia de memoria es de 16 bits: cuatro pasos de 80 cuadros suman 320.
+El objetivo del mezclador cambia entre aciertos y no depende de una posición fija.
+
+## Pruebas
+
+Primero compila con `./build.ps1`. `tools/test_all.py` ejecuta siete suites de
+FCEUmm; `--mesen` añade una campaña independiente con Mesen. Los resultados se
+guardan en `build/`, junto a la ROM de trabajo, símbolos y capturas. Cada suite
+falla con un código distinto de cero si detecta una regresión.
+
+No se incluyen ejecutables de emuladores, bibliotecas DLL, compiladores ni archivos
+ZIP de instalación. `tools/bootstrap.py --test-tools` prepara esos recursos localmente.
+
+## Publicar una versión
+
+1. Actualiza `VERSION` y los enlaces e instrucciones de la entrega.
+2. Compila y ejecuta las pruebas correspondientes al cambio.
+3. Guarda la ROM anterior en una carpeta fuera del repositorio.
+4. Ejecuta `python tools/package.py`.
+5. Comprueba que `dist/` contiene solo la ROM actual, `LEEME.txt` y `SHA256.txt`.
+
+El empaquetador rechaza la publicación si encuentra otra ROM en `dist/`: nunca
+borra una entrega anterior automáticamente. El código fuente se distribuye por Git;
+no se guarda un ZIP del propio repositorio dentro de sí mismo.
+
+## Alcance de la validación
+
+Las pruebas de escritorio cubren FCEUmm y Mesen CE. La ROM actual necesita una
+prueba adicional en hardware portátil; no debe confundirse el funcionamiento
+del emulador de escritorio con una prueba física en R36S o Retroid.

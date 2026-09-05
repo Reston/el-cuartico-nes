@@ -1,0 +1,20 @@
+# Herramientas descargadas y resultados locales
+/build/
+/tools/cc65/
+/tools/mesen/
+/tools/fceumm/
+/tools/*.zip
+/tools/*.cs
+/tools/LuaDocumentation.json
+/tools/tmp*.lua
+__pycache__/
+*.pyc
+.venv/
+# Intermedios de cc65
+/src/*.o
+/src/game.s
+# dist contiene solo la entrega actual, sin ZIP ni resultados de pruebas
+/dist/*.zip
+/dist/*.dbg
+/dist/*.lbl
+/dist/*.map

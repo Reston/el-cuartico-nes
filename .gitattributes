@@ -1,0 +1,12 @@
+* text=auto
+*.py text eol=lf
+*.lua text eol=lf
+*.s text eol=lf
+*.c text eol=lf
+*.h text eol=lf
+*.ps1 text eol=crlf
+*.nes binary
+*.chr binary
+*.nam binary
+*.exram binary
+*.png binary

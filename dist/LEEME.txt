@@ -1,0 +1,26 @@
+EL CUARTICO: ESTAMOS GRABANDO! - Version 0.9.1 - MMC5
+
+Abre el-cuartico.nes en tu emulador NES. Control 1, region NTSC.
+Inicia desde cero, sin estados guardados de versiones anteriores.
+
+Elige Chucho, Estefania o Daniel con izquierda/derecha o SELECT.
+A o START empieza. Completa los tres juegos para publicar el episodio.
+
+CHUCHO: repara 12 fallos. Cruceta mueve, B corre, A abre una reparacion.
+Arriba izquierda: une numeros con arriba/abajo y A.
+Arriba derecha: ajusta el enfoque con izquierda/derecha y confirma con A.
+Abajo izquierda: pulsa A en el recuadro tres veces; cambia de lugar tras cada acierto.
+Abajo derecha: mira y repite cuatro direcciones, ahora a un ritmo mas lento.
+B cierra el panel. El reloj del episodio sigue; los otros fallos esperan.
+Cada cuatro reparaciones ganas tres segundos. Ya no hay carrito.
+
+ESTEFANIA: pulsa el simbolo cuando llega al recuadro. 20 aciertos;
+cinco fallos maximo. La primera A es practica sin tiempo.
+
+DANIEL: explora uno, dos y luego cuatro lugares conectados.
+La franja CRUZA indica por que bordes puedes pasar a otra zona.
+B: lupa y precision. A: elige la persona enfocada. Error: -5 segundos.
+Las indicaciones no cubren a las personas; los pajaros se ocultan con la lupa.
+
+START pausa. En pausa: START sigue, A reinicia, B vuelve al menu.
+Consulta README.md en https://github.com/Reston/el-cuartico-nes para controles e instalacion.
