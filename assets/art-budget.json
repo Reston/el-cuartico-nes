@@ -1,7 +1,7 @@
 {
-  "banks_used": 47,
+  "banks_used": 49,
   "backgrounds": {
-    "title": 281,
+    "title": 292,
     "studio": 199,
     "stage": 181,
     "plaza0": 204,
@@ -10,9 +10,10 @@
     "district11": 220,
     "district21": 218,
     "district22": 201,
-    "district23": 219
+    "district23": 219,
+    "dany_intro": 495
   },
   "sprite_tiles": 256,
   "chr_bytes": 262144,
-  "extended_attributes": "title/result/ending, 8x8 palettes and two simultaneous tile pages"
+  "extended_attributes": "title/result/ending/dany_intro, 8x8 palettes and two simultaneous tile pages"
 }

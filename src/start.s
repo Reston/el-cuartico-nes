@@ -184,7 +184,8 @@ nmi:
  lsr a
  sta $5127
  lda _ex_on
- bne @extended
+ cmp #1
+ beq @extended
  jmp @normal
 @extended:
  lda #2
@@ -290,6 +291,71 @@ irq: rti
 act_dark: .byte $04,$01,$06
 act_mid: .byte $14,$11,$16
 act_light: .byte $34,$31,$36
+ ; Intro data lives in PRG bank 0. This loader executes only in the fixed bank,
+ ; with rendering/NMI off, and restores bank 12 before returning to C.
+.segment "INTROCODE"
+.export _load_search_intro
+_load_search_intro:
+ lda #$80
+ sta $5114
+ bit $2002
+ lda #$20
+ sta $2006
+ lda #0
+ sta $2006
+ ldx #0
+@nam0:
+ lda intro_map,x
+ sta $2007
+ inx
+ bne @nam0
+@nam1:
+ lda intro_map+$100,x
+ sta $2007
+ inx
+ bne @nam1
+@nam2:
+ lda intro_map+$200,x
+ sta $2007
+ inx
+ bne @nam2
+@nam3:
+ lda intro_map+$300,x
+ sta $2007
+ inx
+ bne @nam3
+@ex:
+ lda intro_exram,x
+ sta $5c00,x
+ lda intro_exram+$100,x
+ sta $5d00,x
+ lda intro_exram+$200,x
+ sta $5e00,x
+ lda intro_exram+$300,x
+ sta $5f00,x
+ inx
+ bne @ex
+ lda #$3f
+ sta $2006
+ lda #0
+ sta $2006
+@pal:
+ lda intro_palette,x
+ sta $2007
+ inx
+ cpx #16
+ bne @pal
+ lda #$8c
+ sta $5114
+ lda #2
+ sta _ex_on
+ lda #1
+ sta $5104
+ rts
+.segment "INTRODATA"
+intro_map: .incbin "assets/dany-intro.nam"
+intro_exram: .incbin "assets/dany-intro.exram"
+intro_palette: .incbin "assets/dany-intro.pal"
 .segment "SCENES"
 .export _studio, _title, _stage, _plaza
 title_exram: .incbin "assets/title.exram"

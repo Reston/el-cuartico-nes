@@ -67,6 +67,12 @@ emu.addEventCallback(function()
   if not pics.hub then shot('mesen-hub');pics.hub=true;check(read('completed')==0,'Free character choice at boot') end
   if read('host')~=order[index] then input.right=true;menu_wait=20
   else input.start=true;menu_wait=25 end
+ elseif mode==7 then
+  if not pics.intro then
+   check(read('ex_on')==2,'Daniel intro uses static MMC5 extended attributes')
+   shot('mesen-dany-intro');pics.intro=true
+  end
+  input.a=true;menu_wait=25
  elseif mode>=1 and mode<=3 and read('hud_on')==1 then
   if mode==1 then
    repair(input)

@@ -1,7 +1,7 @@
-EL CUARTICO: ESTAMOS GRABANDO! - v0.10.1 - MMC5
-Version aprobada e integrada en main, con el nuevo arte de Daniel.
+EL CUARTICO: ESTAMOS GRABANDO! - v0.10.2 - MMC5
+Version de prueba para el PR: feature/dany-intro-portraits.
 
-Abre el-cuartico-v0.10.1-mmc5.nes. Control 1, NTSC, velocidad normal.
+Abre el-cuartico-v0.10.2-mmc5.nes. Control 1, NTSC, velocidad normal.
 Inicia desde cero, sin estados guardados de otra version.
 
 MENU: izquierda/derecha o SELECT elige. A/START juega. B abre el estudio.
@@ -18,7 +18,8 @@ ESTEFANIA: 20 aciertos antes de cinco fallos. Primera A de practica.
 Pulsa el simbolo al llegar al recuadro. Hay tres actos, con musica y luces
 propias. Al cambiar de acto, espera la nueva cuenta de cuatro tiempos.
 
-DANIEL: explora uno, dos y cuatro lugares. CRUZA indica las salidas.
+DANIEL: intro DONDE ESTA DANY? A/START empieza; B vuelve al menu.
+El reloj espera en la intro. Explora uno, dos y cuatro lugares. CRUZA indica las salidas.
 B: lupa y precision. A: elige. Error: -5 segundos.
 
 START pausa. En pausa: START sigue, A reinicia, B vuelve al menu.
@@ -28,4 +29,4 @@ A desde el final: REMIX. START desde el final: nueva campana normal.
 REMIX: mas senuelos, otras notas, tres enfoques y cuatro senales.
 Los paneles siguen sin limite de tiempo. No hay guardado por bateria.
 
-Guia: https://github.com/Reston/el-cuartico-nes/blob/main/docs/DANIEL-ARTE.md
+Guia: https://github.com/Reston/el-cuartico-nes/blob/feature/dany-intro-portraits/docs/INTRO-RETRATOS.md

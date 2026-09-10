@@ -1,5 +1,6 @@
 """Frame-level regression for character selection, including wrap and rapid taps."""
 import retro_harness as h
+from play_helpers import start_search_from_intro
 report=[]
 def check(ok,msg):
  line=('PASS ' if ok else 'FAIL ')+msg
@@ -33,5 +34,6 @@ h.press(8);check(h.read('mode')==1,'A launches the selected Chucho game after re
 h.press(3);h.press(0);check(h.read('mode')==0,'Pause exit restores the complete menu')
 h.press(7);h.press(3);check(h.read('mode')==2,'Start launches Estefania immediately after selection')
 h.press(3);h.press(0);h.press(7);h.press(8)
-check(h.read('mode')==3,'Daniel launches correctly after returning and changing selection')
+check(h.read('mode')==7,'Daniel opens his title card after returning and changing selection')
+start_search_from_intro();check(h.read('mode')==3,'A starts searching from the title card')
 h.close()

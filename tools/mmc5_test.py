@@ -1,6 +1,7 @@
 """MMC5-specific graphics, frame-pacing, magnifier and reset checks."""
 import hashlib,json
 import retro_harness as h
+from play_helpers import start_search_from_intro
 report=[]
 def r(n,i=0):return h.C.c_uint8.from_address(h.ram+h.labels['_'+n]+i).value
 def check(ok,msg):
@@ -11,6 +12,7 @@ def boot(host=None):
     if host is not None:
         for _ in range(host):h.press(7)
         h.press(3)
+        if host==2:start_search_from_intro()
 def sprite_peak():
     ys=[h.C.c_uint8.from_address(h.ram+0x200+i*4).value for i in range(64)]
     return max(sum(y<240 and y+1<=row<=y+8 for y in ys) for row in range(240))
@@ -21,7 +23,7 @@ def steady(n=128,keys=()):
         visuals.add(hashlib.sha256(h.screen[0]).hexdigest())
     return (r('anim_tick')-a)%256,(r('frame')-f)%256,banks,visuals
 budget=json.loads((h.root/'assets/art-budget.json').read_text())
-check(budget['banks_used']==47 and budget['chr_bytes']==262144,'47 populated graphics banks fit 256 KiB CHR ROM')
+check(budget['banks_used']==49 and budget['chr_bytes']==262144,'49 populated graphics banks fit 256 KiB CHR ROM')
 nt=(h.root/'assets/title.nam').read_bytes()
 ex=(h.root/'assets/title.exram').read_bytes()
 check(set(v&63 for v in ex[:960])=={0,26},'Portrait screen uses two simultaneous 4 KiB CHR pages')

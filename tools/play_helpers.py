@@ -39,3 +39,12 @@ def repair_keys(f):
     else:return [8] if f%4<2 else []
     if not read('cooldown'):keys.append(0)
     return keys
+
+
+def start_search_from_intro():
+    """Explicit controller confirmation of Daniel's untimed title card."""
+    assert read('mode')==7, 'Daniel should first show his title card'
+    h.frames(3)
+    h.press(8)
+    h.frames(5)
+    assert read('mode')==3 and read('hud_on'), 'A should enter the first plaza'

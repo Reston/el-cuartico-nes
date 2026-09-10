@@ -1,7 +1,7 @@
 """Controller-only campaign integration tests in the independent FCEUmm core."""
 import itertools
 import retro_harness as h
-from play_helpers import repair_keys
+from play_helpers import repair_keys,start_search_from_intro
 report=[]
 def check(ok,label):
     report.append(('PASS ' if ok else 'FAIL ')+label)
@@ -54,7 +54,9 @@ def search_bot():
 
 
 def beat(host,do_pause=False,shots=False):
-    select(host);h.press(3);check(read('mode')==host+1,'Selected character enters its own game: '+str(host))
+    select(host);h.press(3)
+    if host==2:start_search_from_intro()
+    check(read('mode')==host+1,'Selected character enters its own game: '+str(host))
     if do_pause:pause_check()
     if shots:h.screenshot(['campaign-chucho.png','campaign-estefania.png','campaign-daniel.png'][host])
     seen=set();sprinted=False
@@ -120,7 +122,7 @@ check(read('mode')==4 and read('last_win')==0 and read('health')==0,'Five missed
 h.press(0)
 # A completed character stays marked; it cannot clear or replace its stamp.
 select(2);h.press(3);check(read('mode')==0 and read('completed')==4,'Completed character remains stamped')
-h.core.retro_reset();h.frames(90);select(2);h.press(3)
+h.core.retro_reset();h.frames(90);select(2);h.press(3);start_search_from_intro()
 first=read('previous_target')
 # Deliberately select the empty corner, away from all hiding spots.
 while read('cursor_x')>8:h.frames(1,[6])
@@ -128,7 +130,7 @@ while read('cursor_y')>72:h.frames(1,[4])
 h.frames(1)
 before=read('seconds');h.press(8)
 check(read('seconds')<=before-5 and read('found')==0,'Wrong search selection deducts time without credit')
-h.press(3);h.press(8)
+h.press(3);h.press(8);start_search_from_intro()
 check(read('previous_target')!=first,'Search retry moves the hiding spot')
 for _ in range(4300):
     if read('mode')==4:break

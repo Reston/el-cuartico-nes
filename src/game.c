@@ -1,4 +1,4 @@
-/* El Cuartico v0.10.0 trial: studio events, musical acts and episode remix. */
+/* El Cuartico v0.10.2: Dany title card and photo-referenced menu portraits. */
 typedef unsigned char u8;
 typedef unsigned int u16;
 #define REG(a) (*(volatile u8*)(a))
@@ -22,6 +22,7 @@ typedef unsigned int u16;
 #define RESULT 4
 #define ENDING 5
 #define LOUNGE 6
+#define SEARCH_INTRO 7
 #define SPR_BASE 0
 #define SPARK 236
 #define CROSS 237
@@ -37,6 +38,7 @@ extern u8 hud[32],menu_rows[96],status_row[32];
 extern volatile u8 menu_dirty;
 extern volatile u8 ex_on;
 extern void title_extended(void);
+extern void load_search_intro(void);
 extern const u8 studio[1024],title[1024],stage[1024],plaza[3072],districts[4096];
 
 /* Exposed symbols support real-controller emulator integration tests. */
@@ -87,7 +89,7 @@ const u8 palette[32]={
 };
 const u8 title_palette[16]={
  0x0f,0x07,0x27,0x30, 0x0f,0x0f,0x27,0x37,
- 0x0f,0x0f,0x11,0x21, 0x0f,0x0f,0x37,0x16
+ 0x0f,0x0f,0x00,0x10, 0x0f,0x0f,0x1b,0x2b
 };
 const u8 stage_palette[16]={
  0x0f,0x07,0x27,0x30, 0x0f,0x06,0x16,0x26,
@@ -262,6 +264,10 @@ void search_round(void){
  search_scene();
 }
 void travel(u8 next,u8 x,u8 y){district=next;cursor_x=x;cursor_y=y;search_scene();}
+void search_intro(void){
+ off();chr_bank(47);load_palette(palette,32);load_search_intro();
+ mode=SEARCH_INTRO;seconds=60;tick=0;on();
+}
 void start_game(void){
  u8 i,j,k;task_mistakes=0;reaction_time=0;music_act=0;studio_event=0;event_seen=0;task_active=0;off();chr_bank(0);bg_bank=0;music_start(host+1);paused=0;attempt_score=0;health=5;misses=0;tick=0;feedback=0;carry=0;hud_dirty=0;cheer=0;rhythm_chain=0;peak_chain=0;hover_npc=255;
  if(host==0){off();chr_bank(4);facing=0;anim_tick=0;load_palette(palette,32);background(studio);mode=REPAIR;
@@ -272,7 +278,7 @@ void start_game(void){
  }else if(host==1){off();chr_bank(8);anim_tick=0;load_palette(palette,32);load_palette(stage_palette,16);addr(0x3f13);PPUDATA=0x30;background(stage);mode=RHYTHM;
   hits=0;perfects=0;judgement=0;cue_key=0;cue_x=60;cue_demo=1;cue_wait=0;pose=0;count_in=0;rhythm_phase=0;chart_step=0;cue_head=255;
   for(i=0;i<3;++i)note_live[i]=0;hud_update();hud_on=1;on();
- }else{round_no=0;found=0;search_round();}
+ }else{round_no=0;found=0;search_intro();}
 }
 void move(void){u8 nx=px,ny=py,speed=2;
  if(cooldown)--cooldown;
@@ -468,6 +474,7 @@ void search_step(void){u8 speed=pad&B?1:2,moved=0;
  if(++tick==60){tick=0;hud_dirty=1;if(seconds)--seconds;if(!seconds)finish(0);}
 }
 void draw(void){u8 i,x,y,step;hide();sprite_bank=mode==SEARCH?184:96;
+ if(mode==SEARCH_INTRO){art_bank=47;return;}
  /* NMI applies the requested frame atomically in vblank. No tile uploads in play. */
  if(mode==HUB||mode==ENDING||mode==RESULT)art_bank=(anim_tick&31)<5?(anim_tick>>5)&3:0;
  else if(mode==REPAIR||mode==LOUNGE)art_bank=4+((anim_tick>>4)&3);
@@ -572,6 +579,8 @@ void main(void){mode=HUB;host=0;completed=0;rng=91;score=0;best=0;previous_targe
    else if(pressed&LEFT){host=host?host-1:2;menu_selection();sound(1);}
    else if(pressed&B)lounge();
    else if(pressed&(START|A)){if(!(completed&masks[host]))start_game();else sound(2);}
+  }else if(mode==SEARCH_INTRO){
+   audio();random();if(pressed&B)hub();else if(pressed&(A|START))search_round();
   }else if(mode==LOUNGE){
    audio();random();
    if((pad&LEFT)&&px>16)px-=2;if((pad&RIGHT)&&px<224)px+=2;

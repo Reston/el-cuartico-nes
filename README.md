@@ -7,9 +7,9 @@ Este juego fue creado enteramente con IA para probar las capacidades de Astra.
 
 <img src="docs/media/portada.png" alt="Portada ilustrada de El Cuartico: Estamos grabando" width="260">
 
-**NES · MMC5 · Un jugador · v0.10.1**
+**NES · MMC5 · Un jugador · v0.10.2**
 
-[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.10.1-mmc5.nes) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
+[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/feature/dany-intro-portraits/dist/el-cuartico-v0.10.2-mmc5.nes) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
@@ -19,8 +19,9 @@ que quieras. Cada victoria deja un sello; consigue los tres para publicar el epi
 
 ## Edición episodio remix
 
-La versión **v0.10.1**, con el episodio remix y el nuevo arte de Daniel,
-está aprobada e integrada en `main`.
+Esta rama propone **v0.10.2**: una intro de «¿Dónde está Dany?» y retratos del
+menú más cercanos a las referencias fotográficas. `main` conserva v0.10.1.
+[Ver la intro y los retratos](docs/INTRO-RETRATOS.md).
 [Ver los cambios visuales](docs/DANIEL-ARTE.md).
 [Guía del episodio remix](docs/PRUEBA-REMIX.md).
 
@@ -54,7 +55,7 @@ está aprobada e integrada en `main`.
 
 ## Jugar ahora
 
-1. Descarga [**el-cuartico-v0.10.1-mmc5.nes**](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.10.1-mmc5.nes).
+1. Descarga [**el-cuartico-v0.10.2-mmc5.nes**](https://raw.githubusercontent.com/Reston/el-cuartico-nes/feature/dany-intro-portraits/dist/el-cuartico-v0.10.2-mmc5.nes).
 2. Ábrelo en un emulador con soporte **MMC5**, como FCEUmm o Mesen.
 3. Usa el **control 1**, región **NTSC** y velocidad normal. No hace falta BIOS.
 
@@ -117,6 +118,9 @@ secuencia añaden otros 100 puntos. La música y las notas se detienen juntas al
 
 ### Daniel · ¿Dónde está Daniel?
 
+La tarjeta **¿Dónde está Dany?** abre el juego. Pulsa **A o Start** para comenzar,
+o **B** para volver al menú. El reloj espera mientras ves la intro.
+
 Explora la plaza y compara las caras con el retrato de referencia. Hay un solo
 Daniel en cada mundo, y las personas mantienen su posición cuando vuelves a una zona.
 
@@ -165,7 +169,7 @@ superior, Pillow y cc65. El script de instalación descarga las herramientas en
 `tools/`; esos binarios no se incluyen en Git.
 
 ```powershell
-git clone https://github.com/Reston/el-cuartico-nes.git
+git clone --branch feature/dany-intro-portraits https://github.com/Reston/el-cuartico-nes.git
 cd el-cuartico-nes
 python -m pip install -r requirements.txt
 python tools/bootstrap.py

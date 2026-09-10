@@ -228,3 +228,123 @@ def plaza_person(kind):
         d.line((5,12,10,12),fill=1);d.line((6,13,9,13),fill=2)
         d.line((5,16,6,19),fill=3);d.line((10,16,10,19),fill=3)
     return im
+
+
+def menu_portrait(host,blink=False,gear=True):
+    """64x64 menu likenesses from the user's group photo and Estefania's outdoor portrait.
+
+    Face tiles end at y=47; clothing below uses a host-specific MMC5 palette.
+    Gameplay and magnifier artwork intentionally keep their own drawing functions.
+    """
+    im=Image.new('L',(64,64));d=ImageDraw.Draw(im)
+    d.ellipse((4,3,59,62),fill=2)
+    if host==0:
+        # Chucho: short side-swept hair, wire glasses, moustache and green tee.
+        d.polygon([(5,63),(9,54),(22,48),(41,48),(54,55),(59,63)],fill=2)
+        d.line((11,56,9,63),fill=1);d.line((50,55,54,63),fill=1)
+        d.polygon([(25,42),(39,42),(40,48),(35,52),(29,51),(24,48)],fill=2)
+        d.arc((22,43,43,56),5,175,fill=1,width=2)
+        d.line((20,54,23,61),fill=3);d.line((44,54,42,61),fill=3)
+        d.polygon([(20,10),(29,7),(39,9),(45,17),(46,29),(43,38),(38,44),(32,46),(25,43),(20,38),(17,28),(17,18)],fill=3)
+        d.ellipse((14,23,20,32),fill=3);d.ellipse((43,22,49,31),fill=2)
+        d.polygon([(42,16),(45,22),(44,34),(40,41),(33,45),(29,44),(37,41),(41,35)],fill=2)
+        d.polygon([(16,24),(14,17),(15,10),(20,5),(30,3),(41,5),(47,11),(47,21),(44,24),(43,15),(40,11),(34,10),(27,13),(21,13),(20,22)],fill=1)
+        d.line((19,10,26,7,36,7,42,10),fill=2)
+        d.line((23,11,30,9,38,9),fill=2)
+        d.line((20,19,26,18),fill=1);d.line((35,18,41,19),fill=1)
+        d.ellipse((17,20,29,29),outline=1);d.ellipse((33,20,45,29),outline=1)
+        d.line((29,23,33,23),fill=1);d.line((14,23,17,23),fill=1)
+        d.point((23,25),fill=1);d.point((39,25),fill=1)
+        d.line((31,24,30,30,33,31),fill=2)
+        d.polygon([(23,34),(26,32),(30,32),(32,33),(35,32),(39,33),(42,35),(37,35),(33,34),(30,34),(26,35),(23,35)],fill=1)
+        d.arc((25,32,39,40),0,180,fill=1)
+        d.line((27,37,36,37),fill=3);d.line((30,41,35,41),fill=2)
+        eyes=[(23,25),(39,25)]
+    elif host==1:
+        # Outdoor reference: side-swept hair, a slight three-quarter turn,
+        # relaxed almond eyes and an open smile above a black leather jacket.
+        d.polygon([(10,22),(13,12),(20,6),(30,3),(40,4),(47,9),(50,18),(49,32),(51,43),(49,54),(53,63),(5,63),(7,52),(9,42),(8,32)],fill=1)
+        d.polygon([(5,63),(9,54),(23,48),(41,48),(55,54),(60,63)],fill=1)
+        d.polygon([(26,40),(39,39),(40,45),(36,47),(29,47),(25,45)],fill=2)
+        # A longer neck and rounded smiling cheeks keep adult proportions.
+        d.polygon([(26,13),(34,10),(40,12),(44,18),(46,26),(45,31),(42,37),(38,41),(33,44),(28,43),(23,39),(20,33),(19,26),(21,19)],fill=3)
+        d.ellipse((17,25,22,32),fill=2)
+        d.polygon([(44,22),(46,27),(43,34),(40,39),(34,43),(30,42),(36,40),(40,35),(42,29)],fill=2)
+        # The part sits to her left; the long sweep falls over the other shoulder.
+        d.polygon([(17,31),(14,25),(15,18),(19,11),(26,6),(34,4),(41,6),(40,10),(35,10),(29,13),(26,17),(22,20),(21,28)],fill=1)
+        d.polygon([(41,6),(46,10),(48,17),(48,25),(45,31),(43,27),(43,20),(41,15),(38,11)],fill=1)
+        d.line((18,19,22,14,29,10,36,8),fill=2)
+        d.line((44,16,45,21,45,25),fill=2)
+        # Low, soft brows and small pupils avoid the startled, round-eyed look.
+        d.line((22,21,25,20,28,20,30,21),fill=1)
+        d.line((36,20,38,19,40,19,42,20),fill=1)
+        if blink:
+            d.line((23,25,25,26,28,26,30,24),fill=1)
+            d.line((36,24,38,25,40,25,42,23),fill=1)
+        else:
+            d.line((23,25,25,23,27,23,30,25),fill=1)
+            d.line((27,24,27,25),fill=1)
+            d.line((25,27,28,27),fill=2)
+            d.line((36,24,38,22,40,23,42,24),fill=1)
+            d.line((39,23,39,24),fill=1)
+            d.line((37,26,40,26),fill=2)
+        d.line((34,25,34,28,36,30,33,31),fill=2)
+        d.point((35,30),fill=1)
+        # A visible upper row of teeth follows the lifted right corner.
+        d.polygon([(26,34),(29,32),(33,33),(39,31),(42,33),(40,36),(36,39),(31,39),(28,37)],fill=1)
+        d.polygon([(27,34),(32,34),(39,32),(40,33),(38,35),(33,36),(29,35)],fill=3)
+        d.line((31,38,35,38,38,36),fill=2)
+        d.line((24,32,23,34),fill=2);d.line((42,31,43,33),fill=2)
+        d.line((29,41,33,42,36,41),fill=2)
+        # Small hoops and the long, smooth sweep seen in the reference.
+        d.arc((18,31,22,37),30,330,fill=2)
+        d.point((19,34),fill=3)
+        d.arc((43,31,46,36),0,270,fill=2)
+        d.polygon([(12,32),(18,31),(18,40),(16,47),(13,52),(8,56),(4,57),(10,50),(11,43)],fill=1)
+        d.line((15,38,14,44,11,50,7,54),fill=2)
+        d.polygon([(45,37),(49,34),(48,44),(51,50),(48,54),(44,49),(43,44)],fill=1)
+        # Black leather, gray lapel folds, silver snaps and a diagonal zip.
+        # All jacket detail stays below the skin palette's y=48 boundary.
+        d.line((18,51,23,49,28,53,23,57,28,63),fill=2)
+        d.line((40,49,35,54,39,57,34,63),fill=2)
+        d.line((23,58,27,63),fill=3)
+        d.line((39,58,36,63),fill=3)
+        d.point((23,52),fill=3);d.point((40,52),fill=3)
+        d.line((12,55,9,62),fill=2);d.line((51,55,55,62),fill=2)
+        eyes=[] # The eye shapes above include their own complete blink frame.
+    else:
+        # Daniel: fuller side-swept hair, heavier glasses, broad beard, white tee.
+        d.polygon([(3,63),(7,54),(20,47),(41,47),(56,54),(61,63)],fill=3)
+        d.polygon([(25,43),(39,42),(40,49),(34,53),(28,52),(24,49)],fill=2)
+        d.arc((22,43,43,56),0,180,fill=1,width=2)
+        d.line((11,55,9,62),fill=2);d.line((51,55,55,63),fill=2)
+        d.polygon([(20,11),(30,8),(40,11),(46,18),(47,30),(44,39),(38,44),(30,45),(23,42),(18,34),(16,24)],fill=3)
+        d.ellipse((13,23,20,32),fill=2);d.ellipse((44,23,50,32),fill=2)
+        d.polygon([(15,26),(12,20),(12,13),(16,7),(23,4),(33,2),(43,5),(49,10),(51,18),(48,26),(45,23),(44,16),(40,12),(35,12),(28,17),(21,17),(20,25)],fill=1)
+        d.line((17,14,21,9,28,7,38,7,44,10),fill=2)
+        d.line((19,15,26,11,34,9),fill=2)
+        d.line((19,19,27,18),fill=1);d.line((35,18,43,20),fill=1)
+        d.rounded_rectangle((16,20,29,30),radius=2,outline=1,width=2)
+        d.rounded_rectangle((33,20,47,30),radius=2,outline=1,width=2)
+        d.line((29,24,33,24),fill=1,width=2)
+        d.point((23,25),fill=1);d.point((39,25),fill=1)
+        d.line((31,26,30,31,33,32),fill=2)
+        d.polygon([(17,29),(21,32),(25,32),(28,31),(32,33),(36,31),(40,32),(45,30),(48,28),(47,36),(44,42),(38,47),(29,48),(23,44),(19,38)],fill=1)
+        d.line((24,36,28,37,35,37,40,34),fill=3,width=2)
+        d.line((28,40,35,40),fill=2)
+        d.line((22,38,25,42),fill=2);d.line((40,40,37,44),fill=2)
+        eyes=[(23,25),(39,25)]
+    if blink:
+        for x,y in eyes:
+            d.point((x,y),fill=3)
+            d.line((x-2,y+1,x+1,y+1),fill=1)
+    if gear:
+        d.arc((10,0,54,40),187,353,fill=1,width=3)
+        d.arc((11,1,53,39),195,342,fill=2)
+        for x in (9,49):
+            d.rounded_rectangle((x,21,x+6,35),radius=2,fill=1)
+            d.line((x+1,24,x+1,31),fill=2)
+        d.line((52,53,48,63),fill=1,width=3)
+        d.rounded_rectangle((48,42,56,55),radius=3,fill=1)
+        d.line((50,45,54,45),fill=2);d.line((50,48,54,48),fill=2)
+    return im

@@ -3,7 +3,7 @@
 ## Cartucho y código
 
 El juego usa un encabezado iNES, mapper **MMC5 (5)**, 128 KiB de PRG y 256 KiB de
-CHR. Hay 47 bancos gráficos de 4 KiB ocupados. La memoria de batería no se utiliza.
+CHR. Hay 49 bancos gráficos de 4 KiB ocupados. La memoria de batería no se utiliza.
 
 - `src/game.c`: estados, entrada, campaña y minijuegos.
 - `src/start.s`: arranque 6502, NMI, DMA de sprites y configuración MMC5.
@@ -30,7 +30,7 @@ El objetivo del mezclador cambia entre aciertos y no depende de una posición fi
 
 ## Pruebas
 
-Primero compila con `./build.ps1`. `tools/test_all.py` ejecuta ocho suites de
+Primero compila con `./build.ps1`. `tools/test_all.py` ejecuta nueve suites de
 FCEUmm; `--mesen` añade una campaña independiente con Mesen. Los resultados se
 guardan en `build/`, junto a la ROM de trabajo, símbolos y capturas. Cada suite
 falla con un código distinto de cero si detecta una regresión.
@@ -99,3 +99,19 @@ con la misma referencia pequeña. Los demás juegos mantienen sus bancos anterio
 Las siete áreas respetan el máximo de 220 tiles de escenario por banco. Los
 posibles escondites se despejan antes de codificar el fondo, también para Remix;
 los atributos de 16 × 16 y los caminos reflejados conservan sus posiciones.
+
+## Intro y retratos v0.10.2
+
+SEARCH_INTRO (7) muestra una tarjeta estática antes de iniciar o reintentar
+la búsqueda. A/Start carga la plaza, B vuelve al menú; el reloj no avanza.
+La intro usa CHR 47/48, 495 tiles y atributos MMC5 de 8 × 8. `ex_on=2` evita que
+la animación de retratos escriba en su ExRAM; `ex_on=1` mantiene el menú animado.
+
+El mapa, los atributos y la paleta de la intro ocupan el banco PRG 0, antes libre.
+El cargador se ejecuta en el banco fijo con NMI/renderizado desactivados, mapea
+ese recurso en $8000 y restaura el banco 12 antes de regresar a C. El tamaño del
+cartucho sigue siendo 128 KiB PRG y 256 KiB CHR. Las pruebas incluyen salir,
+reintentar, resetear desde la tarjeta y completar la campaña en ambos emuladores.
+
+`menu_portrait` es independiente de los sprites de juego y de la lupa. Solo cambia
+los retratos compartidos por menú, resultados y final, conservando sus parpadeos.
