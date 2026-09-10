@@ -18,3 +18,13 @@ __pycache__/
 /dist/*.dbg
 /dist/*.lbl
 /dist/*.map
+
+# Audio recordings and rendered previews stay out of the repository.
+*.m4a
+*.mp3
+*.wav
+*.flac
+*.ogg
+*.aac
+*.aiff
+*.mid

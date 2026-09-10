@@ -1,5 +1,5 @@
 """Real-controller checks for the v0.5 plaza and music/beat contract."""
-import hashlib, wave, struct, math
+import hashlib, struct, math
 import retro_harness as h
 from play_helpers import start_from_intro
 from play_helpers import target_area
@@ -20,13 +20,6 @@ def state():return tuple(read(n) for n in ['song_tick','song_step','rhythm_phase
 def capture(name,n=360):
     h.audio_samples.clear();h.capture_audio=True;h.frames(n);h.capture_audio=False
     pcm=bytes(h.audio_samples)
-    # FCEUmm's libretro audio sample rate is reported by the core, not assumed.
-    class Geometry(h.C.Structure):_fields_=[('bw',h.C.c_uint),('bh',h.C.c_uint),('mw',h.C.c_uint),('mh',h.C.c_uint),('aspect',h.C.c_float)]
-    class Timing(h.C.Structure):_fields_=[('fps',h.C.c_double),('sample_rate',h.C.c_double)]
-    class AV(h.C.Structure):_fields_=[('geometry',Geometry),('timing',Timing)]
-    av=AV();h.core.retro_get_system_av_info(h.C.byref(av))
-    with wave.open(str(h.root/'build'/name),'wb') as w:
-        w.setnchannels(2);w.setsampwidth(2);w.setframerate(round(av.timing.sample_rate));w.writeframes(pcm)
     vals=struct.unpack('<'+str(len(pcm)//2)+'h',pcm)
     check(len(pcm)>100000 and max(abs(v) for v in vals)>100,'Audible PCM captured: '+name)
     check(max(abs(v) for v in vals)<32767,'No full-scale PCM clipping: '+name)
@@ -35,7 +28,7 @@ rom=(h.root/'build/el-cuartico.nes').read_bytes()
 check(len(rom)==393232 and rom[:8]==b'NES\x1a\x08\x20\x50\x00','MMC5 header and PRG/CHR ROM sizes agree')
 # Each mode selects a distinct composition/tempo, with actual PCM output.
 fingerprints=[]
-for host,track,name in [(None,0,'music-intro.wav'),(0,1,'music-chucho.wav'),(1,2,'music-estefania.wav'),(2,3,'music-daniel.wav')]:
+for host,track,name in [(None,0,'music-intro'),(0,1,'music-chucho'),(1,2,'music-estefania'),(2,3,'music-daniel')]:
     boot(host);check(read('music_track')==track,'Correct music for '+name)
     fingerprints.append(capture(name))
 check(len(set(fingerprints))==4,'All four recorded themes differ')

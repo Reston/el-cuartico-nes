@@ -7,9 +7,9 @@ Este juego fue creado enteramente con IA para probar las capacidades de Astra.
 
 <img src="docs/media/portada.png" alt="Portada ilustrada de El Cuartico: Estamos grabando" width="260">
 
-**NES · MMC5 · Un jugador · v0.12.2**
+**NES · MMC5 · Un jugador · v0.13.0**
 
-[🎮 Descargar ROM](dist/el-cuartico-v0.12.2-mmc5.nes?raw=1) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
+[🎮 Descargar ROM](dist/el-cuartico-v0.13.0-mmc5.nes?raw=1) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
@@ -18,6 +18,18 @@ de NES. Elige a **Chucho, Estefania o Daniel** y completa sus desafíos en el or
 que quieras dentro de cada episodio. Cada victoria deja un sello; consigue los tres
 para cerrar la primera grabación y pulsa **A** para continuar con el episodio en directo.
 La campaña reúne seis misiones y conserva los puntos entre los dos episodios.
+
+## Nuevos arreglos musicales · v0.13.0
+
+El menú usa una frase corta de **elcuartico_song_2**: cuatro compases que se repiten
+cada 9,6 segundos aproximadamente. **elcuartico_song_3** da la melodía de Estefania
+en ambos episodios, adaptada a los 120 BPM de sus notas. Cada acto entra en un
+compás diferente del arreglo de ocho segundos.
+
+[Partitura y detalles](docs/MUSICA-REFERENCIAS.md)
+
+La ROM sintetiza melodía, bajo y percusión con la
+APU de NES; el segundo canal de pulso queda disponible para los efectos del juego.
 
 ## Texto más claro en pantallas pequeñas · v0.12.2
 
@@ -123,7 +135,7 @@ del episodio y ofrece ayuda antes de entrar a cada juego.
 
 ## Jugar ahora
 
-1. Descarga [**el-cuartico-v0.12.1-mmc5.nes**](dist/el-cuartico-v0.12.2-mmc5.nes?raw=1).
+1. Descarga [**el-cuartico-v0.13.0-mmc5.nes**](dist/el-cuartico-v0.13.0-mmc5.nes?raw=1).
 2. Ábrelo en un emulador con soporte **MMC5**, como FCEUmm o Mesen.
 3. Usa el **control 1**, región **NTSC** y velocidad normal. No hace falta BIOS.
 
@@ -301,7 +313,8 @@ repositorio**. No forman parte de `dist/` ni de la descarga del código.
 
 Proyecto fan no oficial inspirado en **El Cuartico** y sus personajes. El arte de
 los personajes toma como referencia las fotografías compartidas durante el desarrollo.
-El juego incluye gráficos por tiles y música para la APU de NES.
+El juego incluye gráficos por tiles y música para la APU de NES. Los arreglos
+del menú y de Estefania parten de las dos grabaciones aportadas por el usuario.
 
 Herramientas: [cc65](https://github.com/cc65/cc65),
 [FCEUmm](https://github.com/libretro/libretro-fceumm),
