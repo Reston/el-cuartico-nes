@@ -1,6 +1,6 @@
 """Controller-driven v0.8 world persistence, distractions and studio mechanics."""
 import retro_harness as h
-from play_helpers import read as r,district_go,target_area,start_search_from_intro
+from play_helpers import read as r,district_go,target_area,start_from_intro
 report=[]
 def check(ok,msg):
  line=('PASS ' if ok else 'FAIL ')+msg;print(line,flush=True);report.append(line)
@@ -9,7 +9,7 @@ def boot(host):
  h.core.retro_reset();h.frames(90)
  for _ in range(host):h.press(7)
  h.press(8);h.frames(20)
- if host==2:start_search_from_intro()
+ start_from_intro()
 def pulse(key):h.frames(1,[key]);h.frames(1)
 def go(x,y,studio=False):
  xn,yn=('px','py') if studio else ('cursor_x','cursor_y')

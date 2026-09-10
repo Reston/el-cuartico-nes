@@ -1,7 +1,7 @@
 """Controller-only regressions for v0.7 feedback, streaks and plaza selection."""
 import hashlib
 import retro_harness as h
-from play_helpers import start_search_from_intro
+from play_helpers import start_from_intro
 from play_helpers import target_area,task_keys
 report=[]
 def r(n,i=0):return h.C.c_uint8.from_address(h.ram+h.labels['_'+n]+i).value
@@ -15,7 +15,7 @@ def boot(host=None):
     if host is not None:
         for _ in range(host):h.press(7)
         h.press(3)
-        if host==2:start_search_from_intro()
+        start_from_intro()
 def pulse(k):h.frames(1,[k]);h.frames(1)
 def go(x,y,who='cursor'):
     xn,yn=('px','py') if who=='repair' else ('cursor_x','cursor_y')
@@ -79,7 +79,7 @@ check(r('rhythm_chain')==0 and r('peak_chain')==5 and r('misses')==1 and word('a
 while r('mode')==2:hit_next()
 check(r('hits')==20 and r('mode')==4 and r('result_grade')==2,'A successful run with one miss receives two result medals')
 h.frames(3);h.screenshot('polish-result.png')
-pulse(3);h.press(7);h.press(3);start_search_from_intro()
+pulse(3);h.press(7);h.press(3);start_from_intro()
 check(r('mode')==3,'Result screen continues through normal character selection')
 # Find an actual overlap where the old A rule accepted Daniel under a decoy.
 def candidates():
@@ -96,7 +96,7 @@ for _ in range(10):
             if n!=r('target') and n<24:overlap=(x,y,n);break
         if overlap:break
     if overlap:break
-    pulse(3);h.press(8);start_search_from_intro()
+    pulse(3);h.press(8);start_from_intro()
 check(overlap is not None,'Fixture contains overlapping target and decoy selection areas')
 x,y,n=overlap;go(x,y);h.frames(3,[0])
 check(r('hover_npc')==n and r('zoom_npc')==n,'Magnifier chooses the nearest decoy in an overlapping area')

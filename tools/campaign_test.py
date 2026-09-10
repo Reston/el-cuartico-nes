@@ -1,7 +1,7 @@
 """Controller-only campaign integration tests in the independent FCEUmm core."""
 import itertools
 import retro_harness as h
-from play_helpers import repair_keys,start_search_from_intro
+from play_helpers import repair_keys,start_from_intro
 report=[]
 def check(ok,label):
     report.append(('PASS ' if ok else 'FAIL ')+label)
@@ -55,7 +55,7 @@ def search_bot():
 
 def beat(host,do_pause=False,shots=False):
     select(host);h.press(3)
-    if host==2:start_search_from_intro()
+    start_from_intro()
     check(read('mode')==host+1,'Selected character enters its own game: '+str(host))
     if do_pause:pause_check()
     if shots:h.screenshot(['campaign-chucho.png','campaign-estefania.png','campaign-daniel.png'][host])
@@ -100,9 +100,9 @@ for index,order in enumerate(itertools.permutations(range(3))):
 
 # Preserve completed contributions while abandoning and retrying other games.
 beat(2)
-select(0);h.press(3);h.press(3);h.press(0)
+select(0);h.press(3);start_from_intro();h.press(3);h.press(0)
 check(read('mode')==0 and read('completed')==4,'Leaving paused Chucho preserves Daniel stamp')
-select(1);h.press(3);h.press(8) # finish the untimed teaching cue
+select(1);h.press(3);start_from_intro();h.press(8) # finish the untimed teaching cue
 for _ in range(2400):
     if read('mode')==4:break
     h.frames(1)
@@ -110,10 +110,10 @@ h.frames(25)
 check(read('mode')==4 and read('last_win')==0 and read('misses')==5,'Five missed performance cues lose the attempt')
 check(read('completed')==4,'A failed performance preserves other stamps')
 h.screenshot('campaign-retry.png')
-h.press(8)
+h.press(8);start_from_intro()
 check(read('mode')==2 and read('hits')==0 and read('completed')==4,'Retry resets only the current game')
 h.press(3);h.press(0)
-select(0);h.press(3)
+select(0);h.press(3);start_from_intro()
 for _ in range(3500):
     if read('mode')==4:break
     h.frames(1)
@@ -122,7 +122,7 @@ check(read('mode')==4 and read('last_win')==0 and read('health')==0,'Five missed
 h.press(0)
 # A completed character stays marked; it cannot clear or replace its stamp.
 select(2);h.press(3);check(read('mode')==0 and read('completed')==4,'Completed character remains stamped')
-h.core.retro_reset();h.frames(90);select(2);h.press(3);start_search_from_intro()
+h.core.retro_reset();h.frames(90);select(2);h.press(3);start_from_intro()
 first=read('previous_target')
 # Deliberately select the empty corner, away from all hiding spots.
 while read('cursor_x')>8:h.frames(1,[6])
@@ -130,7 +130,7 @@ while read('cursor_y')>72:h.frames(1,[4])
 h.frames(1)
 before=read('seconds');h.press(8)
 check(read('seconds')<=before-5 and read('found')==0,'Wrong search selection deducts time without credit')
-h.press(3);h.press(8);start_search_from_intro()
+h.press(3);h.press(8);start_from_intro()
 check(read('previous_target')!=first,'Search retry moves the hiding spot')
 for _ in range(4300):
     if read('mode')==4:break

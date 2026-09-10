@@ -286,10 +286,35 @@ def plaza_frames(rect,text,scene,district=0):
         if district&1:
             # Mirror the street and its hiding paths together, keeping all signs readable.
             q.paste(q.crop((0,96,256,224)).transpose(Image.Transpose.FLIP_LEFT_RIGHT),(0,96))
+        if scene:
+            # Empty, high-contrast strips reserve real space for exit arrows.
+            border=ImageDraw.Draw(q)
+            for x,label in ((0,labels[0]),(176,labels[1])):
+                border.rectangle((x,56,x+79,63),fill=2)
+                text(q,x+8,56,label,1)
+            border.rectangle((0,64,15,223),fill=0)
+            border.rectangle((240,64,255,223),fill=0)
+            border.rectangle((0,64,255,71),fill=0)
+            border.rectangle((0,216,255,223),fill=0)
+            border.line((15,72,15,215),fill=1)
+            border.line((240,72,240,215),fill=1)
+            border.line((16,71,239,71),fill=1)
+            border.line((16,216,239,216),fill=1)
+            if district&1:
+                border.polygon([(2,143),(9,136),(9,140),(13,140),(13,146),(9,146),(9,150)],fill=1)
+            else:
+                border.polygon([(253,143),(246,136),(246,140),(242,140),(242,146),(246,146),(246,150)],fill=1)
+            if scene==2:
+                if district>=2:
+                    border.polygon([(127,64),(120,69),(124,69),(124,75),(130,75),(130,69),(134,69)],fill=1)
+                else:
+                    border.polygon([(127,223),(120,218),(124,218),(124,214),(130,214),(130,218),(134,218)],fill=1)
         frames.append(q)
     if district&1:
         xs=[240-x for x in xs]
         for y in range(6,14):pals[y].reverse()
+    if scene:
+        for y in range(4,14):pals[y][0]=pals[y][15]=0
     return frames,lambda x,y:pals[y][x] if y<15 else 0,xs,ys
 
 
@@ -467,5 +492,10 @@ def build(root,FONT,rect,text,pack,sprites):
     slate,used=build_presentation(root,FONT,text,pack)
     banks.append(slate);budgets['presentation']=used
     print('presentation',used,'/ 256')
+    from character_intros import build_card
+    for host,name in enumerate(('chucho_intro','estefania_intro')):
+        card,used=build_card(root,FONT,pack,host,len(banks))
+        banks.extend(card[offset:offset+4096] for offset in range(0,len(card),4096))
+        budgets[name]=used;print(name,used,'/ 512')
     root.joinpath('mmc5.chr').write_bytes(b''.join(banks)+bytes(262144-len(banks)*4096))
-    root.joinpath('art-budget.json').write_text(json.dumps({'banks_used':len(banks),'backgrounds':budgets,'sprite_tiles':len(sprites),'chr_bytes':262144,'extended_attributes':'title/ending/dany_intro, 8x8 palettes and two simultaneous tile pages'},indent=2))
+    root.joinpath('art-budget.json').write_text(json.dumps({'banks_used':len(banks),'backgrounds':budgets,'sprite_tiles':len(sprites),'chr_bytes':262144,'extended_attributes':'title/ending/character intros, 8x8 palettes and two simultaneous tile pages'},indent=2))

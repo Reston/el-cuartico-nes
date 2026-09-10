@@ -2,7 +2,7 @@
 import hashlib
 import struct
 import retro_harness as h
-from play_helpers import read as r, repair_keys, district_go, start_search_from_intro
+from play_helpers import read as r, repair_keys, district_go, start_from_intro
 from episode2_helpers import complete_episode
 report=[]
 def check(ok,label):
@@ -40,7 +40,7 @@ for host in range(3):
  check(peak()<=8,'Studio gathering respects sprite scanline budget')
  h.screenshot('episode-studio.png')
  h.press(8)
- if host==2:start_search_from_intro()
+ start_from_intro()
  check(r('mode')==host+1,'Studio interaction launches host '+str(host))
  h.press(3);h.press(0)
 
@@ -49,7 +49,7 @@ for remixed in (False,True):
  for host in range(3):
   while r('host')!=host:h.press(7)
   h.press(8)
-  if host==2:start_search_from_intro()
+  start_from_intro()
   events=set();acts=set();music={};pcm_hashes=set();targets=set();maxsprites=0;bonus=0;held=False
   seen_progress=set();seen_worlds=set()
   for f in range(10000):
@@ -114,7 +114,7 @@ for remixed in (False,True):
  else:h.press(3)
  check(r('mode')==0 and r('completed')==0 and all(r('medals',i)==0 for i in range(3)),'A new episode resets stamps and medals')
 check(r('remix')==0,'Start at the finale returns to the standard campaign')
-h.press(8)
+h.press(8);start_from_intro()
 for f in range(5000):
  if r('repairs')==3 and r('hud_on') and not r('task_active'):break
  h.frames(1,repair_keys(f) if r('hud_on') else [])

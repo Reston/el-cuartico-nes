@@ -1,6 +1,6 @@
 """Controller helpers shared by the two-episode campaign checks."""
 import retro_harness as h
-from play_helpers import read as r,repair_keys,task_keys,start_search_from_intro
+from play_helpers import read as r,repair_keys,task_keys,start_from_intro
 KEYS=[8,0,6,7,4,5]
 
 def select(host):
@@ -13,7 +13,7 @@ def select(host):
 def launch(host):
     select(host);h.press(8)
     if r('mode')==9:h.press(8)
-    if r('mode')==7:start_search_from_intro()
+    if r('mode')==7:start_from_intro()
     assert r('mode')==host+1
     for _ in range(120):
         if r('hud_on'):break

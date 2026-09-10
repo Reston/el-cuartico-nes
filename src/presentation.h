@@ -2,8 +2,8 @@
 /* Shared broadcast slate. All text fits inside the 28-column safe area. */
 const u8 ui_palette[16]={0x0f,0x07,0x27,0x30, 0x0f,0x09,0x19,0x29, 0x0f,0x06,0x16,0x26, 0x0f,0x07,0x17,0x27};
 const char* const help_lines[3][5]={
- {"COMPLETA 12 REPARACIONES","CRUCETA: MOVERSE","A: ABRIR UNA REPARACION","B: CORRER CUANDO ESTE LISTO","EL RELOJ PARA EN LOS PANELES"},
- {"CONSIGUE 20 ACIERTOS","LEE A, B O LA DIRECCION","PULSA DENTRO DEL RECUADRO","PRIMERO PRACTICA CON A","PUEDES FALLAR CUATRO VECES"},
+ {"COMPLETA 12 REPARACIONES","CRUCETA: MOVERSE","A: ABRIR UNA REPARACION","B: CORRE CUANDO ESTE LISTO","PANELES: TIEMPO SIN LIMITE"},
+ {"CONSIGUE 20 ACIERTOS","NOTAS: DE DERECHA A IZQ.","AL LLEGAR AL MARCO: PULSA","EL BOTON O FLECHA QUE VES","CON CINCO FALLOS TERMINA"},
  {"ENCUENTRA A DANIEL 3 VECES","CRUCETA: MOVER EL CURSOR","B: LUPA   A: ELEGIR","UN ERROR CUESTA 5 SEGUNDOS","CRUZA BORDES CON FLECHAS"}
 };
 const char* const panel_names[4]={"CABLES","ENFOQUE","MEZCLADORA","MEMORIA"};
@@ -34,14 +34,21 @@ void help_screen(void){u8 i;
  }else{
   center(12,game_title());for(i=0;i<5;++i)center(14+i*2,episode?live_help[host][i]:help_lines[host][i]);
  }
- center(26,paused?"SELECT / B: VOLVER A PAUSA":"< > CAMBIAR PERSONAJE");
- center(28,paused?"START: CONTINUAR":((completed&masks[host])?"SELLO LISTO   B: MENU":"A:JUEGA B:MENU"));on();
+ center(25,paused?"SELECT / B: VOLVER A PAUSA":"< > CAMBIAR PERSONAJE");
+ center(27,paused?"START: CONTINUAR":((completed&masks[host])?"SELLO LISTO   B: MENU":"A:JUEGA B:MENU"));on();
+}
+void help_selection(void){const char* text;
+ for(help_row=0;help_row<7;++help_row){
+  text=help_row==0?game_title():(help_row==6?((completed&masks[host])?"SELLO LISTO   B: MENU":"A:JUEGA B:MENU"):(episode?live_help[host][help_row-1]:help_lines[host][help_row-1]));
+  help_line(text);
+ }
+ help_dirty=1;
 }
 void menu_help(void){mode=HELP;help_screen();}
 void pause_screen(void){
  slate();ui_heading("PAUSA",3);center(12,game_title());
  print(6,16,"START");print(13,16,"CONTINUAR");print(6,18,"A");print(13,18,"REINTENTAR");print(6,20,"B");print(13,20,"VOLVER AL MENU");
- center(22,"TIEMPO Y MUSICA EN PAUSA");center(26,"SELECT: VER CONTROLES");center(28,"CONTINUA CUANDO QUIERAS");on();
+ center(22,"TIEMPO Y MUSICA EN PAUSA");center(25,"SELECT: VER CONTROLES");center(27,"CONTINUA CUANDO QUIERAS");on();
 }
 void pause_open(void){
  pause_art=art_bank;pause_sprite=sprite_bank;pause_hud=hud_on;paused=1;pause_help=0;
@@ -59,7 +66,7 @@ void result_screen(void){u8 n,total;u16 errors;
  if(episode&&host==2){print(5,18,"DANY 3/3  OBJETOS 0/6");addr(0x2000+18*32+10);PPUDATA='0'+found;addr(0x2000+18*32+23);PPUDATA='0'+collected_props;}
  else{print(5,18,host==0?"REPARACIONES":(host==1?"ACIERTOS":"ENCUENTROS"));ui_count(20,18,n);print(22,18,"/");ui_count(23,18,total);}
  errors=(u16)misses+task_mistakes;print(5,20,"ERRORES");if(errors>99)print(22,20,"99+");else ui_count(23,20,(u8)errors);
- episode_progress(22);center(26,last_win?"A / START: CONTINUAR":"A / START: REINTENTAR");center(28,"B: VOLVER AL MENU");
+ episode_progress(22);center(25,last_win?"A / START: CONTINUAR":"A / START: REINTENTAR");center(27,"B: VOLVER AL MENU");
  mode=RESULT;music_start(last_win?4:5);on();
 }
 

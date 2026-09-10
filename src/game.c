@@ -1,4 +1,4 @@
-/* El Cuartico v0.12.0: a second episode with three new live-broadcast missions. */
+/* El Cuartico v0.12.1: character cards, atomic help, clear exits and musical finales. */
 typedef unsigned char u8;
 typedef unsigned int u16;
 #define REG(a) (*(volatile u8*)(a))
@@ -22,7 +22,7 @@ typedef unsigned int u16;
 #define RESULT 4
 #define ENDING 5
 #define LOUNGE 6
-#define SEARCH_INTRO 7
+#define CHARACTER_INTRO 7
 #define HELP 8
 #define MISSION 9
 #define SPR_BASE 0
@@ -37,10 +37,12 @@ extern u8 pad_read(void);
 extern void __fastcall__ chr_bank(u8 bank);
 extern volatile u8 frame,ready,hud_on,art_bank,sprite_bank;
 extern u8 hud[32],menu_rows[96],status_row[32];
-extern volatile u8 menu_dirty;
+extern volatile u8 menu_dirty,help_dirty;
+extern u8 help_rows[224],help_row;
+extern void __fastcall__ help_line(const char* text);
 extern volatile u8 ex_on;
 extern void title_extended(void);
-extern void load_search_intro(void);
+extern void __fastcall__ load_character_intro(u8 character);
 extern const u8 studio_floor;
 extern void __fastcall__ load_resource(u8 resource);
 extern void pause_capture(void);
@@ -69,6 +71,7 @@ u8 studio_event,event_station,event_seen,lounge_near,task_variant,task_mistakes,
 u8 event_order[3];
 u8 pause_help,pause_art,pause_sprite,pause_hud;
 u8 episode,first_medals[3],link_mask,note_hold[3],hold_slot,hold_left,hold_resume;
+u8 rhythm_outro;
 u8 prop_area[2],prop_x[2],prop_mask,collected_props,clue_timer;
 #pragma rodata-name(push, "BOOTDATA")
 const u8 event_stations[3]={1,0,3};
@@ -141,7 +144,7 @@ extern void sprite(u8 x,u8 y,u8 tile,u8 pal);
 void person(u8 x,u8 y,u8 who,u8 step){u8 i,base=step<2?who*12+step*6:56+who*12+(step-2)*6;for(i=0;i<6;++i)sprite(x+(i&1)*8,y+(i>>1)*8,base+i,who);}
 void token(u8 x,u8 key){u8 i;for(i=0;i<4;++i)sprite(x-4+(i&1)*8,172+(i>>1)*8,156+key*4+i,3);}
 void focus(u8 x,u8 y,u8 pal){sprite(x,y,48,pal);sprite(x+12,y,49,pal);sprite(x,y+12,50,pal);sprite(x+12,y+12,51,pal);}
-void off(void){PPUCTRL=0;PPUMASK=0;ex_on=0;REG(0x5104)=2;ready=0;hud_on=0;menu_dirty=0;hide();}
+void off(void){PPUCTRL=0;PPUMASK=0;ex_on=0;REG(0x5104)=2;ready=0;hud_on=0;menu_dirty=0;help_dirty=0;hide();}
 void on(void){REG(0x2005)=0;REG(0x2005)=0;PPUCTRL=0x88;PPUMASK=0x1e;}
 void load_palette(const u8* data,u8 count){u8 i;addr(0x3f00);for(i=0;i<count;++i)PPUDATA=data[i];}
 void blank(void){u16 i;off();chr_bank(0);bg_bank=0;load_palette(palette,32);addr(0x2000);for(i=0;i<960;++i)PPUDATA=32;for(i=0;i<64;++i)PPUDATA=0;}
@@ -156,6 +159,7 @@ void react(u8 which){reaction=which;reaction_time=90;hud_dirty=1;}
 
 void status_update(void){u8 i=0;const char* text="";
  if(mode==LOUNGE)text=lounge_near<3?names[lounge_near]:"ACERCATE A UN PERSONAJE";
+ else if(mode==RHYTHM&&hold_resume)text="RETOMA EL BOTON PARA SEGUIR";
  else if(reaction_time)text=reactions[host][reaction];
  else if(mode==REPAIR){
   if(episode)text=linked_status();
@@ -165,7 +169,7 @@ void status_update(void){u8 i=0;const char* text="";
   else if(studio_event==3)text="EN DIRECTO! REINICIA LA SENAL";
   else if(studio_station<4)text=station_prompts[studio_station];
   else text=remix?"REMIX: UNA TOMA DIFERENTE":"A: REPARA   B: CORRE";
- }else if(mode==RHYTHM)text=hold_resume?"RETOMA EL BOTON PARA SEGUIR":episode&&hold_slot<3?"MANTEN HASTA VACIAR LA BARRA":(episode&&!cue_demo&&!count_in?"NOTAS CON COLA: MANTEN EL BOTON":cue_demo?"PRACTICA: PULSA A EN EL MARCO":(count_in?"CUENTA CUATRO Y SIGUE EL RITMO":act_names[music_act]));
+ }else if(mode==RHYTHM)text=episode&&hold_slot<3?"MANTEN HASTA VACIAR LA BARRA":rhythm_outro?"ULTIMAS NOTAS: CIERRA LA TOMA":(episode&&!cue_demo&&!count_in?"NOTAS CON COLA: MANTEN EL BOTON":cue_demo?"PRACTICA: PULSA A EN EL MARCO":(count_in?"CUENTA CUATRO Y SIGUE EL RITMO":act_names[music_act]));
  else if(mode==SEARCH){
   if(episode&&clue_timer)text=district_count>1?"PISTA: DANIEL ESTA EN ZONA 1":(npc_x[target]<128?"PISTA: MIRA EL LADO IZQUIERDO":"PISTA: MIRA EL LADO DERECHO");
   else text=area_names[district?(round_no==1?3:3+district):round_no];
@@ -264,16 +268,8 @@ load_palette(palette,32);load_palette(plaza_palette[round_no],16);
  }
  addr(0x23c0);for(i=0;i<64;++i)PPUDATA=plaza_attrs[i];
  print(5,4,"BUSCA");print(18,4,"DANIEL");
- /* Navigation occupies only row 28, below every person and cursor rectangle. */
- line_clear(28);
- if(district_count==1)center(28,"A:BUSCA B:LUPA");
- else{
-  print(1,28,"CRUZA:");
-  if(district&1)print(9,28,"<");
-  if(!(district&1)&&district_count>1)print(12,28,">");
-  if(district>=2)print(15,28,"SUBE");
-  if(district_count==4&&district<2)print(21,28,"BAJA");
- }
+ /* Exits are drawn inside reserved border strips, in their travel direction. */
+ line_clear(28);center(28,district_count==1?"A:BUSCA B:LUPA":"CRUZA LA FLECHA PARA VIAJAR");
  rng=saved_rng;hover_npc=cursor_person();feedback=0;search_wait=0;travel_lock=12;
  hud_update();hud_on=1;on();
 }
@@ -284,13 +280,14 @@ void search_round(void){
  search_scene();
 }
 void travel(u8 next,u8 x,u8 y){district=next;cursor_x=x;cursor_y=y;search_scene();}
-void search_intro(void){
- off();chr_bank(47);load_palette(palette,32);load_search_intro();
- mode=SEARCH_INTRO;seconds=60;tick=0;on();
+void character_intro(void){
+ off();chr_bank(host==2?47:50+host*2);load_palette(palette,32);load_character_intro(host);
+ mode=CHARACTER_INTRO;seconds=host==0?75:60;tick=0;hits=repairs=found=round_no=0;paused=0;music_start(host+1);on();
 }
 void start_game(void){
  u8 i,j,k;if(episode&&mode!=MISSION){mission_screen();return;}
- hold_slot=255;hold_left=0;hold_resume=0;collected_props=0;task_mistakes=0;reaction_time=0;music_act=0;studio_event=0;event_seen=0;task_active=0;off();chr_bank(0);bg_bank=0;music_start(host+1);paused=0;attempt_score=0;health=5;misses=0;tick=0;feedback=0;carry=0;hud_dirty=0;cheer=0;rhythm_chain=0;peak_chain=0;hover_npc=255;
+ if(!episode&&mode!=CHARACTER_INTRO){character_intro();return;}
+ hold_slot=255;hold_left=0;hold_resume=0;rhythm_outro=0;collected_props=0;task_mistakes=0;reaction_time=0;music_act=0;studio_event=0;event_seen=0;task_active=0;off();chr_bank(0);bg_bank=0;music_start(host+1);paused=0;attempt_score=0;health=5;misses=0;tick=0;feedback=0;carry=0;hud_dirty=0;cheer=0;rhythm_chain=0;peak_chain=0;hover_npc=255;
  if(host==0){off();chr_bank(4);facing=0;anim_tick=0;load_palette(palette,32);load_resource(5);mode=REPAIR;
   for(i=0;i<3;++i)event_order[i]=i;
   for(i=2;i>0;--i){j=random()%(i+1);k=event_order[i];event_order[i]=event_order[j];event_order[j]=k;}
@@ -301,7 +298,7 @@ void start_game(void){
  }else if(host==1){off();chr_bank(8);anim_tick=0;load_palette(palette,32);load_palette(stage_palette,16);addr(0x3f13);PPUDATA=0x30;load_resource(7);mode=RHYTHM;
   hits=0;perfects=0;judgement=0;cue_key=0;cue_x=60;cue_demo=1;cue_wait=0;pose=0;count_in=0;rhythm_phase=0;chart_step=0;cue_head=255;
   for(i=0;i<3;++i)note_live[i]=0;hud_update();hud_on=1;on();
- }else{round_no=0;found=0;if(episode)search_round();else search_intro();}
+ }else{round_no=0;found=0;search_round();}
 }
 void move(void){u8 nx=px,ny=py,speed=2;
  if(cooldown)--cooldown;
@@ -427,7 +424,7 @@ void repair_second(void){u8 i,j;if(episode){linked_second();return;}hud_dirty=1;
  }
 }
 void act_start(u8 act){u8 i;
- music_act=act;hold_slot=255;hold_left=0;hold_resume=0;for(i=0;i<3;++i)note_live[i]=0;
+ music_act=act;rhythm_outro=0;hold_slot=255;hold_left=0;hold_resume=0;for(i=0;i<3;++i)note_live[i]=0;
  cue_head=255;cue_wait=1;count_in=120;rhythm_phase=0;chart_step=0;
  music_start(episode?8+act:(act==0?2:5+act));reaction_time=0;hud_dirty=1;
 }
@@ -446,7 +443,7 @@ void cue_front(void){u8 i;cue_head=255;cue_wait=1;
  for(i=0;i<3;++i)if(note_live[i]&&(cue_head==255||note_age[i]>note_age[cue_head]))cue_head=i;
  if(cue_head<3){cue_wait=0;cue_key=note_key[cue_head];cue_x=240-note_age[cue_head]*2;}
 }
-void rhythm_step(void){u8 keys,i;
+void rhythm_step(void){u8 keys,i,pending,limit;
  if(hold_resume){if((pad&(A|B|UP|DOWN|LEFT|RIGHT))==cue_masks[note_key[hold_slot]]){hold_resume=0;music_restore=1;hud_dirty=1;}return;}
  keys=pressed&(A|B|UP|DOWN|LEFT|RIGHT);
  if(cue_demo){if(keys==A){cue_demo=0;cue_head=255;cue_result(1);count_in=120;rhythm_phase=0;music_start(episode?8:2);cue_wait=1;}return;}
@@ -455,8 +452,12 @@ void rhythm_step(void){u8 keys,i;
     Episode one enters every two beats; episode two every three, leaving room
     for a held quarter note. Input never changes the music clock. */
  for(i=0;i<3;++i)if(note_live[i]&&i!=hold_slot)++note_age[i];
- if(!rhythm_phase){for(i=0;i<3;++i)if(!note_live[i]){
-  note_live[i]=1;note_age[i]=0;note_hold[i]=episode&&(chart_step&3)==3;note_key[i]=music_act==0?cue_chart[chart_step]:(music_act==1?2+(chart_step&3):cue_chart[(chart_step+12)&31]);if(remix)note_key[i]=(note_key[i]+3)%6;chart_step=(chart_step+1)&31;break;}}
+ /* Reserve only the cues still needed by this act. A miss opens a new slot. */
+ pending=hits;for(i=0;i<3;++i)if(note_live[i])++pending;
+ limit=music_act==2?rhythm_goal():(episode?(music_act?33:17):(music_act?13:7));
+ if(!rhythm_phase&&pending<limit){for(i=0;i<3;++i)if(!note_live[i]){
+  note_live[i]=1;note_age[i]=0;note_hold[i]=episode&&(chart_step&3)==3;note_key[i]=music_act==0?cue_chart[chart_step]:(music_act==1?2+(chart_step&3):cue_chart[(chart_step+12)&31]);if(remix)note_key[i]=(note_key[i]+3)%6;chart_step=(chart_step+1)&31;++pending;break;}}
+ if(music_act==2&&rhythm_outro!=(pending>=limit)){rhythm_outro=pending>=limit;hud_dirty=1;}
  if(++rhythm_phase==(episode?90:60))rhythm_phase=0;
  if(hold_slot<3){
   cue_head=hold_slot;cue_key=note_key[hold_slot];
@@ -514,7 +515,7 @@ void search_step(void){u8 speed=pad&B?1:2,moved=0;
 }
 void draw(void){u8 i,x,y,step;hide();sprite_bank=(mode==SEARCH||(mode==RHYTHM&&episode))?184:96;
  if(paused||mode==HELP||mode==MISSION){art_bank=49;sprite_bank=96;return;}
- if(mode==SEARCH_INTRO){art_bank=47;return;}
+ if(mode==CHARACTER_INTRO){art_bank=host==2?47:50+host*2;return;}
  /* NMI applies the requested frame atomically in vblank. No tile uploads in play. */
  if(mode==RESULT)art_bank=49;
  else if(mode==HUB||mode==ENDING)art_bank=(anim_tick&31)<5?(anim_tick>>5)&3:0;
@@ -626,12 +627,12 @@ void main(void){mode=HUB;host=0;completed=0;rng=91;score=0;best=0;previous_targe
   }else if(mode==HELP){
    audio();random();
    if(pressed&B)hub();
-   else if(pressed&(LEFT|RIGHT|SELECT)){host=(pressed&LEFT)?(host?host-1:2):(host+1)%3;help_screen();sound(4);}
+   else if(pressed&(LEFT|RIGHT|SELECT)){host=(pressed&LEFT)?(host?host-1:2):(host+1)%3;help_selection();sound(4);}
    else if(pressed&(A|START)){if(!(completed&masks[host]))start_game();else sound(2);}
   }else if(mode==MISSION){
    audio();if(pressed&B)hub();else if(pressed&(A|START))start_game();
-  }else if(mode==SEARCH_INTRO){
-   audio();random();if(pressed&B)hub();else if(pressed&(A|START))search_round();
+  }else if(mode==CHARACTER_INTRO){
+   audio();random();if(pressed&B)hub();else if(pressed&(A|START))start_game();
   }else if(mode==LOUNGE){
    audio();random();
    if((pad&LEFT)&&px>16)px-=2;if((pad&RIGHT)&&px<224)px+=2;

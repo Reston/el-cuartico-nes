@@ -1,5 +1,8 @@
 # Episodio 2: En directo · v0.12.0
 
+La revisión [v0.12.1](ENTRADAS-CONTROLES.md) añade entradas de personajes, ayuda
+sin parpadeos, flechas en los bordes y un cierre de notas más claro.
+
 La campaña tiene dos episodios y seis misiones. Tras ganar los tres juegos de la
 primera grabación, pulsa **A** para continuar al directo. Conservas los puntos y
 las medallas del episodio anterior; puedes elegir el orden de las tres misiones

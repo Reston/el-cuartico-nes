@@ -1,22 +1,26 @@
-EL CUARTICO: ESTAMOS GRABANDO! - v0.12.0 - MMC5
+EL CUARTICO: ESTAMOS GRABANDO! - v0.12.1 - MMC5
 DOS EPISODIOS, SEIS MISIONES.
 
-Abre el-cuartico-v0.12.0-mmc5.nes. Control 1, NTSC, velocidad normal.
+Abre el-cuartico-v0.12.1-mmc5.nes. Control 1, NTSC, velocidad normal.
 Inicia desde cero, sin estados guardados de otra version.
 
 MENU: izquierda/derecha o SELECT elige. A/START juega. B abre el estudio.
 Arriba abre la ayuda. En el estudio, camina hasta un personaje y pulsa A.
 
 EPISODIO 1
+Cada personaje tiene una intro: Chuchito el Rufian, The Lion Queen y Dany.
+A/START confirma; B vuelve al menu. El reloj espera en las tres tarjetas.
 CHUCHO: 12 reparaciones. Cruceta mueve, B corre y A abre el panel.
 Cables: arriba/abajo y A. Enfoque: izquierda/derecha y A.
 Mezcladora: A en el recuadro. Memoria: mira y repite las direcciones.
 B cierra el panel. SIN LIMITE: reloj y averias esperan dentro de los puzles.
 Tras 3, 6 y 9 reparaciones, resuelve el evento indicado para conseguir su premio.
 ESTEFANIA: 20 aciertos antes de cinco fallos. Primera A de practica.
-Pulsa el simbolo al llegar al recuadro. Cada nuevo acto cuenta cuatro tiempos.
-DANIEL: A/START comienza desde la intro; B vuelve al menu. El reloj espera.
-Explora uno, dos y cuatro lugares. CRUZA indica salidas. B: lupa. A: elige.
+Las notas vienen de la derecha: pulsa el simbolo al llegar al marco izquierdo.
+Cada acto cuenta cuatro tiempos. Dejan de entrar notas extra antes del cierre.
+Si fallas la ultima nota, puedes recuperarte con otra. No hay cuenta atras.
+DANIEL: explora uno, dos y cuatro lugares. B: lupa. A: elige.
+Las flechas en los bordes despejados indican por donde pasar a otra zona.
 Una respuesta incorrecta cuesta cinco segundos.
 
 Al conseguir los tres sellos, A continua al EPISODIO 2: EN DIRECTO.
@@ -43,4 +47,4 @@ En ambos finales, B anima la fiesta y START comienza una campana normal.
 REMIX: otras notas, tres enfoques, cuatro senales y mas senuelos en episodio 1.
 
 El progreso dura esta sesion. No se anade guardado por bateria.
-Guia: README.md y docs/SEGUNDO-EPISODIO.md.
+Guia: README.md, docs/SEGUNDO-EPISODIO.md y docs/ENTRADAS-CONTROLES.md.

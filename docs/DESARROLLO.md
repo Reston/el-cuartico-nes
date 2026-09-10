@@ -3,7 +3,7 @@
 ## Cartucho y código
 
 El juego usa un encabezado iNES, mapper **MMC5 (5)**, 128 KiB de PRG y 256 KiB de
-CHR. Hay 50 bancos gráficos de 4 KiB ocupados. La memoria de batería no se utiliza.
+CHR. Hay 54 bancos gráficos de 4 KiB ocupados. La memoria de batería no se utiliza.
 
 - `src/game.c`: estados, entrada, campaña y minijuegos.
 - `src/start.s`: arranque 6502, NMI, DMA de sprites y configuración MMC5.
@@ -15,6 +15,7 @@ CHR. Hay 50 bancos gráficos de 4 KiB ocupados. La memoria de batería no se uti
 - `src/presentation.h`: ayuda, pausa y resultados.
 - `src/episode2.h`: misiones del directo, objetos y transición de campaña.
 - `assets/presentation.py`: tarjeta gráfica compartida por estas pantallas.
+- `assets/character_intros.py`: pósteres de Chuchito y The Lion Queen.
 
 Los recursos se generan sin leer fotografías externas. Las imágenes del README
 son ilustración y capturas del juego; no son necesarias para compilar.
@@ -33,9 +34,9 @@ El objetivo del mezclador cambia entre aciertos y no depende de una posición fi
 
 ## Pruebas
 
-Primero compila con `./build.ps1`. `tools/test_all.py` ejecuta once suites de
-FCEUmm; `--mesen` añade tres suites independientes con Mesen: campaña original,
-restauración de imagen y campaña completa de dos episodios. Los resultados se
+Primero compila con `./build.ps1`. `tools/test_all.py` ejecuta doce suites de
+FCEUmm; `--mesen` añade cuatro suites independientes con Mesen: campaña original,
+restauración de imagen, campaña completa de dos episodios y tarjetas/ayuda. Los resultados se
 guardan en `build/`, junto a la ROM de trabajo, símbolos y capturas. Cada suite
 falla con un código distinto de cero si detecta una regresión.
 
@@ -194,3 +195,36 @@ reanudación, música, objetos opcionales, visitas repetidas, reinicios y presup
 de sprites/cuadros. `second_episode_mesen.lua` recorre ambos episodios con su propio
 controlador, verifica los textos de resultados y compara el fondo y la paleta de
 los tres juegos antes y después de pausa y ayuda. No escriben RAM ni cargan estados.
+
+
+## Entradas y controles v0.12.1
+
+CHARACTER_INTRO (7) amplía la entrada a los tres personajes del primer episodio,
+incluidos sus reintentos y la elección desde el estudio o la ayuda. Conserva
+A/Start para confirmar, B para volver y la espera sin reloj. La segunda grabación
+mantiene sus tarjetas de misión. Los nuevos pósteres usan CHR 50–53; sus mapas,
+atributos y paletas ocupan PRG 2. El cargador fijo restaura PRG 12 antes de volver
+a C. La intro original de Dany sigue usando PRG 0 y CHR 47/48.
+
+La ayuda prepara siete filas en un búfer de 224 bytes. Una rutina 6502 centra el
+texto sin exceder el tiempo de un cuadro. NMI publica solo las 26 columnas interiores
+de cada fila, 182 bytes en total. En ese cuadro omite el DMA de OAM ya vacío: la
+pantalla no tiene sprites que actualizar. Conserva los bordes, la paleta y la
+imagen completa durante los cambios rápidos. Los controles inferiores están en
+las filas 25 y 27, separados de la línea inferior del marco.
+
+El generador de plazas despeja franjas laterales de 16 píxeles y franjas superior
+e inferior de ocho. Las flechas forman parte del fondo y dependen de las conexiones
+del distrito. No cambian posiciones de personas, objetos, límites del cursor ni
+la selección por distancia. Los rótulos de tiendas quedan encima del borde superior.
+
+Antes de crear una nota se cuenta el total de aciertos más notas activas. Si ya
+alcanza el objetivo del acto, se espera a resolver esa cola. Fallar libera una plaza;
+la nota de reemplazo conserva la cadencia musical. El último acierto vacía la pista,
+también con sostenidas, sin cambiar las ventanas de pulsación ni los objetivos.
+
+`usability_test.py` comprueba tarjetas, permanencia, salida, reintentos, reinicio,
+cada imagen de cambios rápidos de ayuda, direcciones visibles y fallos de la última
+nota en ambos episodios. `usability_mesen.lua` valida de forma independiente el
+mapa cargado, las imágenes y los cuadros de ayuda. La campaña de Mesen comprueba
+también que ningún acto cree notas sobrantes. Las pruebas usan únicamente controles.

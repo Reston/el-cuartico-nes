@@ -59,7 +59,7 @@ end
 local function launch(host)
  assert(r('mode')==0)
  for _=1,3 do if r('host')==host then break end;press('right') end
- press('a');if host==2 then assert(r('mode')==7);press('a') end
+ press('a');assert(r('mode')==7);press('a')
  frames(20);assert(r('mode')==host+1)
 end
 local function go(x,y)
