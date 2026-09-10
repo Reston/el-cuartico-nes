@@ -1,8 +1,8 @@
 .export _wait_frame, _pad_read, _main_entry
 .export __STARTUP__ : absolute = 1
 .export _frame, _ready, _hud, _hud_on, _art_bank, _sprite_bank, _ex_on, _title_extended
-.export _menu_dirty, _menu_rows, _status_row
-.import _main, _spr, _mode, _music_act, zerobss, copydata, incsp3
+.export _menu_dirty, _menu_rows, _status_row, _pause_palette
+.import _main, _spr, _mode, _music_act, _paused, _plaza_attrs, zerobss, copydata, incsp3
 .importzp c_sp, ptr1
 .segment "HEADER"
 .byte "NES",$1A,8,32,$50,0,0,0,0,0,0,0,0,0
@@ -17,6 +17,8 @@ _ex_on: .res 1
 _menu_dirty: .res 1
 _menu_rows: .res 96
 _status_row: .res 32
+_pause_palette: .res 32
+resource_id: .res 1
 .segment "STARTUP"
 _main_entry:
  sei
@@ -195,6 +197,8 @@ nmi:
  sta $5104
 @normal:
  ; Musical act lighting changes only during vblank, without stopping the chart.
+ lda _paused
+ bne @lighting_done
  lda _mode
  cmp #2
  bne @lighting_done
@@ -352,6 +356,130 @@ _load_search_intro:
  lda #1
  sta $5104
  rts
+.export _load_resource, _pause_capture, _pause_restore
+; Four district maps and the UI slate share the unused portion of PRG bank 0.
+; Execute in the fixed bank and restore the C code mapping before returning.
+_load_resource:
+ sta resource_id
+ tax
+ lda resource_lo,x
+ sta ptr1
+ lda resource_hi,x
+ sta ptr1+1
+ lda #$80
+ sta $5114
+ bit $2002
+ lda #$20
+ sta $2006
+ lda #0
+ sta $2006
+ ldx #4
+ ldy #0
+@page:
+ lda (ptr1),y
+ sta $2007
+ iny
+ bne @page
+ inc ptr1+1
+ dex
+ bne @page
+ lda resource_id
+ cmp #4
+ bcs @mapped
+ dec ptr1+1
+ ldy #$c0
+@attrs:
+ lda (ptr1),y
+ sta _plaza_attrs,x
+ inx
+ iny
+ bne @attrs
+@mapped:
+ lda #$8c
+ sta $5114
+ rts
+resource_lo: .lobytes district_maps,district_maps+$400,district_maps+$800,district_maps+$c00,ui_map
+resource_hi: .hibytes district_maps,district_maps+$400,district_maps+$800,district_maps+$c00,ui_map
+; Pause owns ExRAM only while ordinary nametable rendering is active.
+; Snapshot the exact picture, including a live puzzle or a populated district.
+_pause_capture:
+ bit $2002
+ lda #$20
+ sta $2006
+ lda #0
+ sta $2006
+ lda $2007
+ ldx #0
+@save0:
+ lda $2007
+ sta $5c00,x
+ inx
+ bne @save0
+@save1:
+ lda $2007
+ sta $5d00,x
+ inx
+ bne @save1
+@save2:
+ lda $2007
+ sta $5e00,x
+ inx
+ bne @save2
+@save3:
+ lda $2007
+ sta $5f00,x
+ inx
+ bne @save3
+ lda #$3f
+ sta $2006
+ lda #0
+ sta $2006
+@palette:
+ lda $2007
+ and #$3f
+ sta _pause_palette,x
+ inx
+ cpx #32
+ bne @palette
+ rts
+_pause_restore:
+ bit $2002
+ lda #$20
+ sta $2006
+ lda #0
+ sta $2006
+ ldx #0
+@copy0:
+ lda $5c00,x
+ sta $2007
+ inx
+ bne @copy0
+@copy1:
+ lda $5d00,x
+ sta $2007
+ inx
+ bne @copy1
+@copy2:
+ lda $5e00,x
+ sta $2007
+ inx
+ bne @copy2
+@copy3:
+ lda $5f00,x
+ sta $2007
+ inx
+ bne @copy3
+ lda #$3f
+ sta $2006
+ lda #0
+ sta $2006
+@palette:
+ lda _pause_palette,x
+ sta $2007
+ inx
+ cpx #32
+ bne @palette
+ rts
 .segment "INTRODATA"
 intro_map: .incbin "assets/dany-intro.nam"
 intro_exram: .incbin "assets/dany-intro.exram"
@@ -365,12 +493,12 @@ _stage: .incbin "assets/stage.nam"
 _plaza: .incbin "assets/plaza0.nam"
 .incbin "assets/plaza1.nam"
 .incbin "assets/plaza2.nam"
-.segment "RODATA"
-.export _districts
-_districts: .incbin "assets/district11.nam"
+.segment "PRESENTATIONDATA"
+district_maps: .incbin "assets/district11.nam"
 .incbin "assets/district21.nam"
 .incbin "assets/district22.nam"
 .incbin "assets/district23.nam"
+ui_map: .incbin "assets/presentation.nam"
 .segment "CHARS"
 .incbin "assets/mmc5.chr"
 .segment "VECTORS"

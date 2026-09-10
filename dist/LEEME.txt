@@ -1,7 +1,7 @@
-EL CUARTICO: ESTAMOS GRABANDO! - v0.10.2 - MMC5
-Version de prueba para el PR: feature/dany-intro-portraits.
+EL CUARTICO: ESTAMOS GRABANDO! - v0.11.0 - MMC5
+Presentacion v0.11.0: ayuda, pausa y resultados.
 
-Abre el-cuartico-v0.10.2-mmc5.nes. Control 1, NTSC, velocidad normal.
+Abre el-cuartico-v0.11.0-mmc5.nes. Control 1, NTSC, velocidad normal.
 Inicia desde cero, sin estados guardados de otra version.
 
 MENU: izquierda/derecha o SELECT elige. A/START juega. B abre el estudio.
@@ -29,4 +29,10 @@ A desde el final: REMIX. START desde el final: nueva campana normal.
 REMIX: mas senuelos, otras notas, tres enfoques y cuatro senales.
 Los paneles siguen sin limite de tiempo. No hay guardado por bateria.
 
-Guia: https://github.com/Reston/el-cuartico-nes/blob/feature/dany-intro-portraits/docs/INTRO-RETRATOS.md
+Guia y novedades: consulta README.md y docs/PULIDO-PRESENTACION.md.
+
+PRESENTACION V0.11.0
+Arriba en la seleccion abre la ayuda de cada personaje.
+Start pausa. Select en pausa muestra controles del juego o puzle actual.
+Dentro de esos controles, B/Select vuelve a la pausa y Start continua.
+Los resultados muestran objetivo, errores, puntos, medallas y sellos.

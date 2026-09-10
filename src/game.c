@@ -1,4 +1,4 @@
-/* El Cuartico v0.10.2: Dany title card and photo-referenced menu portraits. */
+/* El Cuartico v0.11.0: contextual help, exact pause restoration and result slates. */
 typedef unsigned char u8;
 typedef unsigned int u16;
 #define REG(a) (*(volatile u8*)(a))
@@ -23,6 +23,7 @@ typedef unsigned int u16;
 #define ENDING 5
 #define LOUNGE 6
 #define SEARCH_INTRO 7
+#define HELP 8
 #define SPR_BASE 0
 #define SPARK 236
 #define CROSS 237
@@ -39,7 +40,10 @@ extern volatile u8 menu_dirty;
 extern volatile u8 ex_on;
 extern void title_extended(void);
 extern void load_search_intro(void);
-extern const u8 studio[1024],title[1024],stage[1024],plaza[3072],districts[4096];
+extern const u8 studio[1024],title[1024],stage[1024],plaza[3072];
+extern void __fastcall__ load_resource(u8 resource);
+extern void pause_capture(void);
+extern void pause_restore(void);
 
 /* Exposed symbols support real-controller emulator integration tests. */
 u8 mode,host,completed,last_win,seconds,health,carry,combo,paused;
@@ -62,6 +66,7 @@ u16 score,best,attempt_score;
 u8 medals[3],remix,remix_unlocked,music_act,reaction,reaction_time;
 u8 studio_event,event_station,event_seen,lounge_near,task_variant,task_mistakes,finale_cheer;
 u8 event_order[3];
+u8 pause_help,pause_art,pause_sprite,pause_hud;
 #pragma rodata-name(push, "BOOTDATA")
 const u8 event_stations[3]={1,0,3};
 const char* const reactions[3][3]={
@@ -81,6 +86,7 @@ const u8 faces[24]={24,25,26,27, 0,1,2,3, 12,13,14,15,
 const char* const names[3]={"CHUCHO","ESTEFANIA","DANIEL"};
 const char* const titles[3]={"LA GRABACION","EL SKETCH","DONDE ESTA DANIEL?"};
 const char* const goals[3]={"12 TOMAS EN VIVO","20 ACIERTOS","3 ENCUENTROS"};
+const char* const station_prompts[4]={"A: CONECTAR LOS CABLES","A: AJUSTAR EL ENFOQUE","A: ATRAPAR LA SENAL","A: REINICIAR LA SENAL"};
 const u8 palette[32]={
  0x0f,0x07,0x27,0x30, 0x0f,0x07,0x17,0x27,
  0x0f,0x07,0x17,0x37, 0x0f,0x00,0x10,0x30,
@@ -149,15 +155,15 @@ void status_update(void){u8 i=0;const char* text="";
   else if(studio_event==1)text="SIN LUZ! REVISA LA CAMARA";
   else if(studio_event==2)text="ACOPLE! CONECTA LOS CABLES";
   else if(studio_event==3)text="EN DIRECTO! REINICIA LA SENAL";
+  else if(studio_station<4)text=station_prompts[studio_station];
   else text=remix?"REMIX: UNA TOMA DIFERENTE":"A: REPARA   B: CORRE";
- }else if(mode==RHYTHM)text=act_names[music_act];
+ }else if(mode==RHYTHM)text=cue_demo?"PRACTICA: PULSA A EN EL MARCO":(count_in?"CUENTA CUATRO Y SIGUE EL RITMO":act_names[music_act]);
  else if(mode==SEARCH)text=area_names[district?(round_no==1?3:3+district):round_no];
  while(*text&&i<32)status_row[i++]=*text++;while(i<32)status_row[i++]=32;
 }
 void hud_update(void){
  status_update();
  if(mode==LOUNGE){hud_text(remix?" ESTUDIO - EPISODIO REMIX":" ESTUDIO - ELIGE TU JUEGO");return;}
- if(paused){hud_text(" START:SIGUE A:RETRY B:SALIR");return;}
  if(mode==REPAIR){
   if(task_active){hud_text(" REPARA 00/12  SIN LIMITE");hud_two(8,repairs);}
   else{hud_text(" EN VIVO 00/12 75S RACHA X1");hud_two(9,repairs);hud_two(15,seconds);hud[26]='0'+combo;}
@@ -178,13 +184,15 @@ void menu_selection(void){
  menu_dirty=1;
 }
 
+#include "presentation.h"
+
 void hub(void){
  u8 i;off();chr_bank(0);bg_bank=0;anim_tick=0;if(music_track!=0)music_start(0);paused=0;load_palette(palette,32);load_palette(title_palette,16);background(title);title_extended();
  line_clear(14);center(14,titles[host]);line_clear(24);center(24,names[host]);
  line_clear(26);center(26,(completed&masks[host])?"LISTO!":goals[host]);
  for(i=0;i<3;++i)if(completed&masks[i])print(6+i*8,23,"OK");
+ line_clear(10);episode_progress(10);line_clear(12);center(12,"ARRIBA: COMO JUGAR");
  line_clear(28);center(28,"< > ELIGE A:JUEGA B:ESTUDIO");
- if(remix){line_clear(10);center(10,"EPISODIO REMIX");}
  mode=HUB;on();
 }
 void lounge(void){u8 x,y;
@@ -197,7 +205,7 @@ void lounge(void){u8 x,y;
 void ending(void){
  off();chr_bank(0);bg_bank=0;music_start(4);paused=0;if(score>best)best=score;load_palette(palette,32);load_palette(title_palette,16);background(title);title_extended();
  line_clear(14);center(14,"EPISODIO PUBLICADO!");line_clear(24);print(7,24,"PUNTOS");number(17,24,score);
- remix_unlocked=1;finale_cheer=120;line_clear(10);center(10,"B: APLAUSOS!");
+ remix_unlocked=1;finale_cheer=120;line_clear(10);center(10,"B: APLAUSOS!");episode_progress(12);
  line_clear(26);center(26,medals[0]==3&&medals[1]==3&&medals[2]==3?"TRES TOMAS PERFECTAS!":"LOS TRES LO HICIERON");
  line_clear(28);center(28,"A:REMIX START:NUEVO");mode=ENDING;on();
 }
@@ -205,11 +213,7 @@ void finish(u8 won){
  last_win=won;paused=0;result_grade=won?((misses==0&&task_mistakes==0)?3:((misses<=2&&task_mistakes<=2)?2:1)):0;
  if(won){medals[host]=result_grade;if(!(completed&masks[host]))score+=attempt_score;completed|=masks[host];sound(1);if(completed==7){ending();return;}}
  else sound(2);
- blank();load_palette(title_palette,16);background(title);title_extended();
- line_clear(14);center(14,won?(result_grade==3?"TOMA PERFECTA!":"LISTO!"):"OTRA TOMA");line_clear(24);center(24,names[host]);
- line_clear(26);print(7,26,"PUNTOS");number(17,26,attempt_score);
- line_clear(28);center(28,won?"START: SIGUE":"A: RETRY  B: SALIR");
- mode=RESULT;music_start(won?4:5);on();
+ result_screen();
 }
 void search_person(u8 x,u8 y,u8 type){u8 row,i;
  for(row=0;row<3;++row){addr(0x2000+((u16)(y/8+row)<<5)+x/8);
@@ -218,12 +222,14 @@ void search_person(u8 x,u8 y,u8 type){u8 row,i;
 void search_scene(void){u8 i,j,k,swap,x,y,at,shift,saved_rng;const u8* area;
  off();mode=SEARCH;scene_bank=12+round_no*4;
  area=plaza+((u16)round_no<<10);
- if(district){i=round_no==1?0:district;scene_bank=30+i*4;area=districts+((u16)i<<10);}
+ if(district){i=round_no==1?0:district;scene_bank=30+i*4;}
  chr_bank(scene_bank);bg_bank=1;visited|=1<<district;
  saved_rng=rng;rng=world_seed+district*37;if(!rng)rng=91;
 load_palette(palette,32);load_palette(plaza_palette[round_no],16);
  /* A dark cursor stays visible over the light stone paving. */
- addr(0x3f1f);PPUDATA=0x0f;background(area);
+ addr(0x3f1f);PPUDATA=0x0f;
+ if(district)load_resource(round_no==1?0:district);
+ else{background(area);for(i=0;i<64;++i)plaza_attrs[i]=area[960+i];}
  /* Original full-body people sit on the plaza paths; the exact face occurs once. */
  crowd_count=(remix?16:12)+round_no*4;
  for(i=0;i<24;++i)spots[i]=i;
@@ -234,7 +240,6 @@ load_palette(palette,32);load_palette(plaza_palette[round_no],16);
   previous_target=spots[target];
  }
  if(district!=target_district)target=255;
- for(i=0;i<64;++i)plaza_attrs[i]=area[960+i];
  for(i=0;i<crowd_count;++i){
   npc_x[i]=district&1?240-place_x[spots[i]]:place_x[spots[i]];npc_y[i]=place_y[spots[i]];
   crowd[i]=i==target?0:1+random()%5;search_person(npc_x[i],npc_y[i],crowd[i]);
@@ -304,8 +309,9 @@ void studio_success(u8 i){
  if(repairs==12){attempt_score+=seconds*10;finish(1);}
 }
 u8 studio_near(u8 i){return i==1?(px>=184&&py<=104):is_near(sx[i],sy[i]);}
-void repair_action(void){u8 i;studio_station=255;
+void repair_action(void){u8 i,previous=studio_station;studio_station=255;
  for(i=0;i<4;++i)if(alarm[i]&&studio_near(i)){studio_station=i;break;}
+ if(studio_station!=previous)hud_dirty=1;
  if((pressed&A)&&studio_station<4)task_open(studio_station);
 }
 void studio_step(void){
@@ -423,7 +429,7 @@ void cue_front(void){u8 i;cue_head=255;cue_wait=1;
 void rhythm_step(void){u8 keys,i;
  keys=pressed&(A|B|UP|DOWN|LEFT|RIGHT);
  if(cue_demo){if(keys==A){cue_demo=0;cue_head=255;cue_result(1);count_in=120;rhythm_phase=0;music_start(2);cue_wait=1;}return;}
- if(count_in){--count_in;return;}
+ if(count_in){if(!--count_in)hud_dirty=1;return;}
  /* Cue age 90 is the target center, exactly three 30-frame beats after spawn.
     A new cue enters every two beats; input never changes the music clock. */
  for(i=0;i<3;++i)if(note_live[i])++note_age[i];
@@ -474,9 +480,11 @@ void search_step(void){u8 speed=pad&B?1:2,moved=0;
  if(++tick==60){tick=0;hud_dirty=1;if(seconds)--seconds;if(!seconds)finish(0);}
 }
 void draw(void){u8 i,x,y,step;hide();sprite_bank=mode==SEARCH?184:96;
+ if(paused||mode==HELP){art_bank=49;sprite_bank=96;return;}
  if(mode==SEARCH_INTRO){art_bank=47;return;}
  /* NMI applies the requested frame atomically in vblank. No tile uploads in play. */
- if(mode==HUB||mode==ENDING||mode==RESULT)art_bank=(anim_tick&31)<5?(anim_tick>>5)&3:0;
+ if(mode==RESULT)art_bank=49;
+ else if(mode==HUB||mode==ENDING)art_bank=(anim_tick&31)<5?(anim_tick>>5)&3:0;
  else if(mode==REPAIR||mode==LOUNGE)art_bank=4+((anim_tick>>4)&3);
  else if(mode==RHYTHM)art_bank=8+((song_step>>1)&3);
  else art_bank=scene_bank+((anim_tick>>4)&3);
@@ -493,12 +501,12 @@ void draw(void){u8 i,x,y,step;hide();sprite_bank=mode==SEARCH?184:96;
   for(i=0;i<3;++i)if(completed&masks[i])sprite(84+i*64,184,medals[i]==3?MEDAL:39,3);
   if(mode==ENDING){
    if(finale_cheer){art_bank=(anim_tick>>3)&3;for(i=0;i<3;++i){sprite(32+i*64,160+(anim_tick&7),SPARK,3);sprite(80+i*64,176-(anim_tick&7),SPARK,3);}}
-   for(i=0;i<8;++i)sprite(24+i*28,40+((anim_tick+i*23)%64),SPARK,3);
+   for(i=0;i<8;++i)sprite(24+i*28,40+((anim_tick+i*23)%64),SPARK,35);
    for(i=0;i<3;++i)sprite(48+i*64,184,medals[i]==3?MEDAL:39,3);
   }return;
  }
- if(mode==RESULT){sprite(24,112,last_win?39:CROSS,3);
-  for(i=0;i<3;++i)sprite(104+i*16,100,i<result_grade?MEDAL:40,3);
+ if(mode==RESULT){sprite(32,80,last_win?39:CROSS,3);
+  if(last_win)for(i=0;i<3;++i)sprite(104+i*16,112,i<result_grade?MEDAL:40,3);
   return;
  }
  if(mode==REPAIR){
@@ -575,10 +583,16 @@ void main(void){mode=HUB;host=0;completed=0;rng=91;score=0;best=0;previous_targe
   if(!paused)++anim_tick;draw();wait_frame();oldpad=pad;pad=pad_read();pressed=pad&~oldpad;
   if(mode==HUB){
    audio();random();
-   if(pressed&(RIGHT|SELECT)){host=(host+1)%3;menu_selection();sound(1);}
-   else if(pressed&LEFT){host=host?host-1:2;menu_selection();sound(1);}
+   if(pressed&(RIGHT|SELECT)){host=(host+1)%3;menu_selection();sound(4);}
+   else if(pressed&LEFT){host=host?host-1:2;menu_selection();sound(4);}
+   else if(pressed&UP){menu_help();sound(4);}
    else if(pressed&B)lounge();
    else if(pressed&(START|A)){if(!(completed&masks[host]))start_game();else sound(2);}
+  }else if(mode==HELP){
+   audio();random();
+   if(pressed&B)hub();
+   else if(pressed&(LEFT|RIGHT|SELECT)){host=(pressed&LEFT)?(host?host-1:2):(host+1)%3;help_screen();sound(4);}
+   else if(pressed&(A|START)){if(!(completed&masks[host]))start_game();else sound(2);}
   }else if(mode==SEARCH_INTRO){
    audio();random();if(pressed&B)hub();else if(pressed&(A|START))search_round();
   }else if(mode==LOUNGE){
@@ -590,8 +604,11 @@ void main(void){mode=HUB;host=0;completed=0;rng=91;score=0;best=0;previous_targe
    hud_update();if(pressed&B)hub();
    else if((pressed&A)&&lounge_near<3){host=lounge_near;if(!(completed&masks[host]))start_game();else sound(2);}
   }else if(mode>=REPAIR&&mode<=SEARCH){
-   if(pressed&START){paused=!paused;if(paused)silence();else music_restore=1;hud_update();continue;}
-   if(paused){if(pressed&B)hub();else if(pressed&A)start_game();continue;}
+   if(pressed&START){if(paused)pause_close();else pause_open();continue;}
+   if(paused){
+    if((pressed&SELECT)||(pause_help&&(pressed&B))){pause_help=!pause_help;if(pause_help)help_screen();else pause_screen();}
+    else if(pressed&B)hub();else if((pressed&A)&&!pause_help)start_game();continue;
+   }
    audio();if(reaction_time){--reaction_time;if(!reaction_time)hud_dirty=1;}if(feedback)--feedback;if(cheer)--cheer;
    if(mode==REPAIR){studio_step();if(mode==REPAIR&&!task_active&&++tick==60){tick=0;repair_second();}}
    else if(mode==RHYTHM)rhythm_step();
