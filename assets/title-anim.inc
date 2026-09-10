@@ -18,6 +18,22 @@
  lda _art_bank
  clc
  adc #64
+ sta $5e2e
+ lda _art_bank
+ clc
+ adc #64
+ sta $5e2f
+ lda _art_bank
+ clc
+ adc #64
+ sta $5e30
+ lda _art_bank
+ clc
+ adc #64
+ sta $5e31
+ lda _art_bank
+ clc
+ adc #64
  sta $5e46
  lda _art_bank
  clc
@@ -31,6 +47,10 @@
  clc
  adc #64
  sta $5e49
+ lda _art_bank
+ clc
+ adc #64
+ sta $5e4e
  lda _art_bank
  clc
  adc #64
