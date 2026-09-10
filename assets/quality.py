@@ -436,6 +436,27 @@ def build(root,FONT,rect,text,pack,sprites):
         encode('district'+str(scene)+str(district),frames,pal,True)
     # Search-only sprite bank keeps the reference face consistent with the crowd.
     search_sprites=sprites[:];search_sprites[24:28]=search_tiles[:4]
+    # Optional episode-two props occupy otherwise unused search-only sprite tiles.
+    for item in range(2):
+        q=Image.new('L',(16,16));d=ImageDraw.Draw(q)
+        if item==0:
+            d.ellipse((4,0,11,8),fill=2,outline=1)
+            d.line((5,3,10,3),fill=1);d.line((5,5,10,5),fill=1)
+            d.rectangle((7,8,8,14),fill=1);d.line((4,15,11,15),fill=1)
+        else:
+            d.rectangle((2,0,13,15),fill=2,outline=1)
+            for y in (4,7,10):d.line((5,y,10,y),fill=1)
+            d.point((11,13),fill=2)
+        for j in range(4):
+            xx,yy=(j&1)*8,(j>>1)*8
+            search_sprites[72+item*4+j]=pack(q.crop((xx,yy,xx+8,yy+8)))
+    # The live routine shares this variant sprite page; these slots are not used
+    # by search cursors, the lens, or Estefania's full-size performer.
+    for tile in (80,81):
+        q=Image.new('L',(8,8));d=ImageDraw.Draw(q)
+        d.rectangle((0,3,7 if tile==80 else 5,4),fill=3)
+        if tile==81:d.rectangle((5,1,6,6),fill=2)
+        search_sprites[tile]=pack(q)
     assert len(banks)==46
     banks.append(b''.join(search_sprites))
     from dany_intro import build_intro

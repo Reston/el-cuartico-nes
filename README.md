@@ -3,19 +3,45 @@ Este juego fue creado enteramente con IA para probar las capacidades de Astra.
 
 # El Cuartico: ¡Estamos grabando!
 
-**Tres personajes. Tres juegos. Un episodio por publicar.**
+**Tres personajes. Seis misiones. Dos episodios por publicar.**
 
 <img src="docs/media/portada.png" alt="Portada ilustrada de El Cuartico: Estamos grabando" width="260">
 
-**NES · MMC5 · Un jugador · v0.11.0**
+**NES · MMC5 · Un jugador · v0.12.0**
 
-[🎮 Descargar ROM](dist/el-cuartico-v0.11.0-mmc5.nes?raw=1) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
+[🎮 Descargar ROM](dist/el-cuartico-v0.12.0-mmc5.nes?raw=1) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
 Un juego *homebrew* inspirado en **El Cuartico**, hecho para jugarse en emuladores
 de NES. Elige a **Chucho, Estefania o Daniel** y completa sus desafíos en el orden
-que quieras. Cada victoria deja un sello; consigue los tres para publicar el episodio.
+que quieras dentro de cada episodio. Cada victoria deja un sello; consigue los tres
+para cerrar la primera grabación y pulsa **A** para continuar con el episodio en directo.
+La campaña reúne seis misiones y conserva los puntos entre los dos episodios.
+
+## Episodio 2 · En directo
+
+La segunda grabación tiene una misión nueva para cada personaje. Puedes elegir
+su orden, consultar la ayuda y volver al estudio entre intentos.
+
+| Personaje | Nueva misión |
+| --- | --- |
+| **Chucho** | Restablece energía, cámara y mezcla; reinicia la señal para cerrar cada uno de los tres enlaces. Tú eliges el orden de cámara y mezcladora. |
+| **Estefania** | Completa una rutina de 49 aciertos con notas sostenidas y tres composiciones nuevas. Mantén las notas con cola hasta que termine su barra. |
+| **Daniel** | Encuéntralo en tres mundos más poblados. Hay dos objetos opcionales por mundo: un micrófono y un guion. Cada uno da una pista, 150 puntos y hasta diez segundos. |
+
+| Enlaces del directo | Notas sostenidas | Objetos del barrio |
+| :---: | :---: | :---: |
+| ![Enlaces de Chucho](docs/media/episodio2-chucho.png) | ![Rutina de Estefania](docs/media/episodio2-estefania.png) | ![Objetos de Daniel](docs/media/episodio2-objetos.png) |
+
+Cada misión comienza con una tarjeta sin reloj. Si pausas durante una nota
+sostenida, al volver el juego espera a que retomes su botón. Los objetos de Daniel
+son opcionales y permanecen recogidos al volver a su zona.
+
+**Remix se abre al terminar ambos episodios.** El progreso vive en la sesión:
+esta versión no añade guardado.
+
+[Guía del segundo episodio y validación](docs/SEGUNDO-EPISODIO.md).
 
 ## Presentación v0.11.0
 
@@ -34,7 +60,7 @@ del episodio y ofrece ayuda antes de entrar a cada juego.
 
 [Ver capturas y probar la presentación](docs/PULIDO-PRESENTACION.md).
 
-## El episodio remix
+## El estudio y los desafíos
 
 [Ver la intro y los retratos](docs/INTRO-RETRATOS.md).
 [Ver los cambios visuales](docs/DANIEL-ARTE.md).
@@ -50,8 +76,8 @@ del episodio y ofrece ayuda antes de entrar a cada juego.
 - **Estudio compartido:** pulsa B en la selección, camina hasta un personaje y
   pulsa A. B vuelve al menú de retratos.
 - **Medallas y final:** las tomas limpias conservan su medalla en el menú;
-  tres medallas perfectas tienen un reconocimiento en el cierre. B anima la fiesta.
-- **Remix:** después de ganar los tres juegos, A inicia otra campaña con más
+  seis tomas perfectas tienen un reconocimiento en el cierre. B anima la fiesta.
+- **Remix:** después de terminar ambos episodios, A inicia otra campaña con más
   señuelos y variantes. Start comienza una campaña normal.
 
 | El estudio compartido | Tres actos musicales | Fiesta del episodio |
@@ -70,7 +96,7 @@ del episodio y ofrece ayuda antes de entrar a cada juego.
 
 ## Jugar ahora
 
-1. Descarga [**el-cuartico-v0.11.0-mmc5.nes**](dist/el-cuartico-v0.11.0-mmc5.nes?raw=1).
+1. Descarga [**el-cuartico-v0.12.0-mmc5.nes**](dist/el-cuartico-v0.12.0-mmc5.nes?raw=1).
 2. Ábrelo en un emulador con soporte **MMC5**, como FCEUmm o Mesen.
 3. Usa el **control 1**, región **NTSC** y velocidad normal. No hace falta BIOS.
 
@@ -93,6 +119,9 @@ La versión actual se prueba en FCEUmm y Mesen de escritorio. Una versión anter
 fue probada en R36S; la entrega actual todavía necesita validación en la consola.
 
 ## Cómo jugar
+
+Estas reglas describen el **episodio 1**. El [episodio 2](docs/SEGUNDO-EPISODIO.md)
+conserva los controles básicos y añade sus propias misiones.
 
 ### Chucho · Mantén el estudio funcionando
 
@@ -164,14 +193,16 @@ al usar la lupa. Encuentra a Daniel una vez en cada mundo para conseguir su sell
 | Controles durante la pausa | Select o B vuelve a la pausa; Start continúa el juego. |
 | Ayuda desde la selección | Arriba abre la ayuda; izquierda/derecha cambia de personaje; A o Start juega; B vuelve. |
 | Estudio compartido | Cruceta para caminar, A junto a un personaje, B para volver al menú. |
-| Final del episodio | B anima la fiesta, A comienza Remix y Start una campaña normal. |
+| Final del episodio 1 | A continúa al episodio 2; B anima la fiesta y Start comienza una campaña normal. |
+| Final del episodio 2 | A comienza Remix; B anima la fiesta y Start comienza una campaña normal. |
 
 La pausa congela el reloj, la música y los puzles. Al continuar recuperas la misma
 plaza o panel, con sus personas, colores y progreso. Consultar los controles
 durante la pausa tampoco consume tiempo.
 
 Los sellos de victoria duran la sesión actual y se conservan al reintentar otro
-juego. Las medallas son opcionales: tres por una partida sin errores; dos si no
+juego. Al pasar al segundo episodio empiezas sus tres sellos; los puntos y las
+medallas del primero siguen contando para el cierre de la campaña. Las medallas son opcionales: tres por una partida sin errores; dos si no
 superas dos fallos ni dos errores de reparación; una por las demás victorias.
 Equivocarte dentro de un panel no quita corazones, pero cuenta para esa medalla.
 
@@ -209,9 +240,11 @@ python tools/bootstrap.py --test-tools
 python tools/test_all.py --mesen
 ```
 
-Las pruebas usan entradas de control en FCEUmm y una campaña independiente en Mesen.
+Las pruebas usan entradas de control en FCEUmm y campañas independientes en Mesen.
 Comprueban los seis órdenes de juego, victorias y derrotas, pausa, ritmo, selección,
 los cuatro paneles de reparación, navegación, límites de sprites y tiempos de cuadro.
+También recorren ambos episodios, las dependencias del directo, las notas sostenidas,
+la recuperación tras pausa y los objetos opcionales, incluida una campaña Remix completa.
 Los informes, capturas y grabaciones se guardan en `build/`, fuera del control de versiones.
 
 ## Estructura del proyecto

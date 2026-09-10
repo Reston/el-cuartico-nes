@@ -149,7 +149,10 @@ apply_chr:
  sta $5123
  rts
 ; Rendering is off. Temporarily expose ExRAM as ordinary CPU RAM to upload it.
+ .segment "INTROCODE"
 _title_extended:
+ lda #$81
+ sta $5114
  lda #2
  sta $5104
  ldx #0
@@ -167,7 +170,10 @@ _title_extended:
  lda #1
  sta _ex_on
  sta $5104
+ lda #$8c
+ sta $5114
  rts
+.segment "CODE"
 nmi:
  pha
  txa
@@ -357,8 +363,9 @@ _load_search_intro:
  sta $5104
  rts
 .export _load_resource, _pause_capture, _pause_restore
-; Four district maps and the UI slate share the unused portion of PRG bank 0.
-; Execute in the fixed bank and restore the C code mapping before returning.
+; Bank 0 holds districts/UI; bank 1 holds the original scenes and title ExRAM.
+; Both loaders execute in the fixed bank with NMI/rendering off, then restore
+; code bank 12 before returning to C.
 _load_resource:
  sta resource_id
  tax
@@ -366,7 +373,7 @@ _load_resource:
  sta ptr1
  lda resource_hi,x
  sta ptr1+1
- lda #$80
+ lda resource_bank,x
  sta $5114
  bit $2002
  lda #$20
@@ -384,8 +391,11 @@ _load_resource:
  dex
  bne @page
  lda resource_id
+ cmp #8
+ bcs @copy_attrs
  cmp #4
  bcs @mapped
+@copy_attrs:
  dec ptr1+1
  ldy #$c0
 @attrs:
@@ -398,8 +408,13 @@ _load_resource:
  lda #$8c
  sta $5114
  rts
-resource_lo: .lobytes district_maps,district_maps+$400,district_maps+$800,district_maps+$c00,ui_map
-resource_hi: .hibytes district_maps,district_maps+$400,district_maps+$800,district_maps+$c00,ui_map
+resource_lo: .lobytes district_maps,district_maps+$400,district_maps+$800,district_maps+$c00,ui_map,_studio,_title,_stage,_plaza,_plaza+$400,_plaza+$800
+resource_hi: .hibytes district_maps,district_maps+$400,district_maps+$800,district_maps+$c00,ui_map,_studio,_title,_stage,_plaza,_plaza+$400,_plaza+$800
+resource_bank: .byte $80,$80,$80,$80,$80,$81,$81,$81,$81,$81,$81
+.segment "BOOTDATA"
+.export _studio_floor
+_studio_floor: .incbin "assets/studio.nam",648,1
+.segment "INTROCODE"
 ; Pause owns ExRAM only while ordinary nametable rendering is active.
 ; Snapshot the exact picture, including a live puzzle or a populated district.
 _pause_capture:

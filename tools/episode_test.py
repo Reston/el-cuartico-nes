@@ -3,6 +3,7 @@ import hashlib
 import struct
 import retro_harness as h
 from play_helpers import read as r, repair_keys, district_go, start_search_from_intro
+from episode2_helpers import complete_episode
 report=[]
 def check(ok,label):
  line=('PASS ' if ok else 'FAIL ')+label;print(line,flush=True);report.append(line)
@@ -103,11 +104,13 @@ for remixed in (False,True):
    check(acts=={0,1,2} and music=={0:2,1:6,2:7},'Three musical acts use three separate compositions')
    check(len(pcm_hashes)==3,'The three act recordings have distinct audio output')
   if host<2:h.press(3)
- check(r('mode')==5 and r('remix_unlocked')==1,'Three victories reach the finale and unlock remix')
+ check(r('mode')==5 and r('episode')==0,'Three victories reach the first episode closure')
  h.frames(140);h.press(0);check(r('finale_cheer')>90 and r('mode')==5,'B starts applause without leaving the finale')
  h.screenshot('episode-finale.png');h.frames(45)
  check(peak()<=8,'Finale celebration respects the scanline limit')
- if not remixed:h.press(8)
+ if not remixed:
+  h.press(8);check(r('episode')==1,'A continues from the first episode into the live broadcast')
+  complete_episode(props=True);check(r('remix_unlocked')==1,'Finishing both episodes unlocks Remix');h.press(8)
  else:h.press(3)
  check(r('mode')==0 and r('completed')==0 and all(r('medals',i)==0 for i in range(3)),'A new episode resets stamps and medals')
 check(r('remix')==0,'Start at the finale returns to the standard campaign')
