@@ -1,7 +1,7 @@
-EL CUARTICO: ESTAMOS GRABANDO! - v0.12.1 - MMC5
+EL CUARTICO: ESTAMOS GRABANDO! - v0.12.2 - MMC5
 DOS EPISODIOS, SEIS MISIONES.
 
-Abre el-cuartico-v0.12.1-mmc5.nes. Control 1, NTSC, velocidad normal.
+Abre el-cuartico-v0.12.2-mmc5.nes. Control 1, NTSC, velocidad normal.
 Inicia desde cero, sin estados guardados de otra version.
 
 MENU: izquierda/derecha o SELECT elige. A/START juega. B abre el estudio.

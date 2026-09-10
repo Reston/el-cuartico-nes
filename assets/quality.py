@@ -1,4 +1,5 @@
 """Original MMC5 art: joint four-frame tile encoding and scene-specific palettes."""
+from ui_font import draw_ui_glyph
 from PIL import Image, ImageDraw
 from art import scenes
 from likeness import bust, character, performer, repairer, plaza_person, menu_portrait
@@ -331,7 +332,10 @@ def build(root,FONT,rect,text,pack,sprites):
         font_ink=1 if people else 3
         tilekeys=[(bytes(16),)*4 for _ in range(128)]
         for ch in FONT:
-            q=Image.new('L',(8,8));text(q,0,0,ch,font_ink);tilekeys[ord(ch)]=(pack(q),)*4
+            q=Image.new('L',(8,8))
+            if name=='title':draw_ui_glyph(q,ch,font_ink,text)
+            else:text(q,0,0,ch,font_ink)
+            tilekeys[ord(ch)]=(pack(q),)*4
         free=[i for i in range(1,128) if chr(i) not in FONT and i!=32]
         ids=[]
         for y in range(0,240,8):

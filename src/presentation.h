@@ -3,7 +3,7 @@
 const u8 ui_palette[16]={0x0f,0x07,0x27,0x30, 0x0f,0x09,0x19,0x29, 0x0f,0x06,0x16,0x26, 0x0f,0x07,0x17,0x27};
 const char* const help_lines[3][5]={
  {"COMPLETA 12 REPARACIONES","CRUCETA: MOVERSE","A: ABRIR UNA REPARACION","B: CORRE CUANDO ESTE LISTO","PANELES: TIEMPO SIN LIMITE"},
- {"CONSIGUE 20 ACIERTOS","NOTAS: DE DERECHA A IZQ.","AL LLEGAR AL MARCO: PULSA","EL BOTON O FLECHA QUE VES","CON CINCO FALLOS TERMINA"},
+ {"CONSIGUE 20 ACIERTOS","NOTAS: DERECHA A IZQ.","AL LLEGAR AL MARCO:","PULSA SU BOTON O FLECHA","5 FALLOS: FIN DEL JUEGO"},
  {"ENCUENTRA A DANIEL 3 VECES","CRUCETA: MOVER EL CURSOR","B: LUPA   A: ELEGIR","UN ERROR CUESTA 5 SEGUNDOS","CRUZA BORDES CON FLECHAS"}
 };
 const char* const panel_names[4]={"CABLES","ENFOQUE","MEZCLADORA","MEMORIA"};
@@ -34,12 +34,12 @@ void help_screen(void){u8 i;
  }else{
   center(12,game_title());for(i=0;i<5;++i)center(14+i*2,episode?live_help[host][i]:help_lines[host][i]);
  }
- center(25,paused?"SELECT / B: VOLVER A PAUSA":"< > CAMBIAR PERSONAJE");
- center(27,paused?"START: CONTINUAR":((completed&masks[host])?"SELLO LISTO   B: MENU":"A:JUEGA B:MENU"));on();
+ center(25,paused?"SELECT / B: VOLVER A PAUSA":"< > ELEGIR PERSONAJE");
+ center(27,paused?"START: CONTINUAR":((completed&masks[host])?"SELLO LISTO   B: MENU":"A: JUGAR   B: MENU"));on();
 }
 void help_selection(void){const char* text;
  for(help_row=0;help_row<7;++help_row){
-  text=help_row==0?game_title():(help_row==6?((completed&masks[host])?"SELLO LISTO   B: MENU":"A:JUEGA B:MENU"):(episode?live_help[host][help_row-1]:help_lines[host][help_row-1]));
+  text=help_row==0?game_title():(help_row==6?((completed&masks[host])?"SELLO LISTO   B: MENU":"A: JUGAR   B: MENU"):(episode?live_help[host][help_row-1]:help_lines[host][help_row-1]));
   help_line(text);
  }
  help_dirty=1;

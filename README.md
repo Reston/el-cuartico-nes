@@ -7,9 +7,9 @@ Este juego fue creado enteramente con IA para probar las capacidades de Astra.
 
 <img src="docs/media/portada.png" alt="Portada ilustrada de El Cuartico: Estamos grabando" width="260">
 
-**NES · MMC5 · Un jugador · v0.12.1**
+**NES · MMC5 · Un jugador · v0.12.2**
 
-[🎮 Descargar ROM](dist/el-cuartico-v0.12.1-mmc5.nes?raw=1) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
+[🎮 Descargar ROM](dist/el-cuartico-v0.12.2-mmc5.nes?raw=1) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
@@ -18,6 +18,16 @@ de NES. Elige a **Chucho, Estefania o Daniel** y completa sus desafíos en el or
 que quieras dentro de cada episodio. Cada victoria deja un sello; consigue los tres
 para cerrar la primera grabación y pulsa **A** para continuar con el episodio en directo.
 La campaña reúne seis misiones y conserva los puntos entre los dos episodios.
+
+## Texto más claro en pantallas pequeñas · v0.12.2
+
+A partir de las fotos de una R36S, el menú, la ayuda, la pausa y los resultados
+usan letras más pequeñas, de trazo simple y con más aire dentro de cada casilla.
+Las instrucciones de Estefania separan el momento de pulsar de la acción.
+
+![Ayuda con letra compacta](docs/media/legibilidad-ayuda.png)
+
+[Detalle y capturas de la revisión](docs/LEGIBILIDAD-R36S.md).
 
 ## Entradas y controles v0.12.1
 
@@ -113,7 +123,7 @@ del episodio y ofrece ayuda antes de entrar a cada juego.
 
 ## Jugar ahora
 
-1. Descarga [**el-cuartico-v0.12.1-mmc5.nes**](dist/el-cuartico-v0.12.1-mmc5.nes?raw=1).
+1. Descarga [**el-cuartico-v0.12.1-mmc5.nes**](dist/el-cuartico-v0.12.2-mmc5.nes?raw=1).
 2. Ábrelo en un emulador con soporte **MMC5**, como FCEUmm o Mesen.
 3. Usa el **control 1**, región **NTSC** y velocidad normal. No hace falta BIOS.
 

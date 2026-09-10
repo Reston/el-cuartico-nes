@@ -1,4 +1,4 @@
-/* El Cuartico v0.12.1: character cards, atomic help, clear exits and musical finales. */
+/* El Cuartico v0.12.2: compact menu and slate typography for handheld screens. */
 typedef unsigned char u8;
 typedef unsigned int u16;
 #define REG(a) (*(volatile u8*)(a))

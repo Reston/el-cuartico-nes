@@ -47,7 +47,7 @@ local runner=coroutine.create(function()
  for host=0,2 do
   pages[help_page()]=true;videos[emu.takeScreenshot()]=true
   if host==1 then
-   check(row(16):find('DE DERECHA A IZQ.',1,true)~=nil and row(18):find('AL LLEGAR AL MARCO',1,true)~=nil,'Estefania help explains the moving notes and the timing target')
+   check(row(16):find('DERECHA A IZQ.',1,true)~=nil and row(18):find('AL LLEGAR AL MARCO',1,true)~=nil,'Estefania help explains the moving notes and the timing target')
   end
   press('right')
  end
