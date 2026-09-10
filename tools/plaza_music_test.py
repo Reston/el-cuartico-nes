@@ -1,7 +1,7 @@
 """Real-controller checks for the v0.5 plaza and music/beat contract."""
 import hashlib, wave, struct, math
 import retro_harness as h
-from play_helpers import start_search_from_intro
+from play_helpers import start_from_intro
 from play_helpers import target_area
 report=[]
 def read(n,i=0):return h.C.c_uint8.from_address(h.ram+h.labels['_'+n]+i).value
@@ -14,7 +14,7 @@ def boot(host=None):
     if host is not None:
         for _ in range(host):h.press(7)
         h.press(3)
-        if host==2:start_search_from_intro()
+        start_from_intro()
 def pulse(key):h.frames(1,[key]);h.frames(1)
 def state():return tuple(read(n) for n in ['song_tick','song_step','rhythm_phase','count_in','hits','misses'])+tuple(read('note_age',i) for i in range(3))
 def capture(name,n=360):

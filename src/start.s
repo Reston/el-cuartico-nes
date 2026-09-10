@@ -1,6 +1,7 @@
 .export _wait_frame, _pad_read, _main_entry
 .export __STARTUP__ : absolute = 1
 .export _frame, _ready, _hud, _hud_on, _art_bank, _sprite_bank, _ex_on, _title_extended
+.export _help_dirty, _help_rows, _help_row, _help_line
 .export _menu_dirty, _menu_rows, _status_row, _pause_palette
 .import _main, _spr, _mode, _music_act, _paused, _plaza_attrs, zerobss, copydata, incsp3
 .importzp c_sp, ptr1
@@ -14,6 +15,9 @@ _art_bank: .res 1
 _sprite_bank: .res 1
 _hud: .res 32
 _ex_on: .res 1
+_help_row: .res 1
+_help_dirty: .res 1
+_help_rows: .res 224
 _menu_dirty: .res 1
 _menu_rows: .res 96
 _status_row: .res 32
@@ -149,7 +153,10 @@ apply_chr:
  sta $5123
  rts
 ; Rendering is off. Temporarily expose ExRAM as ordinary CPU RAM to upload it.
+ .segment "INTROCODE"
 _title_extended:
+ lda #$81
+ sta $5114
  lda #2
  sta $5104
  ldx #0
@@ -167,7 +174,10 @@ _title_extended:
  lda #1
  sta _ex_on
  sta $5104
+ lda #$8c
+ sta $5114
  rts
+.segment "CODE"
 nmi:
  pha
  txa
@@ -215,6 +225,11 @@ nmi:
  lda act_light,x
  sta $2007
 @lighting_done:
+ lda _help_dirty
+ beq @ordinary
+ jsr help_upload
+ jmp @scroll
+@ordinary:
  lda #0
  sta $2003
  lda #2
@@ -291,63 +306,144 @@ nmi:
  tax
  pla
  rti
+.segment "INTROCODE"
+; Fast centered row preparation keeps the full help change within one frame.
+_help_line:
+ sta ptr1
+ stx ptr1+1
+ lda _help_row
+ asl a
+ asl a
+ asl a
+ asl a
+ asl a
+ tax
+ lda #32
+ ldy #32
+@clear:
+ sta _help_rows,x
+ inx
+ dey
+ bne @clear
+@length:
+ lda (ptr1),y
+ beq @center
+ iny
+ bne @length
+@center:
+ tya
+ eor #$ff
+ clc
+ adc #33
+ lsr a
+ sta resource_id
+ lda _help_row
+ asl a
+ asl a
+ asl a
+ asl a
+ asl a
+ clc
+ adc resource_id
+ tax
+ ldy #0
+@text:
+ lda (ptr1),y
+ beq @done
+ sta _help_rows,x
+ inx
+ iny
+ bne @text
+@done:
+ rts
+; Publish 182 text tiles inside vblank. OAM is already empty on HELP, so
+; this update frame skips its redundant DMA and preserves the frame border.
+help_upload:
+ bit $2002
+ .repeat 7, R
+ lda #>($2000 + (12+R*2)*32+3)
+ .if R = 6
+ lda #$23
+ .endif
+ sta $2006
+ lda #<($2000 + (12+R*2)*32+3)
+ .if R = 6
+ lda #$63
+ .endif
+ sta $2006
+ .repeat 26, I
+ lda _help_rows+R*32+3+I
+ sta $2007
+ .endrepeat
+ .endrepeat
+ lda #0
+ sta _help_dirty
+ rts
+.segment "CODE"
 irq: rti
 act_dark: .byte $04,$01,$06
 act_mid: .byte $14,$11,$16
 act_light: .byte $34,$31,$36
- ; Intro data lives in PRG bank 0. This loader executes only in the fixed bank,
+ ; Intro data lives in PRG banks 0 and 2. This loader executes only in the fixed bank,
  ; with rendering/NMI off, and restores bank 12 before returning to C.
 .segment "INTROCODE"
-.export _load_search_intro
-_load_search_intro:
- lda #$80
+.export _load_character_intro
+_load_character_intro:
+ tax
+ lda card_lo,x
+ sta ptr1
+ lda card_hi,x
+ sta ptr1+1
+ lda card_bank,x
  sta $5114
  bit $2002
  lda #$20
  sta $2006
  lda #0
  sta $2006
- ldx #0
-@nam0:
- lda intro_map,x
+ ldx #4
+ ldy #0
+@nam:
+ lda (ptr1),y
  sta $2007
- inx
- bne @nam0
-@nam1:
- lda intro_map+$100,x
- sta $2007
- inx
- bne @nam1
-@nam2:
- lda intro_map+$200,x
- sta $2007
- inx
- bne @nam2
-@nam3:
- lda intro_map+$300,x
- sta $2007
- inx
- bne @nam3
-@ex:
- lda intro_exram,x
- sta $5c00,x
- lda intro_exram+$100,x
- sta $5d00,x
- lda intro_exram+$200,x
- sta $5e00,x
- lda intro_exram+$300,x
- sta $5f00,x
- inx
- bne @ex
+ iny
+ bne @nam
+ inc ptr1+1
+ dex
+ bne @nam
+@ex0:
+ lda (ptr1),y
+ sta $5c00,y
+ iny
+ bne @ex0
+ inc ptr1+1
+@ex1:
+ lda (ptr1),y
+ sta $5d00,y
+ iny
+ bne @ex1
+ inc ptr1+1
+@ex2:
+ lda (ptr1),y
+ sta $5e00,y
+ iny
+ bne @ex2
+ inc ptr1+1
+@ex3:
+ lda (ptr1),y
+ sta $5f00,y
+ iny
+ bne @ex3
+ inc ptr1+1
  lda #$3f
  sta $2006
  lda #0
  sta $2006
 @pal:
- lda intro_palette,x
+ lda (ptr1),y
  sta $2007
- inx
- cpx #16
+ iny
+ cpy #16
  bne @pal
  lda #$8c
  sta $5114
@@ -356,9 +452,13 @@ _load_search_intro:
  lda #1
  sta $5104
  rts
+card_lo: .lobytes chucho_card,estefi_card,intro_map
+card_hi: .hibytes chucho_card,estefi_card,intro_map
+card_bank: .byte $82,$82,$80
 .export _load_resource, _pause_capture, _pause_restore
-; Four district maps and the UI slate share the unused portion of PRG bank 0.
-; Execute in the fixed bank and restore the C code mapping before returning.
+; Bank 0 holds districts/UI; bank 1 holds the original scenes and title ExRAM.
+; Both loaders execute in the fixed bank with NMI/rendering off, then restore
+; code bank 12 before returning to C.
 _load_resource:
  sta resource_id
  tax
@@ -366,7 +466,7 @@ _load_resource:
  sta ptr1
  lda resource_hi,x
  sta ptr1+1
- lda #$80
+ lda resource_bank,x
  sta $5114
  bit $2002
  lda #$20
@@ -384,8 +484,11 @@ _load_resource:
  dex
  bne @page
  lda resource_id
+ cmp #8
+ bcs @copy_attrs
  cmp #4
  bcs @mapped
+@copy_attrs:
  dec ptr1+1
  ldy #$c0
 @attrs:
@@ -398,8 +501,13 @@ _load_resource:
  lda #$8c
  sta $5114
  rts
-resource_lo: .lobytes district_maps,district_maps+$400,district_maps+$800,district_maps+$c00,ui_map
-resource_hi: .hibytes district_maps,district_maps+$400,district_maps+$800,district_maps+$c00,ui_map
+resource_lo: .lobytes district_maps,district_maps+$400,district_maps+$800,district_maps+$c00,ui_map,_studio,_title,_stage,_plaza,_plaza+$400,_plaza+$800
+resource_hi: .hibytes district_maps,district_maps+$400,district_maps+$800,district_maps+$c00,ui_map,_studio,_title,_stage,_plaza,_plaza+$400,_plaza+$800
+resource_bank: .byte $80,$80,$80,$80,$80,$81,$81,$81,$81,$81,$81
+.segment "BOOTDATA"
+.export _studio_floor
+_studio_floor: .incbin "assets/studio.nam",648,1
+.segment "INTROCODE"
 ; Pause owns ExRAM only while ordinary nametable rendering is active.
 ; Snapshot the exact picture, including a live puzzle or a populated district.
 _pause_capture:
@@ -484,6 +592,13 @@ _pause_restore:
 intro_map: .incbin "assets/dany-intro.nam"
 intro_exram: .incbin "assets/dany-intro.exram"
 intro_palette: .incbin "assets/dany-intro.pal"
+.segment "CARDDATA"
+chucho_card: .incbin "assets/chucho-intro.nam"
+.incbin "assets/chucho-intro.exram"
+.incbin "assets/chucho-intro.pal"
+estefi_card: .incbin "assets/estefania-intro.nam"
+.incbin "assets/estefania-intro.exram"
+.incbin "assets/estefania-intro.pal"
 .segment "SCENES"
 .export _studio, _title, _stage, _plaza
 title_exram: .incbin "assets/title.exram"

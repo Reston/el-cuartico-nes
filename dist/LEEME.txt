@@ -1,38 +1,50 @@
-EL CUARTICO: ESTAMOS GRABANDO! - v0.11.0 - MMC5
-Presentacion v0.11.0: ayuda, pausa y resultados.
+EL CUARTICO: ESTAMOS GRABANDO! - v0.12.2 - MMC5
+DOS EPISODIOS, SEIS MISIONES.
 
-Abre el-cuartico-v0.11.0-mmc5.nes. Control 1, NTSC, velocidad normal.
+Abre el-cuartico-v0.12.2-mmc5.nes. Control 1, NTSC, velocidad normal.
 Inicia desde cero, sin estados guardados de otra version.
 
 MENU: izquierda/derecha o SELECT elige. A/START juega. B abre el estudio.
-ESTUDIO: camina hasta un personaje y pulsa A. B vuelve al menu.
+Arriba abre la ayuda. En el estudio, camina hasta un personaje y pulsa A.
 
+EPISODIO 1
+Cada personaje tiene una intro: Chuchito el Rufian, The Lion Queen y Dany.
+A/START confirma; B vuelve al menu. El reloj espera en las tres tarjetas.
 CHUCHO: 12 reparaciones. Cruceta mueve, B corre y A abre el panel.
 Cables: arriba/abajo y A. Enfoque: izquierda/derecha y A.
 Mezcladora: A en el recuadro. Memoria: mira y repite las direcciones.
-B cierra el panel. SIN LIMITE: el reloj y las otras averias esperan.
-Tras 3, 6 y 9 reparaciones hay un evento: sigue la indicacion superior.
-Resolverlo da 200 puntos y recupera un corazon, hasta el maximo de cinco.
-
+B cierra el panel. SIN LIMITE: reloj y averias esperan dentro de los puzles.
+Tras 3, 6 y 9 reparaciones, resuelve el evento indicado para conseguir su premio.
 ESTEFANIA: 20 aciertos antes de cinco fallos. Primera A de practica.
-Pulsa el simbolo al llegar al recuadro. Hay tres actos, con musica y luces
-propias. Al cambiar de acto, espera la nueva cuenta de cuatro tiempos.
+Las notas vienen de la derecha: pulsa el simbolo al llegar al marco izquierdo.
+Cada acto cuenta cuatro tiempos. Dejan de entrar notas extra antes del cierre.
+Si fallas la ultima nota, puedes recuperarte con otra. No hay cuenta atras.
+DANIEL: explora uno, dos y cuatro lugares. B: lupa. A: elige.
+Las flechas en los bordes despejados indican por donde pasar a otra zona.
+Una respuesta incorrecta cuesta cinco segundos.
 
-DANIEL: intro DONDE ESTA DANY? A/START empieza; B vuelve al menu.
-El reloj espera en la intro. Explora uno, dos y cuatro lugares. CRUZA indica las salidas.
-B: lupa y precision. A: elige. Error: -5 segundos.
+Al conseguir los tres sellos, A continua al EPISODIO 2: EN DIRECTO.
+Conservas tus puntos y las medallas del primer episodio.
 
-START pausa. En pausa: START sigue, A reinicia, B vuelve al menu.
-Las medallas son opcionales; los errores de reparacion no quitan corazones.
-Gana los tres juegos para publicar el episodio. B anima la fiesta.
-A desde el final: REMIX. START desde el final: nueva campana normal.
-REMIX: mas senuelos, otras notas, tres enfoques y cuatro senales.
-Los paneles siguen sin limite de tiempo. No hay guardado por bateria.
+EPISODIO 2
+Cada mision tiene una tarjeta sin reloj. A/START empieza; B vuelve al menu.
+CHUCHO: completa tres enlaces. Primero restaura energia en los cables.
+Despues arregla camara y mezcladora, en el orden que elijas.
+La memoria cierra el enlace. El reloj sigue parado dentro de los paneles.
+ESTEFANIA: 49 aciertos, incluidas notas con cola. Manten el boton hasta
+que termine la barra. Tras pausar una sostenida, retoma su boton para seguir.
+DANIEL: tres encuentros. Microfono y guion son opcionales, dos por mundo.
+Acercate y pulsa A: cada objeto da pista, 150 puntos y hasta diez segundos.
+Los objetos recogidos no reaparecen al volver a su zona.
 
-Guia y novedades: consulta README.md y docs/PULIDO-PRESENTACION.md.
+START pausa. En pausa: START sigue, A reintenta, B vuelve al menu.
+SELECT abre controles del juego o panel. B/SELECT vuelve de controles a pausa.
+Los reintentos conservan los sellos de los otros personajes.
 
-PRESENTACION V0.11.0
-Arriba en la seleccion abre la ayuda de cada personaje.
-Start pausa. Select en pausa muestra controles del juego o puzle actual.
-Dentro de esos controles, B/Select vuelve a la pausa y Start continua.
-Los resultados muestran objetivo, errores, puntos, medallas y sellos.
+Final del episodio 1: A continua al episodio 2.
+Final del episodio 2: A comienza REMIX desde el primer episodio.
+En ambos finales, B anima la fiesta y START comienza una campana normal.
+REMIX: otras notas, tres enfoques, cuatro senales y mas senuelos en episodio 1.
+
+El progreso dura esta sesion. No se anade guardado por bateria.
+Guia: README.md, docs/SEGUNDO-EPISODIO.md y docs/ENTRADAS-CONTROLES.md.

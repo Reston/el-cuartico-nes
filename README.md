@@ -3,19 +3,72 @@ Este juego fue creado enteramente con IA para probar las capacidades de Astra.
 
 # El Cuartico: ¡Estamos grabando!
 
-**Tres personajes. Tres juegos. Un episodio por publicar.**
+**Tres personajes. Seis misiones. Dos episodios por publicar.**
 
 <img src="docs/media/portada.png" alt="Portada ilustrada de El Cuartico: Estamos grabando" width="260">
 
-**NES · MMC5 · Un jugador · v0.11.0**
+**NES · MMC5 · Un jugador · v0.12.2**
 
-[🎮 Descargar ROM](dist/el-cuartico-v0.11.0-mmc5.nes?raw=1) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
+[🎮 Descargar ROM](dist/el-cuartico-v0.12.2-mmc5.nes?raw=1) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
 Un juego *homebrew* inspirado en **El Cuartico**, hecho para jugarse en emuladores
 de NES. Elige a **Chucho, Estefania o Daniel** y completa sus desafíos en el orden
-que quieras. Cada victoria deja un sello; consigue los tres para publicar el episodio.
+que quieras dentro de cada episodio. Cada victoria deja un sello; consigue los tres
+para cerrar la primera grabación y pulsa **A** para continuar con el episodio en directo.
+La campaña reúne seis misiones y conserva los puntos entre los dos episodios.
+
+## Texto más claro en pantallas pequeñas · v0.12.2
+
+A partir de las fotos de una R36S, el menú, la ayuda, la pausa y los resultados
+usan letras más pequeñas, de trazo simple y con más aire dentro de cada casilla.
+Las instrucciones de Estefania separan el momento de pulsar de la acción.
+
+![Ayuda con letra compacta](docs/media/legibilidad-ayuda.png)
+
+[Detalle y capturas de la revisión](docs/LEGIBILIDAD-R36S.md).
+
+## Entradas y controles v0.12.1
+
+**Chuchito el Rufián** y **The Lion Queen** tienen su propia pantalla de entrada,
+junto a **¿Dónde está Dany?**. A o Start comienza y B vuelve al menú; el reloj
+espera en las tres tarjetas.
+
+| Chuchito el Rufián | The Lion Queen | Salidas del barrio |
+| :---: | :---: | :---: |
+| ![Tarjeta de Chuchito](docs/media/chucho-intro.png) | ![Tarjeta de Estefania](docs/media/estefania-intro.png) | ![Flechas en los bordes](docs/media/daniel-salidas.png) |
+
+La ayuda cambia de personaje sin parpadeos ni texto a medio dibujar. Estefania
+explica cómo pulsar cada símbolo al llegar al marco izquierdo. Al acabar un acto
+solo entran las notas que faltan para completarlo; el último acierto deja la pista
+vacía. Si fallas la última nota, aparece una de reemplazo.
+
+[Capturas, controles y comprobaciones](docs/ENTRADAS-CONTROLES.md).
+
+## Episodio 2 · En directo
+
+La segunda grabación tiene una misión nueva para cada personaje. Puedes elegir
+su orden, consultar la ayuda y volver al estudio entre intentos.
+
+| Personaje | Nueva misión |
+| --- | --- |
+| **Chucho** | Restablece energía, cámara y mezcla; reinicia la señal para cerrar cada uno de los tres enlaces. Tú eliges el orden de cámara y mezcladora. |
+| **Estefania** | Completa una rutina de 49 aciertos con notas sostenidas y tres composiciones nuevas. Mantén las notas con cola hasta que termine su barra. |
+| **Daniel** | Encuéntralo en tres mundos más poblados. Hay dos objetos opcionales por mundo: un micrófono y un guion. Cada uno da una pista, 150 puntos y hasta diez segundos. |
+
+| Enlaces del directo | Notas sostenidas | Objetos del barrio |
+| :---: | :---: | :---: |
+| ![Enlaces de Chucho](docs/media/episodio2-chucho.png) | ![Rutina de Estefania](docs/media/episodio2-estefania.png) | ![Objetos de Daniel](docs/media/episodio2-objetos.png) |
+
+Cada misión comienza con una tarjeta sin reloj. Si pausas durante una nota
+sostenida, al volver el juego espera a que retomes su botón. Los objetos de Daniel
+son opcionales y permanecen recogidos al volver a su zona.
+
+**Remix se abre al terminar ambos episodios.** El progreso vive en la sesión:
+esta versión no añade guardado.
+
+[Guía del segundo episodio y validación](docs/SEGUNDO-EPISODIO.md).
 
 ## Presentación v0.11.0
 
@@ -34,7 +87,7 @@ del episodio y ofrece ayuda antes de entrar a cada juego.
 
 [Ver capturas y probar la presentación](docs/PULIDO-PRESENTACION.md).
 
-## El episodio remix
+## El estudio y los desafíos
 
 [Ver la intro y los retratos](docs/INTRO-RETRATOS.md).
 [Ver los cambios visuales](docs/DANIEL-ARTE.md).
@@ -50,8 +103,8 @@ del episodio y ofrece ayuda antes de entrar a cada juego.
 - **Estudio compartido:** pulsa B en la selección, camina hasta un personaje y
   pulsa A. B vuelve al menú de retratos.
 - **Medallas y final:** las tomas limpias conservan su medalla en el menú;
-  tres medallas perfectas tienen un reconocimiento en el cierre. B anima la fiesta.
-- **Remix:** después de ganar los tres juegos, A inicia otra campaña con más
+  seis tomas perfectas tienen un reconocimiento en el cierre. B anima la fiesta.
+- **Remix:** después de terminar ambos episodios, A inicia otra campaña con más
   señuelos y variantes. Start comienza una campaña normal.
 
 | El estudio compartido | Tres actos musicales | Fiesta del episodio |
@@ -70,7 +123,7 @@ del episodio y ofrece ayuda antes de entrar a cada juego.
 
 ## Jugar ahora
 
-1. Descarga [**el-cuartico-v0.11.0-mmc5.nes**](dist/el-cuartico-v0.11.0-mmc5.nes?raw=1).
+1. Descarga [**el-cuartico-v0.12.1-mmc5.nes**](dist/el-cuartico-v0.12.2-mmc5.nes?raw=1).
 2. Ábrelo en un emulador con soporte **MMC5**, como FCEUmm o Mesen.
 3. Usa el **control 1**, región **NTSC** y velocidad normal. No hace falta BIOS.
 
@@ -94,8 +147,12 @@ fue probada en R36S; la entrega actual todavía necesita validación en la conso
 
 ## Cómo jugar
 
+Estas reglas describen el **episodio 1**. El [episodio 2](docs/SEGUNDO-EPISODIO.md)
+conserva los controles básicos y añade sus propias misiones.
+
 ### Chucho · Mantén el estudio funcionando
 
+La tarjeta **Chuchito el Rufián** abre el desafío; confirma con A o Start.
 Completa **12 reparaciones**, con **75 segundos iniciales** y **cinco corazones**.
 Muévete por el estudio, acércate a una estación averiada y pulsa **A** para abrir
 su minijuego. **B** permite correr cuando el indicador está listo.
@@ -122,11 +179,15 @@ multiplicador de puntos. Dejar vencer una avería en el estudio cuesta un coraz�
 
 ### Estefania · El sketch
 
-Pulsa **A, B o la dirección indicada** cuando el símbolo llegue al recuadro.
+La entrada **The Lion Queen** presenta a Estefania. Confirma con A o Start.
+Las notas viajan de derecha a izquierda: pulsa **A, B o la dirección indicada**
+cuando ese símbolo llegue al recuadro de la izquierda.
 La primera A es una práctica sin tiempo; después hay una cuenta de cuatro tiempos.
 Consigue **20 aciertos** antes de acumular cinco fallos. Al alcanzar 7 y 13 aciertos
 cambian la música, las luces y el patrón de notas. Cada acto vuelve a contar cuatro
-tiempos: ninguna nota pendiente se cobra como fallo durante el cambio.
+tiempos. Antes de cada cierre dejan de entrar notas sobrantes: completa las
+que están en pantalla. Un fallo permite una nota de reemplazo. La rutina termina
+por aciertos o por cinco fallos; no tiene un reloj de cuenta atrás.
 
 Los aciertos precisos dan puntos extra, y cada cinco aciertos consecutivos de la
 secuencia añaden otros 100 puntos. La música y las notas se detienen juntas al pausar.
@@ -145,13 +206,14 @@ Daniel en cada mundo, y las personas mantienen su posición cuando vuelves a una
 | Mercado | Dos zonas contiguas | 32 | 85 segundos |
 | Barrio | Cuatro zonas, en una cuadrícula de 2 × 2 | 80 | 99 segundos |
 
-- **Cruceta:** mueve el cursor. Cruza el borde indicado en la franja **CRUZA** para
-  pasar a otra zona; el mapa pequeño marca dónde estás y qué zonas visitaste.
+- **Cruceta:** mueve el cursor. Sigue la flecha situada en el borde izquierdo,
+  derecho, superior o inferior para pasar a otra zona; el mapa pequeño marca dónde estás y qué zonas visitaste.
 - **Mantener B:** abre la lupa sobre una persona y permite moverte con precisión.
   Suelta B para cruzar a otra zona.
 - **A:** elige a la persona enfocada. Equivocarte cuesta **cinco segundos**.
 
-Las salidas aparecen debajo de la plaza, sin tapar personas. Los pájaros se ocultan
+Las flechas ocupan franjas despejadas alrededor del escenario y solo aparecen
+donde hay una zona conectada. Los pájaros se ocultan
 al usar la lupa. Encuentra a Daniel una vez en cada mundo para conseguir su sello.
 
 ### Pausa y progreso
@@ -159,19 +221,22 @@ al usar la lupa. Encuentra a Daniel una vez en cada mundo para conseguir su sell
 | Situación | Controles |
 | --- | --- |
 | Selección | Izquierda/derecha o Select para elegir; A o Start para empezar. |
+| Entrada de un personaje | A o Start confirma; B vuelve al menú. El reloj espera. |
 | Durante un juego | Start pausa. |
 | En pausa | Start continúa, A reinicia el intento, B vuelve a la selección y Select abre los controles. |
 | Controles durante la pausa | Select o B vuelve a la pausa; Start continúa el juego. |
 | Ayuda desde la selección | Arriba abre la ayuda; izquierda/derecha cambia de personaje; A o Start juega; B vuelve. |
 | Estudio compartido | Cruceta para caminar, A junto a un personaje, B para volver al menú. |
-| Final del episodio | B anima la fiesta, A comienza Remix y Start una campaña normal. |
+| Final del episodio 1 | A continúa al episodio 2; B anima la fiesta y Start comienza una campaña normal. |
+| Final del episodio 2 | A comienza Remix; B anima la fiesta y Start comienza una campaña normal. |
 
 La pausa congela el reloj, la música y los puzles. Al continuar recuperas la misma
 plaza o panel, con sus personas, colores y progreso. Consultar los controles
 durante la pausa tampoco consume tiempo.
 
 Los sellos de victoria duran la sesión actual y se conservan al reintentar otro
-juego. Las medallas son opcionales: tres por una partida sin errores; dos si no
+juego. Al pasar al segundo episodio empiezas sus tres sellos; los puntos y las
+medallas del primero siguen contando para el cierre de la campaña. Las medallas son opcionales: tres por una partida sin errores; dos si no
 superas dos fallos ni dos errores de reparación; una por las demás victorias.
 Equivocarte dentro de un panel no quita corazones, pero cuenta para esa medalla.
 
@@ -209,9 +274,13 @@ python tools/bootstrap.py --test-tools
 python tools/test_all.py --mesen
 ```
 
-Las pruebas usan entradas de control en FCEUmm y una campaña independiente en Mesen.
+Las pruebas usan entradas de control en FCEUmm y campañas independientes en Mesen.
 Comprueban los seis órdenes de juego, victorias y derrotas, pausa, ritmo, selección,
 los cuatro paneles de reparación, navegación, límites de sprites y tiempos de cuadro.
+También recorren ambos episodios, las dependencias del directo, las notas sostenidas,
+la recuperación tras pausa y los objetos opcionales, incluida una campaña Remix completa.
+También se compara cada cuadro de los cambios rápidos de ayuda, las tres tarjetas,
+las flechas en cada zona y el cierre de notas con fallos recuperables.
 Los informes, capturas y grabaciones se guardan en `build/`, fuera del control de versiones.
 
 ## Estructura del proyecto

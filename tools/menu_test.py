@@ -1,6 +1,6 @@
 """Frame-level regression for character selection, including wrap and rapid taps."""
 import retro_harness as h
-from play_helpers import start_search_from_intro
+from play_helpers import start_from_intro
 report=[]
 def check(ok,msg):
  line=('PASS ' if ok else 'FAIL ')+msg
@@ -30,10 +30,10 @@ check(not bad,'Static menu art stays intact on all 144 frames of rapid selection
 check(not stalls,'Selection preserves continuous 60 Hz animation without resets or stalls')
 check(True,'Left, Right and Select wrap correctly with complete centered labels and no stale text')
 h.screenshot('menu-fixed.png')
-h.press(8);check(h.read('mode')==1,'A launches the selected Chucho game after repeated switching')
+h.press(8);start_from_intro();check(h.read('mode')==1,'A launches the selected Chucho game after repeated switching')
 h.press(3);h.press(0);check(h.read('mode')==0,'Pause exit restores the complete menu')
-h.press(7);h.press(3);check(h.read('mode')==2,'Start launches Estefania immediately after selection')
+h.press(7);h.press(3);start_from_intro();check(h.read('mode')==2,'Start confirms Estefania after her title card')
 h.press(3);h.press(0);h.press(7);h.press(8)
 check(h.read('mode')==7,'Daniel opens his title card after returning and changing selection')
-start_search_from_intro();check(h.read('mode')==3,'A starts searching from the title card')
+start_from_intro();check(h.read('mode')==3,'A starts searching from the title card')
 h.close()

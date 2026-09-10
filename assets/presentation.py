@@ -1,5 +1,6 @@
 """A native NES broadcast slate for help, pause and result screens."""
 from PIL import Image, ImageDraw
+from ui_font import draw_ui_glyph
 
 
 def build_presentation(root, font, text, pack):
@@ -24,7 +25,7 @@ def build_presentation(root, font, text, pack):
     tiles = [bytes(16) for _ in range(128)]
     for ch in font:
         q = Image.new('L', (8, 8))
-        text(q, 0, 0, ch, 3)
+        draw_ui_glyph(q, ch, 3, text)
         tiles[ord(ch)] = pack(q)
     free = [i for i in range(1, 128) if chr(i) not in font and i != 32]
     ids = []

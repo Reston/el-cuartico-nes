@@ -1,5 +1,6 @@
 """Controller-only repair-panel errors, cancellation, pause and completion."""
 import retro_harness as h
+from play_helpers import start_from_intro
 from play_helpers import read as r,repair_keys,task_keys
 report=[]
 def check(ok,msg):
@@ -16,7 +17,7 @@ def settle():
 def peak():
  ys=[h.C.c_uint8.from_address(h.ram+0x200+i*4).value for i in range(64)]
  return max(sum(y<240 and y+1<=row<=y+8 for y in ys) for row in range(240))
-h.frames(90);h.press(8);seen=set();cancelled=False;paused=False;maxsprites=0;stalls=0;target_changes=0
+h.frames(90);h.press(8);start_from_intro();seen=set();cancelled=False;paused=False;maxsprites=0;stalls=0;target_changes=0
 for f in range(7000):
  if r('mode')!=1:break
  if not r('hud_on'):h.frames(1);continue
@@ -72,7 +73,7 @@ check(maxsprites<=8,'Studio and repair panels respect eight sprites per scanline
 check(stalls==0,'Interactive repair panels update once per NTSC frame')
 check(r('completed')==1 and r('repairs')==12,'Completing twelve puzzles earns Chucho stamp')
 check(True,'No cart sprites appear during studio play or repair tasks')
-h.core.retro_reset();h.frames(90);h.press(8)
+h.core.retro_reset();h.frames(90);h.press(8);start_from_intro()
 for f in range(400):
  if r('task_active') and r('hud_on'):break
  h.frames(1,repair_keys(f) if r('hud_on') else [])
@@ -84,6 +85,6 @@ hud=bytes(r('hud',i) for i in range(32))
 check(b'SIN LIMITE' in hud,'Repair HUD clearly indicates there is no time limit')
 pulse(0);settle();sec=r('seconds');h.frames(120)
 check(not r('task_active') and r('seconds')==sec-2,'Leaving the panel resumes the studio clock at its previous value')
-pulse(3);h.press(8);settle()
+pulse(3);h.press(8);start_from_intro();settle()
 check(r('mode')==1 and not r('task_active') and r('repairs')==0,'Retry still returns to a fresh studio')
 h.close()

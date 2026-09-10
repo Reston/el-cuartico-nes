@@ -41,10 +41,10 @@ def repair_keys(f):
     return keys
 
 
-def start_search_from_intro():
-    """Explicit controller confirmation of Daniel's untimed title card."""
-    assert read('mode')==7, 'Daniel should first show his title card'
+def start_from_intro():
+    """Explicit controller confirmation of the selected untimed title card."""
+    assert read('mode')==7, 'Each character should first show their title card'
     h.frames(3)
     h.press(8)
     h.frames(5)
-    assert read('mode')==3 and read('hud_on'), 'A should enter the first plaza'
+    assert read('mode')==read('host')+1 and read('hud_on'), 'A should enter the selected game'

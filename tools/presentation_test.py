@@ -3,7 +3,7 @@ import hashlib
 import json
 import struct
 import retro_harness as h
-from play_helpers import read as r, task_keys, start_search_from_intro
+from play_helpers import read as r, task_keys, start_from_intro
 report=[]
 
 def check(ok,label):
@@ -17,7 +17,7 @@ def boot(host=None):
     if host is not None:
         for _ in range(host):h.press(7)
         h.press(8)
-        if host==2:start_search_from_intro()
+        start_from_intro()
 
 def snapshot():
     fields=['mode','host','completed','seconds','tick','health','misses','repairs','hits','found',
@@ -67,8 +67,8 @@ for host in range(3):
     boot();h.press(4)
     for _ in range(host):h.press(7)
     h.press(8)
-    check(r('mode')==(7 if host==2 else host+1),'A launches host '+str(host)+' from help')
-    if host==2:start_search_from_intro()
+    check(r('mode')==7,'A launches host '+str(host)+' from help')
+    start_from_intro()
     pause_cycle(['studio','rhythm','search'][host])
     h.press(3);h.press(0)
     check(r('mode')==0,'Pause exit returns to the portrait menu: '+str(host))
@@ -108,12 +108,12 @@ h.screenshot('presentation-result-win.png');h.press(8);h.press(4);h.press(8)
 check(r('mode')==8 and r('completed')==2,'Help cannot restart an already completed character')
 h.press(7);h.press(3)
 check(r('mode')==7 and r('completed')==2,'Start from help preserves earned seals and enters the Dany card')
-start_search_from_intro();h.press(3);h.press(8)
+start_from_intro();h.press(3);h.press(8)
 check(r('mode')==7 and r('completed')==2,'Pause retry preserves other seals and returns to the proper intro')
 h.core.retro_reset();h.frames(90);h.press(4);h.core.retro_reset();h.frames(90)
 check(r('mode')==0 and not r('paused') and r('ex_on')==1,'Reset from help restores normal menu bank mapping')
-h.press(8);h.press(3);h.core.retro_reset();h.frames(90)
+h.press(8);start_from_intro();h.press(3);h.core.retro_reset();h.frames(90)
 check(r('mode')==0 and not r('paused') and r('completed')==0,'Reset from pause discards the old scene snapshot safely')
 budget=json.loads((h.root/'assets/art-budget.json').read_text())
-check(budget['banks_used']==50 and budget['backgrounds']['presentation']<=256 and len(h.rom)==393232,'Presentation fits the existing cartridge with one extra CHR page')
+check(budget['banks_used']==54 and budget['backgrounds']['presentation']<=256 and len(h.rom)==393232,'Presentation fits the existing cartridge with one extra CHR page')
 h.close()

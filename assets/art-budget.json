@@ -1,20 +1,22 @@
 {
-  "banks_used": 50,
+  "banks_used": 54,
   "backgrounds": {
-    "title": 292,
+    "title": 302,
     "studio": 199,
     "stage": 181,
     "plaza0": 204,
-    "plaza1": 219,
-    "plaza2": 216,
-    "district11": 220,
+    "plaza1": 218,
+    "plaza2": 217,
+    "district11": 218,
     "district21": 218,
     "district22": 201,
-    "district23": 219,
+    "district23": 209,
     "dany_intro": 495,
-    "presentation": 128
+    "presentation": 128,
+    "chucho_intro": 278,
+    "estefania_intro": 301
   },
   "sprite_tiles": 256,
   "chr_bytes": 262144,
-  "extended_attributes": "title/ending/dany_intro, 8x8 palettes and two simultaneous tile pages"
+  "extended_attributes": "title/ending/character intros, 8x8 palettes and two simultaneous tile pages"
 }
