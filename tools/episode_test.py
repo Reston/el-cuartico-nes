@@ -2,7 +2,7 @@
 import hashlib
 import struct
 import retro_harness as h
-from play_helpers import read as r, repair_keys, district_go
+from play_helpers import read as r, repair_keys, district_go, start_search_from_intro
 report=[]
 def check(ok,label):
  line=('PASS ' if ok else 'FAIL ')+label;print(line,flush=True);report.append(line)
@@ -38,14 +38,18 @@ for host in range(3):
  check(r('lounge_near')==host,'Walking reaches host '+str(host))
  check(peak()<=8,'Studio gathering respects sprite scanline budget')
  h.screenshot('episode-studio.png')
- h.press(8);check(r('mode')==host+1,'Studio interaction launches host '+str(host))
+ h.press(8)
+ if host==2:start_search_from_intro()
+ check(r('mode')==host+1,'Studio interaction launches host '+str(host))
  h.press(3);h.press(0)
 
 for remixed in (False,True):
  check(bool(r('remix'))==remixed,'Campaign uses the requested standard/remix rules')
  for host in range(3):
   while r('host')!=host:h.press(7)
-  h.press(8);events=set();acts=set();music={};pcm_hashes=set();targets=set();maxsprites=0;bonus=0;held=False
+  h.press(8)
+  if host==2:start_search_from_intro()
+  events=set();acts=set();music={};pcm_hashes=set();targets=set();maxsprites=0;bonus=0;held=False
   seen_progress=set();seen_worlds=set()
   for f in range(10000):
    if r('mode') not in (1,2,3):break

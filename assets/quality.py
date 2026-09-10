@@ -1,7 +1,7 @@
 """Original MMC5 art: joint four-frame tile encoding and scene-specific palettes."""
 from PIL import Image, ImageDraw
 from art import scenes
-from likeness import bust, character, performer, repairer, plaza_person
+from likeness import bust, character, performer, repairer, plaza_person, menu_portrait
 
 
 def studio_frames(rect,text):
@@ -49,19 +49,19 @@ def title_frames(rect,text):
     text(im,40,80,'ESTAMOS GRABANDO!',2)
     rect(im,40,96,176,1,1)
     for h,x in enumerate((32,96,160)):
-        im.paste(bust(h,gear=True),(x,120))
+        im.paste(menu_portrait(h,gear=True),(x,120))
     text(im,40,224,'< > ELIGE  A: JUEGA',3)
     # MMC5 assigns the skin palette per 8x8 tile; clothes have host colors.
     def pal8(x,y):
         if 15<=y<21 and 4<=x<28:return 1
-        if 21<=y<23 and 4<=x<28:return (0,2,3)[(x-4)//8]
+        if 21<=y<23 and 4<=x<28:return (3,2,0)[(x-4)//8]
         return 0
     def pal(x,y):return pal8(x*2,y*2)
     frames=[]
     for f in range(4):
         q=im.copy()
         for h,x in enumerate((32,96,160)):
-            q.paste(bust(h,blink=f==h+1,gear=True),(x,120))
+            q.paste(menu_portrait(h,blink=f==h+1,gear=True),(x,120))
         for x in (24,224):
             rect(q,x,48,4,4,3 if f%2 else 2)
             rect(q,x,88,4,4,2 if f%2 else 3)
@@ -438,5 +438,9 @@ def build(root,FONT,rect,text,pack,sprites):
     search_sprites=sprites[:];search_sprites[24:28]=search_tiles[:4]
     assert len(banks)==46
     banks.append(b''.join(search_sprites))
+    from dany_intro import build_intro
+    intro,used=build_intro(root,FONT,pack,len(banks))
+    for offset in range(0,len(intro),4096):banks.append(intro[offset:offset+4096])
+    budgets['dany_intro']=used;print('dany_intro',used,'/ 512')
     root.joinpath('mmc5.chr').write_bytes(b''.join(banks)+bytes(262144-len(banks)*4096))
-    root.joinpath('art-budget.json').write_text(json.dumps({'banks_used':len(banks),'backgrounds':budgets,'sprite_tiles':len(sprites),'chr_bytes':262144,'extended_attributes':'title/result/ending, 8x8 palettes and two simultaneous tile pages'},indent=2))
+    root.joinpath('art-budget.json').write_text(json.dumps({'banks_used':len(banks),'backgrounds':budgets,'sprite_tiles':len(sprites),'chr_bytes':262144,'extended_attributes':'title/result/ending/dany_intro, 8x8 palettes and two simultaneous tile pages'},indent=2))

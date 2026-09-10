@@ -30,7 +30,7 @@
  lda _art_bank
  clc
  adc #64
- sta $5e4e
+ sta $5e49
  lda _art_bank
  clc
  adc #64
