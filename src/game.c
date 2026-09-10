@@ -1,4 +1,4 @@
-/* El Cuartico v0.13.0: reference-song arrangements for the menu and Estefania. */
+/* El Cuartico v0.13.1: correct font-bank mapping for the menu footer. */
 typedef unsigned char u8;
 typedef unsigned int u16;
 #define REG(a) (*(volatile u8*)(a))

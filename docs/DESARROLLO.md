@@ -252,3 +252,16 @@ La nueva suite FCEUmm verifica tres vueltas completas de cada frase y analiza PC
 La suite Mesen observa escrituras reales en $4000–$400F y calcula las frecuencias
 desde la partitura editable: comprueba notas, silencios, ligaduras, bajos, golpes,
 reserva del canal de efectos y restauración tras la pausa.
+
+## Banco de la línea inferior · v0.13.1
+
+El nuevo tamaño de fuente había cambiado la asignación de tiles del texto de
+fondo del menú. Parte de su antigua línea inferior ocupaba la segunda página de
+gráficos. Al sobrescribirla con controles ASCII, ExRAM seguía seleccionando esa
+página de retratos y algunas letras se convertían en bloques.
+
+El generador fija la página de fuente y su paleta en las filas que `hub()` y
+`ending()` sustituyen con texto: 10, 12, 14, 24, 26 y 28. La prueba de menú compara
+cada píxel del rótulo inferior con los glifos esperados, al arrancar, tras cambios
+rápidos de personaje y al regresar de una partida. Reproduce el fallo en la ROM
+anterior y pasa con la nueva asignación.

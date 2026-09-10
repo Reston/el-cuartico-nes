@@ -1,7 +1,7 @@
-EL CUARTICO: ESTAMOS GRABANDO! - v0.13.0 - MMC5
+EL CUARTICO: ESTAMOS GRABANDO! - v0.13.1 - MMC5
 DOS EPISODIOS, SEIS MISIONES.
 
-Abre el-cuartico-v0.13.0-mmc5.nes. Control 1, NTSC, velocidad normal.
+Abre el-cuartico-v0.13.1-mmc5.nes. Control 1, NTSC, velocidad normal.
 Inicia desde cero, sin estados guardados de otra version.
 
 MENU: izquierda/derecha o SELECT elige. A/START juega. B abre el estudio.
@@ -54,3 +54,5 @@ Menu: arreglo corto de elcuartico_song_2, cuatro compases (~9.6 segundos).
 Estefania: arreglo de elcuartico_song_3, cuatro compases (~8 segundos).
 La melodia cambia de compas inicial entre actos; las notas siguen a 120 BPM.
 La musica se genera con la APU de NES, sin voces ni reproduccion de archivos.
+
+v0.13.1 corrige las letras de la linea inferior del menu principal.
