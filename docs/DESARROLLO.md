@@ -3,7 +3,7 @@
 ## Cartucho y código
 
 El juego usa un encabezado iNES, mapper **MMC5 (5)**, 128 KiB de PRG y 256 KiB de
-CHR. Hay 49 bancos gráficos de 4 KiB ocupados. La memoria de batería no se utiliza.
+CHR. Hay 50 bancos gráficos de 4 KiB ocupados. La memoria de batería no se utiliza.
 
 - `src/game.c`: estados, entrada, campaña y minijuegos.
 - `src/start.s`: arranque 6502, NMI, DMA de sprites y configuración MMC5.
@@ -12,6 +12,8 @@ CHR. Hay 49 bancos gráficos de 4 KiB ocupados. La memoria de batería no se uti
 - `assets/likeness.py`: personajes y poses mediante píxeles indexados.
 - `assets/quality.py`: escenas, animaciones, tiles y atributos MMC5.
 - `assets/generate.py`: punto de entrada para generar los recursos gráficos.
+- `src/presentation.h`: ayuda, pausa y resultados.
+- `assets/presentation.py`: tarjeta gráfica compartida por estas pantallas.
 
 Los recursos se generan sin leer fotografías externas. Las imágenes del README
 son ilustración y capturas del juego; no son necesarias para compilar.
@@ -30,8 +32,9 @@ El objetivo del mezclador cambia entre aciertos y no depende de una posición fi
 
 ## Pruebas
 
-Primero compila con `./build.ps1`. `tools/test_all.py` ejecuta nueve suites de
-FCEUmm; `--mesen` añade una campaña independiente con Mesen. Los resultados se
+Primero compila con `./build.ps1`. `tools/test_all.py` ejecuta diez suites de
+FCEUmm; `--mesen` añade una campaña y pruebas de restauración de imagen independientes
+con Mesen. Los resultados se
 guardan en `build/`, junto a la ROM de trabajo, símbolos y capturas. Cada suite
 falla con un código distinto de cero si detecta una regresión.
 
@@ -115,3 +118,31 @@ reintentar, resetear desde la tarjeta y completar la campaña en ambos emuladore
 
 `menu_portrait` es independiente de los sprites de juego y de la lupa. Solo cambia
 los retratos compartidos por menú, resultados y final, conservando sus parpadeos.
+
+
+## Presentación v0.11.0
+
+HELP (8) muestra instrucciones opcionales desde arriba en el menú. Las flechas
+cambian el personaje de la ayuda y A/Start inicia su juego respetando los sellos
+ya conseguidos. Durante una pausa, Select abre los controles del juego o del
+panel de reparación actual; Select/B regresa a la pausa y Start continúa.
+
+La tarjeta usa el banco CHR 49, fuentes ASCII fijas y atributos normales de
+16 × 16. Su cabecera distingue pausa, éxito y derrota mediante color. RESULT
+usa esta tarjeta para mostrar el objetivo, puntos, errores y progreso del episodio.
+
+Al pausar, una rutina con renderizado desactivado conserva los 1024 bytes de la
+tabla de nombres y atributos en ExRAM y las 32 entradas de paleta en RAM. Las
+pantallas de ayuda no escriben sobre esa copia. Al continuar se restauran la
+imagen, las paletas y los bancos gráficos sin regenerar el mundo ni el puzle.
+La NMI omite la iluminación musical mientras se muestra la tarjeta de pausa.
+
+Los cuatro mapas de distrito se movieron de la ventana de código a la parte
+libre del banco PRG 0, junto a la tarjeta y la intro de Dany. `load_resource`
+corre en el banco fijo, carga el mapa y sus atributos y restaura el banco 12
+antes de volver a C. El cartucho conserva 128 KiB PRG y 256 KiB CHR.
+
+`presentation_test.py` usa solo controles para comprobar navegación, relojes,
+silencio, reintentos y los cuatro puzles. `presentation_mesen.lua` compara los
+1024 bytes de imagen y las 32 entradas de paleta antes y después de la pausa
+en el estudio, los cuatro paneles, los actos musicales y las áreas de Daniel.

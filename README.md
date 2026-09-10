@@ -7,9 +7,9 @@ Este juego fue creado enteramente con IA para probar las capacidades de Astra.
 
 <img src="docs/media/portada.png" alt="Portada ilustrada de El Cuartico: Estamos grabando" width="260">
 
-**NES · MMC5 · Un jugador · v0.10.2**
+**NES · MMC5 · Un jugador · v0.11.0**
 
-[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/feature/dany-intro-portraits/dist/el-cuartico-v0.10.2-mmc5.nes) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
+[🎮 Descargar ROM](dist/el-cuartico-v0.11.0-mmc5.nes?raw=1) · [Cómo jugar](#cómo-jugar) · [Compilar](#compilar-el-juego) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
@@ -17,10 +17,25 @@ Un juego *homebrew* inspirado en **El Cuartico**, hecho para jugarse en emulador
 de NES. Elige a **Chucho, Estefania o Daniel** y completa sus desafíos en el orden
 que quieras. Cada victoria deja un sello; consigue los tres para publicar el episodio.
 
-## Edición episodio remix
+## Presentación v0.11.0
 
-Esta rama propone **v0.10.2**: una intro de «¿Dónde está Dany?» y retratos del
-menú más cercanos a las referencias fotográficas. `main` conserva v0.10.1.
+La nueva presentación reúne los controles, la pausa y los resultados bajo la
+misma identidad visual del programa. El menú muestra el avance de los sellos
+del episodio y ofrece ayuda antes de entrar a cada juego.
+
+- **Ayuda opcional:** pulsa arriba en la selección; izquierda/derecha cambia de
+  personaje, A o Start juega y B vuelve al menú.
+- **Pausa completa:** Start abre una pantalla con continuar, reintentar y volver
+  al menú. Select muestra los controles del juego o del panel de reparación activo.
+- **Resultados claros:** puntos de la toma, objetivo alcanzado, errores,
+  medallas y sellos del episodio. Una derrota explica qué terminó el intento.
+- **Señales durante el juego:** Chucho muestra la acción de la estación cercana;
+  Estefania distingue la práctica de la cuenta de entrada.
+
+[Ver capturas y probar la presentación](docs/PULIDO-PRESENTACION.md).
+
+## El episodio remix
+
 [Ver la intro y los retratos](docs/INTRO-RETRATOS.md).
 [Ver los cambios visuales](docs/DANIEL-ARTE.md).
 [Guía del episodio remix](docs/PRUEBA-REMIX.md).
@@ -55,7 +70,7 @@ menú más cercanos a las referencias fotográficas. `main` conserva v0.10.1.
 
 ## Jugar ahora
 
-1. Descarga [**el-cuartico-v0.10.2-mmc5.nes**](https://raw.githubusercontent.com/Reston/el-cuartico-nes/feature/dany-intro-portraits/dist/el-cuartico-v0.10.2-mmc5.nes).
+1. Descarga [**el-cuartico-v0.11.0-mmc5.nes**](dist/el-cuartico-v0.11.0-mmc5.nes?raw=1).
 2. Ábrelo en un emulador con soporte **MMC5**, como FCEUmm o Mesen.
 3. Usa el **control 1**, región **NTSC** y velocidad normal. No hace falta BIOS.
 
@@ -145,9 +160,15 @@ al usar la lupa. Encuentra a Daniel una vez en cada mundo para conseguir su sell
 | --- | --- |
 | Selección | Izquierda/derecha o Select para elegir; A o Start para empezar. |
 | Durante un juego | Start pausa. |
-| En pausa | Start continúa, A reinicia el intento y B vuelve a la selección. |
+| En pausa | Start continúa, A reinicia el intento, B vuelve a la selección y Select abre los controles. |
+| Controles durante la pausa | Select o B vuelve a la pausa; Start continúa el juego. |
+| Ayuda desde la selección | Arriba abre la ayuda; izquierda/derecha cambia de personaje; A o Start juega; B vuelve. |
 | Estudio compartido | Cruceta para caminar, A junto a un personaje, B para volver al menú. |
 | Final del episodio | B anima la fiesta, A comienza Remix y Start una campaña normal. |
+
+La pausa congela el reloj, la música y los puzles. Al continuar recuperas la misma
+plaza o panel, con sus personas, colores y progreso. Consultar los controles
+durante la pausa tampoco consume tiempo.
 
 Los sellos de victoria duran la sesión actual y se conservan al reintentar otro
 juego. Las medallas son opcionales: tres por una partida sin errores; dos si no
@@ -169,7 +190,7 @@ superior, Pillow y cc65. El script de instalación descarga las herramientas en
 `tools/`; esos binarios no se incluyen en Git.
 
 ```powershell
-git clone --branch feature/dany-intro-portraits https://github.com/Reston/el-cuartico-nes.git
+git clone https://github.com/Reston/el-cuartico-nes.git
 cd el-cuartico-nes
 python -m pip install -r requirements.txt
 python tools/bootstrap.py

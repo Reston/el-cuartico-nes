@@ -23,7 +23,7 @@ def steady(n=128,keys=()):
         visuals.add(hashlib.sha256(h.screen[0]).hexdigest())
     return (r('anim_tick')-a)%256,(r('frame')-f)%256,banks,visuals
 budget=json.loads((h.root/'assets/art-budget.json').read_text())
-check(budget['banks_used']==49 and budget['chr_bytes']==262144,'49 populated graphics banks fit 256 KiB CHR ROM')
+check(budget['banks_used']==50 and budget['chr_bytes']==262144,'50 populated graphics banks fit 256 KiB CHR ROM')
 nt=(h.root/'assets/title.nam').read_bytes()
 ex=(h.root/'assets/title.exram').read_bytes()
 check(set(v&63 for v in ex[:960])=={0,26},'Portrait screen uses two simultaneous 4 KiB CHR pages')

@@ -30,8 +30,8 @@ void music_start(u8 track){
 }
 void sound(u8 effect){
  /* Pulse 2 is reserved for short feedback; the beat and melody keep playing. */
- sfx_tick=6;REG(0x4004)=effect==2?0x94:0x52;REG(0x4005)=0;
- REG(0x4006)=effect==1?100:(effect==2?220:70);REG(0x4007)=effect==2?0xfa:0xf8;
+ sfx_tick=effect==4?3:6;REG(0x4004)=effect==2?0x94:(effect==4?0x51:0x52);REG(0x4005)=0;
+ REG(0x4006)=effect==4?160:(effect==1?100:(effect==2?220:70));REG(0x4007)=effect==2?0xfa:0xf8;
 }
 void music_note(void){u8 note;u16 period;
  note=leads[music_track][song_step];

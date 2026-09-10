@@ -1,5 +1,5 @@
 {
-  "banks_used": 49,
+  "banks_used": 50,
   "backgrounds": {
     "title": 292,
     "studio": 199,
@@ -11,9 +11,10 @@
     "district21": 218,
     "district22": 201,
     "district23": 219,
-    "dany_intro": 495
+    "dany_intro": 495,
+    "presentation": 128
   },
   "sprite_tiles": 256,
   "chr_bytes": 262144,
-  "extended_attributes": "title/result/ending/dany_intro, 8x8 palettes and two simultaneous tile pages"
+  "extended_attributes": "title/ending/dany_intro, 8x8 palettes and two simultaneous tile pages"
 }

@@ -47,7 +47,7 @@ def title_frames(rect,text):
     rect(im,124,30,7,10,3)
     text(im,29,48,'el cuartico',3,3)
     text(im,40,80,'ESTAMOS GRABANDO!',2)
-    rect(im,40,96,176,1,1)
+    rect(im,40,104,176,1,1)
     for h,x in enumerate((32,96,160)):
         im.paste(menu_portrait(h,gear=True),(x,120))
     text(im,40,224,'< > ELIGE  A: JUEGA',3)
@@ -442,5 +442,9 @@ def build(root,FONT,rect,text,pack,sprites):
     intro,used=build_intro(root,FONT,pack,len(banks))
     for offset in range(0,len(intro),4096):banks.append(intro[offset:offset+4096])
     budgets['dany_intro']=used;print('dany_intro',used,'/ 512')
+    from presentation import build_presentation
+    slate,used=build_presentation(root,FONT,text,pack)
+    banks.append(slate);budgets['presentation']=used
+    print('presentation',used,'/ 256')
     root.joinpath('mmc5.chr').write_bytes(b''.join(banks)+bytes(262144-len(banks)*4096))
-    root.joinpath('art-budget.json').write_text(json.dumps({'banks_used':len(banks),'backgrounds':budgets,'sprite_tiles':len(sprites),'chr_bytes':262144,'extended_attributes':'title/result/ending/dany_intro, 8x8 palettes and two simultaneous tile pages'},indent=2))
+    root.joinpath('art-budget.json').write_text(json.dumps({'banks_used':len(banks),'backgrounds':budgets,'sprite_tiles':len(sprites),'chr_bytes':262144,'extended_attributes':'title/ending/dany_intro, 8x8 palettes and two simultaneous tile pages'},indent=2))
