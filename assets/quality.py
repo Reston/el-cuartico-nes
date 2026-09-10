@@ -356,7 +356,10 @@ def build(root,FONT,rect,text,pack,sprites):
         if extended:
             # Two tile pages on one screen. ExRAM selects a bank AND a palette
             # independently for every 8x8 cell. Dynamic text rows use font page 0.
-            ex=[(pal(i%32,i//32)<<6)+(26 if t>=256 else 0) for i,t in enumerate(ids)]
+            # These rows are replaced with ASCII text by hub()/ending(). Their
+            # bank must follow the runtime text, not the baked placeholder art.
+            text_rows={10,12,14,24,26,28}
+            ex=[0 if i//32 in text_rows else (pal(i%32,i//32)<<6)+(26 if t>=256 else 0) for i,t in enumerate(ids)]
             root.joinpath('title.exram').write_bytes(bytes(ex+[0]*64))
             asm=['; Generated: only animated title cells change during vblank.']
             for i,t in enumerate(ids):
