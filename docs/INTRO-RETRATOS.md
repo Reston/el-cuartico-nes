@@ -22,12 +22,12 @@ al siguiente mundo.
 | ![Retratos anteriores](media/retratos-antes.png) | ![Retratos nuevos](media/personajes.png) |
 
 - **Chucho:** gafas finas redondas, bigote, cabello de lado y camiseta verde.
-- **Estefania:** cabello oscuro con más volumen y ondas, raya casi central, ojos grandes,
-  cejas arqueadas, sonrisa de labios cerrados y camiseta negra, a partir del nuevo primer plano.
+- **Estefania:** cabello largo con raya lateral, rostro ligeramente girado, ojos almendrados,
+  sonrisa con dientes, aros pequeños y chaqueta negra con solapas grises, según la foto exterior.
 - **Daniel:** montura más gruesa, cabello con volumen, barba completa y camiseta blanca.
 
 Los retratos toman como referencia la fotografía grupal compartida por el usuario;
-Estefania incorpora además el primer plano aportado en la revisión del PR.
+Estefania usa la nueva fotografía exterior aportada en la revisión del PR.
 Browser no pudo iniciarse durante esta revisión; no se utilizaron fotos nuevas de
 internet. Los sprites de las partidas y la lupa conservan su propio arte.
 

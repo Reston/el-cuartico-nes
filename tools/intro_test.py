@@ -45,5 +45,5 @@ check(256<budget['backgrounds']['dany_intro']<=512 and set(v&63 for v in ex[:960
 check(set(v>>6 for v in ex[:960])=={0,1,2,3},'Card keeps separate blue, red, grayscale and stone subpalettes')
 check(budget['banks_used']==49 and len(h.rom)==393232,'Intro fits the existing MMC5 cartridge size')
 nt=(h.root/'assets/title.exram').read_bytes()
-check([nt[21*32+x]>>6 for x in (4,12,20)]==[3,2,0],'Menu clothing uses Chucho green, Estefania denim and Daniel white palettes')
+check([nt[21*32+x]>>6 for x in (4,12,20)]==[3,2,0],'Menu clothing uses Chucho green, Estefania jacket and Daniel white palettes')
 h.close()
