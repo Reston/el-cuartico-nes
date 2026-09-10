@@ -1,5 +1,5 @@
-/* Original eleven-theme NES score. One eighth-note clock drives both music and cues. */
-u8 music_track,beat_flash,beat_no,music_restore;
+/* Eleven track slots. Reference-song arrangements share the existing cue clock. */
+u8 music_track,beat_flash,beat_no,music_restore,reference_pitch;
 const u8 tempos[11]={18,12,15,24,12,24,15,15,15,15,15};
 const u8 duties[11]={0x40,0x80,0x40,0x80,0x40,0x80,0x80,0x40,0x80,0x40,0x80};
 const u16 periods[37]={0,427,403,380,359,338,319,301,284,268,253,239,225,213,201,189,179,169,159,150,142,134,126,119,112,106,100,94,89,84,79,75,70,66,63,59,56};
@@ -30,9 +30,39 @@ const u8 basses[11][16]={
 {1,1,8,8,10,10,6,6,1,1,6,6,8,8,1,1}
 };
 
+#include "music_reference_data.h"
+
+#pragma code-name(push, "EXTRACODE")
+u8 reference_track(void){return music_track==0||music_track==2||music_track>=6;}
+/* Acts enter on different bars of the same song; cue/downbeat phase is unchanged. */
+u8 reference_shift(void){return music_track==6||music_track==9?16:(music_track==7||music_track==10?32:0);}
+void reference_note(void){u8 score,index,event,note,half,phase;u16 period;
+ score=music_track?1:0;half=tempos[music_track]>>1;
+ phase=song_tick>=half?song_tick-half:song_tick;
+ index=(song_step*2+(song_tick>=half)+reference_shift())&63;
+ event=reference_leads[score][index];note=event&127;
+ if(!note)REG(0x4000)=0x10;
+ else if(!(event&128)||music_restore||reference_pitch!=note){
+  period=reference_periods[note];REG(0x4000)=duties[music_track]|(phase<3?0x15:0x13);
+  REG(0x4002)=(u8)period;REG(0x4003)=0xf8|(u8)(period>>8);
+ }
+ reference_pitch=note;
+ if((!song_tick&&!(song_step&1))||music_restore){
+  if(!song_tick&&!(song_step&1)){beat_no=(song_step>>1)&3;beat_flash=6;}
+  if((song_step&1)&&song_tick>=4)REG(0x4008)=0;
+  else{
+   period=reference_periods[reference_basses[score][index>>2]];
+   REG(0x4008)=0x88;REG(0x400a)=(u8)period;REG(0x400b)=0xf8|(u8)(period>>8);
+  }
+ }
+ REG(0x400c)=0x10|(phase<3?reference_volumes[score][index&15]:0);
+ REG(0x400e)=reference_drums[score][index&15];REG(0x400f)=0xf8;
+}
+#pragma code-name(pop)
+
 void silence(void){REG(0x4000)=0x10;REG(0x4004)=0x10;REG(0x4008)=0;REG(0x400c)=0x10;}
 void music_start(u8 track){
- silence();music_track=track;song_tick=0;song_step=0;beat_no=0;beat_flash=0;sfx_tick=0;music_restore=0;
+ silence();music_track=track;song_tick=0;song_step=0;beat_no=0;beat_flash=0;sfx_tick=0;music_restore=0;reference_pitch=0;
 }
 void sound(u8 effect){
  /* Pulse 2 is reserved for short feedback; the beat and melody keep playing. */
@@ -63,8 +93,16 @@ void music_note(void){u8 note;u16 period;
 void audio(void){
  if(sfx_tick){--sfx_tick;if(!sfx_tick)REG(0x4004)=0x10;}
  if(beat_flash)--beat_flash;
- if(!song_tick||music_restore){music_note();music_restore=0;}
- if(song_tick==3)REG(0x400c)=0x10;
- if(song_tick==8){REG(0x4000)=leads[music_track][song_step]?(duties[music_track]|0x11):0x10;REG(0x4008)=0;}
+ if(reference_track()){
+  if(!song_tick||song_tick==(tempos[music_track]>>1)||music_restore){reference_note();music_restore=0;}
+  if(song_tick==3||song_tick==(tempos[music_track]>>1)+3){
+   REG(0x400c)=0x10;REG(0x4000)=duties[music_track]|(reference_pitch?0x13:0x10);
+  }
+  if((song_step&1)&&song_tick==4)REG(0x4008)=0;
+ }else{
+  if(!song_tick||music_restore){music_note();music_restore=0;}
+  if(song_tick==3)REG(0x400c)=0x10;
+  if(song_tick==8){REG(0x4000)=leads[music_track][song_step]?(duties[music_track]|0x11):0x10;REG(0x4008)=0;}
+ }
  if(++song_tick==tempos[music_track]){song_tick=0;song_step=(song_step+1)&31;}
 }

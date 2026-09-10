@@ -3,6 +3,8 @@ Set-Location $PSScriptRoot
 New-Item -ItemType Directory -Force -Path (Join-Path $PSScriptRoot 'build') | Out-Null
 python assets/generate.py
 if ($LASTEXITCODE) { throw 'Asset generation failed' }
+python tools/generate_music.py
+if ($LASTEXITCODE) { throw 'Music generation failed' }
 $bin = Join-Path $PSScriptRoot 'tools/cc65/bin'
 & "$bin/cc65.exe" -t nes -Oirs --add-source -g src/game.c -o src/game.s
 if ($LASTEXITCODE) { throw 'C compilation failed' }

@@ -34,9 +34,9 @@ El objetivo del mezclador cambia entre aciertos y no depende de una posición fi
 
 ## Pruebas
 
-Primero compila con `./build.ps1`. `tools/test_all.py` ejecuta doce suites de
-FCEUmm; `--mesen` añade cuatro suites independientes con Mesen: campaña original,
-restauración de imagen, campaña completa de dos episodios y tarjetas/ayuda. Los resultados se
+Primero compila con `./build.ps1`. `tools/test_all.py` ejecuta trece suites de
+FCEUmm; `--mesen` añade cinco suites independientes con Mesen: campaña original,
+restauración de imagen, campaña completa de dos episodios, tarjetas/ayuda y registros de la APU. Los resultados se
 guardan en `build/`, junto a la ROM de trabajo, símbolos y capturas. Cada suite
 falla con un código distinto de cero si detecta una regresión.
 
@@ -228,3 +228,27 @@ cada imagen de cambios rápidos de ayuda, direcciones visibles y fallos de la ú
 nota en ambos episodios. `usability_mesen.lua` valida de forma independiente el
 mapa cargado, las imágenes y los cuadros de ayuda. La campaña de Mesen comprueba
 también que ningún acto cree notas sobrantes. Las pruebas usan únicamente controles.
+
+## Arreglos de las grabaciones · v0.13.0
+
+`assets/song-arrangements.json` conserva la partitura en notas y duraciones de
+semicorchea, bajos por negra y el patrón de percusión. `tools/generate_music.py`
+genera `src/music_reference_data.h` durante la compilación, usando solo Python
+estándar. Las grabaciones originales y las herramientas de análisis no hacen falta
+para compilar. Los datos del arreglo se colocan en BOOTDATA.
+
+El reloj principal sigue contando corcheas. En las dos nuevas partituras, el canal
+de melodía también puede cambiar a mitad de corchea. A 120 BPM alterna intervalos
+de siete y ocho cuadros, sin mover la negra de treinta cuadros que guía las notas.
+El bit alto de una nota indica una ligadura: conserva la fase del oscilador. Al
+reanudar una pausa se reconstruye el timbre y el tono de la semicorchea actual.
+
+El menú conserva sus 100 BPM. Los seis actos de Estefania comparten el motivo de
+song_3, con desplazamientos de un compás y timbres alternos. Pulso 1 lleva melodía,
+triángulo lleva bajo y ruido lleva percusión; pulso 2 conserva los efectos. Los
+juegos de Chucho y Daniel y las fanfarrias mantienen sus partituras anteriores.
+
+La nueva suite FCEUmm verifica tres vueltas completas de cada frase y analiza PCM en memoria.
+La suite Mesen observa escrituras reales en $4000–$400F y calcula las frecuencias
+desde la partitura editable: comprueba notas, silencios, ligaduras, bajos, golpes,
+reserva del canal de efectos y restauración tras la pausa.

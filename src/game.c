@@ -1,4 +1,4 @@
-/* El Cuartico v0.12.2: compact menu and slate typography for handheld screens. */
+/* El Cuartico v0.13.0: reference-song arrangements for the menu and Estefania. */
 typedef unsigned char u8;
 typedef unsigned int u16;
 #define REG(a) (*(volatile u8*)(a))
