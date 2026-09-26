@@ -100,4 +100,3 @@ la velocidad pausada de memoria y los paneles sin límite.
 
 No hay guardado por batería. Usa estados del emulador únicamente con la
 misma versión de la ROM y el mismo núcleo.
-
