@@ -1,5 +1,9 @@
 # Desarrollo
 
+La propuesta para convertir los ensayos de un sketch en una campaña de plataformas
+está en el [plan de aventura](PLAN-AVENTURA.md). Describe trabajo futuro; las
+secciones siguientes documentan el juego actual.
+
 ## Cartucho y código
 
 El juego usa un encabezado iNES, mapper **MMC5 (5)**, 128 KiB de PRG y 256 KiB de
