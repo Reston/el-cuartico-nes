@@ -6,160 +6,239 @@
 
 ## 1. La idea que une el juego
 
-Chucho, Estefania y Daniel quieren grabar un sketch. Tienen el estudio, los equipos
-y demasiadas ideas. Cada propuesta se convierte en una aventura que imaginan y
-ensayan juntos. Al terminar conservan una parte que funciona: la premisa, el
-conflicto o el remate. El final consiste en grabar una versión que une esas partes.
+Chucho, Estefania y Daniel están planificando cómo hacer un sketch para el
+videojuego. Proponen situaciones inspiradas en juegos clásicos y las cambian con
+las temáticas, personajes, discusiones y chistes internos de El Cuartico. Cuando
+uno empieza a describir su idea, pasamos del estudio a la versión que los tres imaginan.
 
-**Promesa para quien juega:** ayudar al Cuartico a convertir una idea absurda en
-un sketch terminado, jugando sus ensayos como una aventura de plataformas y acción.
+**Promesa para quien juega:** entrar en las ideas del Cuartico y jugar parodias de
+videojuegos que tienen su humor, mientras los tres intentan decidir cómo hacer el sketch.
 
-El estudio es real dentro de la historia; los mundos son representaciones de sus
-ideas. Una claqueta y un cambio visual distinguen ambas situaciones. Las derrotas
-son tomas fallidas, no muertes de los personajes. La urgencia de grabar forma parte
-del diálogo: no existe una cuenta atrás global que obligue a apresurarse.
+Cada propuesta tiene una pequeña historia propia. El hilo conductor es la
+conversación y el proceso creativo del grupo. Una idea puede ser de plataformas,
+otra de acción y otra de misterio, sin obligarlas a compartir una misión ficticia.
+La pregunta que mueve la campaña es: **«¿Cómo sería un sketch de nosotros en un videojuego?»**
+
+El estudio es real dentro de la historia; los mundos son visualizaciones de sus
+propuestas. Una claqueta y un cambio visual distinguen ambas situaciones. Las
+derrotas son intentos imaginados que pueden corregir. El paso de una parodia a otra
+nace de una nueva propuesta en el estudio, no de viajes a universos mágicos.
+No existe una cuenta atrás global que obligue a apresurarse.
 
 ### Decisiones de partida
 
 - Un motor compartido de plataformas laterales, con combate sencillo y exploración.
-- Tres ensayos principales de dos fases cada uno, más una grabación final.
+- Tres propuestas de parodia, de dos fases cada una, y un cierre sobre el sketch.
 - Tres personajes jugables; cambio en puntos seguros, no durante un salto.
-- Los juegos actuales pasan a ser tareas de producción y siguen disponibles completos.
+- Los juegos actuales pasan a ser tareas de preparación o ensayos dentro de la historia
+  y siguen disponibles completos.
 - Progreso recuperable mediante contraseña; terminar la historia no exige medallas.
-- Gráficos, música, personajes secundarios y mapas originales. Las referencias a
-  otros juegos orientan el diseño y la comedia; no son una lista obligatoria de diez títulos.
+- Referencias a juegos reconocibles, transformadas por un chiste o tema del Cuartico
+  que cambie el objetivo, la situación o la mecánica, además de la apariencia.
+- Gráficos, música y mapas originales; tres parodias iniciales, sin compromiso de
+  producir diez motores o de cubrir un ranking de juegos.
 
-El título, los diálogos, los nombres de jefes y las cifras de equilibrio son
-propuestas editables. La estructura narrativa anterior guía el desarrollo.
+La premisa del proceso creativo y las parodias es la dirección acordada. El título,
+los temas concretos, los chistes, los nombres de jefes y el remate final siguen abiertos.
+Las asignaciones de quién propone cada mundo son decisiones de guion por revisar,
+no afirmaciones sobre la personalidad real de los integrantes.
 
 ## 2. Reglas de diseño
 
-1. **Todo objetivo tiene un motivo en el sketch.** Se cruza una azotea para entregar
-   un paquete; se combate una máquina porque retiene la dirección del destinatario.
+1. **La parodia tiene dos referencias reconocibles.** Una viene del lenguaje del
+   videojuego; la otra, de un tema o chiste del Cuartico. Ambas afectan lo que se juega.
 2. **Moverse debe ser divertido antes de añadir contenido.** Saltos, cámara,
    colisiones y respuesta del ataque se prueban primero con gráficos simples.
-3. **La comedia se juega.** Un portero pide un permiso para entregar el permiso;
-   una máquina interpreta una instrucción literalmente. El diálogo prepara el gag.
-4. **Cada ensayo deja algo útil.** El guion visible en el estudio avanza y el final
-   recupera sus hallazgos. Ningún mundo termina siendo una excursión sin consecuencia.
+3. **El chiste se convierte en acción.** Si el humor gira alrededor de una costumbre,
+   una discusión o una exageración, esa regla debe producir un obstáculo, un objetivo
+   o un patrón de jefe. Cambiar un nombre en el diálogo no basta.
+4. **La conversación explica los cambios.** Una sugerencia introduce la siguiente
+   situación y una reacción al terminar explica qué funcionó y qué cambiarían.
 5. **La variedad conserva controles y reglas aprendidas.** Cambian situaciones,
    enemigos y ritmo; no se construye un motor nuevo para cada homenaje.
 6. **Los errores invitan a otra toma.** Reintentos cortos, puntos de control y ayuda
    opcional. Los chistes de derrota se pueden saltar y no se repiten siempre.
 7. **Legibilidad en portátil.** Texto breve, objetivo reconocible, peligros claros
    y efectos que no oculten las plataformas ni los ataques enemigos.
+8. **El mundo funciona aunque no conozcas la referencia.** El objetivo y la situación
+   se explican jugando. Conocer el programa permite reconocer una segunda capa de humor.
 
 ## 3. Historia y progresión
 
-### Premisa del sketch: «Entrega sin interrupciones»
+### El estudio es el marco de la historia
 
-Un repartidor debe entregar una caja a un estudio sin interrumpir la grabación.
-El recorrido se vuelve más ruidoso y complicado cuanto más intenta ayudar todo
-el mundo. Dentro de la caja hay un cartel: **SILENCIO. ESTAMOS GRABANDO.**
+La apertura muestra a los tres buscando una idea para su sketch en el videojuego.
+Uno propone partir de un tipo de juego conocido; otro lo lleva a un tema del programa;
+el tercero añade una complicación. La cámara entra en esa idea y comienza la aventura.
 
-El remate llega cuando por fin cuelgan el cartel, se hace silencio y suena el
-timbre de otra entrega. El jugador da la última respuesta: abrir la puerta.
-Es una propuesta de gag final, no una cita ni una recreación de un sketch existente.
+Al terminar, volvemos a la misma conversación. El grupo comenta lo que acabamos de
+jugar y propone una variación o una alternativa. Sus diferencias creativas y la
+acumulación de propuestas sostienen la comedia de la campaña.
 
-| Momento | Qué sucede | Qué aporta al guion |
+Cada parodia tiene principio, objetivo y remate propios. No es obligatorio que sus
+protagonistas estén haciendo el mismo encargo ni que compartan antagonista.
+La coherencia está en quién la imagina, por qué la propone y cómo la transforman los demás.
+
+| Momento | Qué sucede | Qué aprende o consigue el jugador |
 | --- | --- | --- |
-| Prólogo | Los tres acuerdan empezar con una entrega sencilla. Se aprende a moverse en un decorado de ensayo. | Una caja y una misión comprensible. |
-| Ensayo 1: La entrega imposible | Daniel propone que hasta llegar a la puerta sea una aventura. Estefania añade un portero demasiado importante. | La ruta del repartidor y el chiste del permiso. |
-| Ensayo 2: La casa que ayuda demasiado | Chucho propone automatizar la entrega. Todos los aparatos interpretan mal sus instrucciones. | El conflicto: cada solución hace más ruido. |
-| Ensayo 3: ¿Quién pidió esto? | Nadie reconoce al destinatario. Buscan pistas mientras una voz exige silencio desde una cabina. | El destinatario y el remate de la caja. |
-| Preparación final | Ordenan el guion, comprueban las tareas de producción y eligen al protagonista de la toma. | Premisa, conflicto y remate completos. |
-| Grabación | Una ruta nueva mezcla los mejores obstáculos, con montaje más rápido y un último problema. | El sketch terminado. |
-| Epílogo | Ven una breve versión editada, reaccionan y desbloquean la selección de tomas. | Recompensa y motivos para volver. |
+| Prólogo | En el estudio, los tres plantean hacer el sketch para el videojuego. Un ensayo breve enseña el mando. | Entiende el marco de la historia y reconoce a los tres. |
+| Propuesta 1: plataformas | Una idea de recorrido y saltos se convierte en una situación del Cuartico. | Primera parodia terminada y primera conversación sobre lo que funciona. |
+| Propuesta 2: acción | Otra propuesta prueba combates y jefes con motivos sacados del humor del grupo. | Segunda parodia, nueva forma de convertir un chiste en mecánica. |
+| Propuesta 3: misterio | La siguiente idea convierte un tema del programa en búsqueda y descubrimiento. | Tercera parodia y material suficiente para decidir cómo presentar el sketch. |
+| Mesa de ideas | Revisan las propuestas y completan las tareas de preparación pendientes. | Ve las tres ideas probadas y la decisión del grupo. |
+| Cierre | Una toma final o montaje presenta cómo quedaron las ideas en el sketch. Su argumento se escribe tras elegir las referencias reales. | Resolución de la planificación y recuperación de los mejores gags. |
+| Epílogo | Reaccionan al resultado y se desbloquea la selección de tomas. | Recompensa y motivos para volver. |
 
-### Un ejemplo del tono
+### Ejemplo de estructura de una propuesta
 
-> Chucho: «Llega, entrega la caja y se va».
->
-> Daniel: «¿Y si la casa no tiene puerta?»
->
-> Estefania: «Tiene. Pero el portero es el jefe final».
->
-> Chucho: «Todavía no hemos grabado ni el timbre».
+Este intercambio es una demostración inventada de la estructura, no una cita del
+programa ni un chiste interno ya validado:
 
-Estas líneas sirven de referencia de ritmo. La voz definitiva de los personajes
-se revisa antes de producir todas las escenas; no se inventan citas reales.
+> Chucho: «Es subir y ya».
+>
+> Estefania: «El problema es cómo bajas».
+>
+> Daniel: «Ponle una escalera».
+
+Es un ejemplo basado en R01, aportada por el usuario. Durante el recorrido las
+soluciones que proponen los otros se convierten en partes del escenario. El guion
+definitivo revisa la voz de cada personaje y prepara el remate de la parodia.
 
 ### Gramática de una misión
 
-Propuesta breve en el estudio → objetivo visible → ensayo jugable → una reescritura
-en un lugar seguro → prueba de lo aprendido → remate → pieza de guion obtenida.
+Idea en el estudio → conexión con un tema del Cuartico → parodia jugable → un aporte
+nuevo de otro integrante → escalada del mismo chiste → remate → reacción en el estudio.
 
 Una reescritura cambia la siguiente sala o tramo, nunca el suelo bajo el jugador
 sin aviso. No anula coleccionables ni obliga a repetir una fase terminada.
 Como máximo hay una interrupción narrativa obligatoria por fase, además de entrada
 y cierre. Las escenas se avanzan manualmente; tras el primer intento se pueden omitir.
+El narrador no explica el chiste después de que ocurre: la reacción debe aportar otro gag.
 
-## 4. Campaña y mundos
+### Referencias del Cuartico y selección de argumentos
 
-La campaña inicial tiene orden fijo para poder construir el chiste y la dificultad.
-Después de completar una fase se permite repetirla desde la mesa de guion.
-Cada ensayo contiene dos fases; el enfrentamiento principal está dentro de la segunda.
+El usuario ya aportó tres anécdotas y dos colaboradores para incluir. Están
+registrados, junto con fuentes públicas y cinco candidatas, en
+[Referencias y propuestas de parodias](REFERENCIAS-PARODIAS.md). La base aportada
+permite desarrollar ideas; los argumentos y diálogos todavía son propuestas.
+Por cada referencia se anota:
 
-### Ensayo 1 — La entrega imposible
+- Tema, chiste, personaje recurrente o situación y qué lo hace reconocible.
+- Contexto aportado por el usuario o episodio/fuente verificable; no rellenar de memoria.
+- Quién participa y cómo se evita atribuirle a alguien una frase que nunca dijo.
+- Qué acción puede hacer el jugador con esa idea.
+- Cómo se prepara el chiste, cómo crece y cuál es su remate.
+- Cómo se entiende la escena para quien no conozca el episodio.
 
-**Referencia de diseño:** claridad de rutas y saltos de Mario; decorados y enemigos propios.
+Las referencias aportadas por el usuario se identifican como tales. Una escena
+escrita para el juego se identifica como adaptación original, no como transcripción.
+No se presentan nombres o bromas inventados como si fueran chistes recurrentes reales.
 
-- **Fase 1, Calle de cartón:** plataformas anchas, toldos elásticos y dos tipos de
-  obstáculo. Enseña salto variable, ataque, interacción y punto de control. Una
-  flecha exagerada conduce a un desvío que vuelve a la misma puerta: primer gag jugable.
-- **Fase 2, Azoteas y recepción:** plataformas móviles y una ruta alternativa visible.
-  La reescritura «la entrada está arriba» convierte el acceso al edificio en un ascenso
-  por salas conectadas, sin exigir cámara vertical continua.
-- **Jefe, El Portero de Utilería:** golpea con su sello, desliza una barrera y descansa
-  revisando papeles. Se esquiva el patrón y se ataca durante la revisión. No exige reflejar
-  proyectiles ni dominar una habilidad que todavía no se ha enseñado.
-- **Pieza conservada:** el permiso inútil, que vuelve como llave cómica en el final.
-- **Tarea de producción:** Chucho repara el mecanismo de una puerta del decorado.
+| Identificador | Referencia aportada por el usuario | Candidata de guion |
+| --- | --- | --- |
+| R01 | Chucho escala y a Estefania y Daniel les preocupa el peligro. | «Chucho, bájate de ahí»: ascenso y protecciones imaginadas que cambian el recorrido. |
+| R02 | La broma sobre operación frente a la explicación del estómago de Estefania. | «Operación: era el estómago»: acción contra máquinas que amplifican versiones de un rumor. |
+| R03 | Daniel es hijo de una chilena, como referencia para los chistes del grupo. | «La leyenda del hijo de la chilena»: aventura que exagera lo que esperan que sepa por ese vínculo. |
+| R04–R05 | Nadia María y Alí Rondón como participantes de los sketches. | Intérpretes recurrentes de papeles en los mundos imaginados. |
 
-### Ensayo 2 — La casa que ayuda demasiado
+Estos identificadores solo pertenecen al documento de diseño. No se publican como
+texto del juego. Las anécdotas R01–R03 proceden del usuario; la investigación pública
+no localizó sus fragmentos concretos. Las fuentes encontradas sí respaldan temas
+y participaciones que permiten proponer un supermercado con Nadia y un mundo de
+apodos como alternativas. El catálogo distingue esos alcances de las escenas inventadas.
+Se puede prototipar el motor con figuras neutras mientras se revisa el guion.
+
+## 4. Campaña y parodias
+
+La campaña inicial tiene orden fijo para enseñar controles y aumentar la dificultad.
+Después de completar una fase se permite repetirla desde la mesa de ideas.
+Cada propuesta contiene dos fases; el enfrentamiento principal está dentro de la segunda.
+Las siguientes familias describen el alcance mecánico. Las candidatas concretas
+«Chucho, bájate de ahí», «Operación: era el estómago» y «La leyenda del hijo de la
+chilena» están desarrolladas en el [catálogo de parodias](REFERENCIAS-PARODIAS.md).
+Su selección sigue abierta; las alternativas investigadas pueden ocupar uno de
+estos lugares sin aumentar el número de fases.
+
+### Propuesta 1 — «¿Y si fuera uno de plataformas?»
+
+**Referencia de diseño:** claridad de rutas y saltos de Mario; escenarios y personajes
+transformados por R01. **Candidata:** la escalada de Chucho y la preocupación del equipo.
+
+- **Fase 1, planteamiento:** plataformas anchas, saltos seguros y dos tipos de
+  obstáculo. Presenta el objetivo que nace del chiste: llegar a un lugar, encontrar
+  algo o alcanzar a alguien, según R01. Enseña salto, ataque, interacción y punto de control.
+- **Fase 2, exageración:** plataformas móviles y una ruta alternativa visible. Un
+  comentario de otro integrante agranda el problema que ya estaba planteado.
+- **Jefe:** una caricatura original del obstáculo central del chiste. Su patrón
+  contiene preparación, acción y descanso; el remate aprovecha esa misma regla.
+- **Resultado narrativo:** el grupo ha probado una versión de su idea y reacciona
+  a cómo terminó. La tarjeta del estudio muestra esta propuesta completada.
+- **Tarea de producción sugerida:** Chucho prepara o repara un elemento del decorado
+  antes de la prueba. La razón concreta se escribe junto al argumento de R01.
+
+La transformación debe ir más allá de sustituir al héroe: el objetivo y al menos
+un obstáculo jugable deben proceder del tema del Cuartico. No se presupone rescatar
+una princesa ni copiar el recorrido de un nivel existente.
+
+### Propuesta 2 — «¿Y si fuera uno de acción?»
 
 **Referencia de diseño:** patrones legibles y salas de acción de Mega Man.
+**Tema y argumento del Cuartico:** R02 determina el conflicto y el motivo de los enemigos.
 
-- **Fase 3, Recepción automática:** cintas transportadoras, sensores y pequeños
-  aparatos que intentan clasificar la caja. Primero se presenta cada peligro por separado.
-- **Fase 4, Central del buen servicio:** combina un peligro de recorrido con enemigos
-  a distancia. La reescritura «que la casa ayude» activa máquinas que dificultan el camino.
-- **Jefe, La Asistente Perfecta:** alterna aspirar, expulsar paquetes y anunciar una
-  solución equivocada. Luces y animación anticipan cada acción. Vencerla entrega la
-  etiqueta correcta; no añade un inventario de armas.
-- **Pieza conservada:** una instrucción que siempre se interpreta al revés.
-- **Tarea de producción:** Estefania ensaya una cortinilla para cubrir un cambio de escena.
+- **Fase 3, planteamiento:** presenta enemigos y ataques por separado. El entorno y
+  sus máquinas, criaturas o rivales se eligen según el chiste, no por una obligación
+  de ambientar todo en una fábrica.
+- **Fase 4, exageración:** combina un peligro de recorrido con enemigos a distancia.
+  Una propuesta de otro integrante transforma la dificultad en una nueva consecuencia cómica.
+- **Jefe:** personifica la contradicción o exageración de R02. Dos patrones claros y
+  una variación final, siempre anticipados. El motivo por el que actúa es parte del sketch.
+- **Resultado narrativo:** reacción a la segunda propuesta, con un contrapunto a lo
+  que el grupo dijo al terminar la primera.
+- **Tarea de producción sugerida:** Estefania ensaya una intervención o cue musical
+  que tenga sentido en esa escena. No se inserta una canción ajena al argumento solo por reutilizar el minijuego.
 
-### Ensayo 3 — ¿Quién pidió esto?
+Se toma la idea de aprender patrones, sin añadir selección de ocho jefes, armas
+coleccionables o un motor nuevo. El humor decide qué significan los ataques.
 
-**Referencia de diseño:** pistas y descubrimientos de Zelda, con ambientación de
-estudio nocturno; se mantiene la vista lateral y el mismo motor.
+### Propuesta 3 — «¿Y si fuera una aventura de misterio?»
 
-- **Fase 5, Camerinos equivocados:** un pequeño circuito de salas, tres pistas claras
-  y personajes que confunden al repartidor. Un esquema de salas ayuda a orientarse.
-- **Fase 6, Cabina de silencio:** combina exploración y plataformas. Las pistas revelan
-  que el misterioso destinatario está en el propio estudio. No hay objetos obligatorios
-  ocultos sin indicación ni combinaciones arbitrarias de inventario.
-- **Jefe, El Director del Silencio:** produce ruido cada vez que ordena callar; sus
-  focos y altavoces anticipan las zonas peligrosas. Tras el combate pide el cartel de la caja.
-- **Pieza conservada:** la contradicción que da sentido al remate.
-- **Tarea de producción:** localizar a Daniel entre los figurantes antes de grabar
-  su intervención. Se conserva así la lógica del juego de búsqueda actual.
+**Referencia de diseño:** pistas y descubrimientos de aventuras como Zelda;
+se conserva la vista lateral. **Tema y argumento del Cuartico:** R03 define qué se busca
+y por qué la revelación resulta graciosa.
 
-### Final — Ahora sí, grabando
+- **Fase 5, planteamiento:** un pequeño circuito de salas, tres pistas claras y
+  personajes que encarnan el malentendido de R03. Un esquema de salas ayuda a orientarse.
+- **Fase 6, exageración:** combina investigación y plataformas. La intervención de
+  otro integrante cambia cómo se interpreta una pista y prepara la revelación.
+- **Encuentro final:** un jefe o situación de acción resuelta con una regla aprendida
+  durante la búsqueda. La revelación responde a la pregunta inicial; no es un giro arbitrario.
+- **Resultado narrativo:** la tercera idea termina y los tres ya pueden discutir
+  qué versión representa mejor el sketch que querían hacer.
+- **Tarea de producción sugerida:** encontrar a Daniel entre figurantes para ensayar
+  su papel. Se conserva el objetivo del minijuego actual sin afirmar que ya busca a otro personaje.
 
-Un montaje jugable de tres tramos breves utiliza el permiso, la casa automática
-y la cabina. Son disposiciones nuevas de mecánicas conocidas, no una repetición
-íntegra de las seis fases. Hay un punto de control entre tramos.
+No hay objetos obligatorios escondidos sin indicación ni inventario de combinaciones
+arbitrarias. Las referencias específicas se presentan en la escena para que la
+investigación funcione también sin conocer el programa.
 
-El último enfrentamiento combina dos patrones ya aprendidos y termina al entregar
-la caja, no al descubrir un cuarto sistema de combate. Sigue la acción breve de
-colgar el cartel y abrir la puerta tras el timbre. El epílogo muestra a los tres.
+### Cierre — «Ya tenemos el sketch»
 
-La caja es un objeto de historia: aparece con el personaje o en la escena, pero no
-añade física de transporte, durabilidad ni pérdida permanente. Todos los protagonistas
-pueden completar la entrega. Las tareas de producción pendientes pueden hacerse
-antes de empezar la toma final; no interrumpen el clímax.
+El cierre debe resolver la planificación que abrió el juego. Su premisa y remate
+se escriben después de seleccionar R01–R03 y revisar las reacciones del estudio.
+No se fija todavía un encargo común ni un objeto que deba unir las tres parodias.
+
+**Formato de producción propuesto:** un montaje jugable de hasta tres tramos breves,
+con disposiciones nuevas de mecánicas conocidas y un punto de control entre tramos.
+Los cambios de escena pueden representar el montaje del sketch; la conversación
+explica por qué recuperan cada idea. No se obliga a que sus mundos compartan geografía.
+
+Solo se conserva este formato si el guion da un motivo a las tres partes. Si funciona
+mejor una única toma corta seguida de la reacción del grupo, se reduce el alcance
+final y se vuelve a estimar la duración. No se alarga el final solo para reutilizar niveles.
+
+Las tareas de producción pendientes se completan antes del cierre. Ningún final
+requiere todas las cintas ni medallas. El epílogo reconoce lo que los tres imaginaron
+y permite volver a las propuestas completas.
 
 ## 5. Personajes y controles
 
@@ -204,7 +283,7 @@ variantes tienen objetivos propios y no cambian la dificultad del modo original.
 
 | Actividad | Versión de historia propuesta | Duración objetivo | Resultado narrativo |
 | --- | --- | --- | --- |
-| Chucho: reparar | Dos paneles de reparación; sin reloj mientras se resuelven. | 30–60 segundos. | La puerta del decorado funciona. |
+| Chucho: reparar | Dos paneles de reparación; sin reloj mientras se resuelven. | 30–60 segundos. | Un elemento del decorado o equipo queda preparado para la propuesta. |
 | Estefania: ritmo | Práctica breve y una frase de 8–12 notas; cierre en un límite musical. | 20–40 segundos. | Cortinilla ensayada. |
 | Daniel: búsqueda | Una zona de público y una búsqueda, con pista progresiva. | 30–60 segundos. | Actor localizado para su escena. |
 
@@ -229,9 +308,11 @@ a la aventura o a sus personajes.
 ## 7. Estudio, recompensas y duración
 
 El estudio actual es la base visual y espacial. Se añaden tres puntos claros:
-la mesa del guion, el camerino y el monitor de juegos. El guion muestra tres casillas:
-**inicio**, **problema** y **remate**. Cada ensayo completa una y añade un accesorio
-visible al decorado. Así el progreso se entiende sin una explicación extensa.
+la mesa de ideas, el camerino y el monitor de juegos. La mesa muestra tres tarjetas,
+una por propuesta: **por probar**, **ensayando** o **probada**. Cada una tiene su
+título definitivo y una nota breve sobre lo que concluyeron. Al completarla aparece
+un accesorio de esa parodia en el estudio. Así se ve avanzar la planificación sin
+obligar a repartir un único argumento entre los tres mundos.
 
 ### Alcance de la primera campaña completa
 
@@ -240,15 +321,16 @@ visible al decorado. Así el progreso se entiende sin una explicación extensa.
 | Estudio y prólogo interactivo | 1 conjunto compartido. |
 | Ensayos | 3, con identidad visual y mecánica propia. |
 | Fases principales | 6, aproximadamente 4–7 minutos cada una, jefe incluido cuando corresponda. |
-| Jefes de ensayo | 3; el final reutiliza y combina comportamientos. |
+| Jefes de ensayo | 3; los comportamientos quedan disponibles para el cierre si encajan en su guion. |
 | Minijuegos narrativos | 3 adaptaciones cortas de los existentes. |
-| Grabación final | 1 secuencia de tres tramos, objetivo de 8–12 minutos. |
+| Cierre del sketch | Hasta 3 tramos, objetivo provisional de 8–12 minutos; formato sujeto al guion. |
 | Cintas opcionales | 6, una por fase; cada una desbloquea un gag o variante visual. |
 | Familias básicas de enemigos | 6: dos introducidas por ensayo, con reutilización posterior. |
 
 **Objetivo de duración:** 45–75 minutos en una primera partida, contando escenas,
 exploración y reintentos moderados. Las fases repetidas y el contenido opcional pueden
 ampliarla. Es una hipótesis que se mide con personas nuevas; no una duración prometida.
+Se revisa si el guion pide un cierre más breve.
 
 Las cintas se conservan al morir o salir de una fase. Hay una ruta de recogida con
 cualquier personaje; las especialidades ofrecen atajos. Conseguir las seis cambia
@@ -298,7 +380,8 @@ cambia, se conserva el decodificador o se comunica la incompatibilidad explícit
 ### Lectura y comedia
 
 - HUD mínimo: salud e icono del objetivo; el nombre y la explicación completa van en pausa.
-- Objetivos cortos: «ENTREGA LA CAJA», «RECUPERA LA ETIQUETA», «BUSCA LA CABINA».
+- Objetivos de una línea, con acción y blanco claros. Se escriben al definir cada
+  parodia; comprenderlos no requiere conocer el chiste interno.
 - Diálogos con retrato, como máximo dos líneas cortas por tarjeta y avance manual.
   El generador valida el ancho en píxeles, no solo el número de caracteres.
 - Área útil con margen: evitar texto crítico junto al borde inferior, ya problemático
@@ -414,15 +497,18 @@ de P2, cuando se conozca el coste real de motor, arte y una fase completa.
 | --- | --- | --- |
 | **P0 — Viabilidad** | Compilar base limpia, ejecutar regresiones, inventariar PRG/CHR/RAM, probar llamada a banco y resolver propuesta de scroll/pausa. Informe de presupuesto. | Hay un camino medido para una sala de aventura sin romper menú ni juegos. |
 | **P1 — Movimiento** | Sala gris con Chucho, salto, cámara, plataformas, ataque, daño, caída, pausa y punto de control. ROM interna. | Movimiento legible y consistente en FCEUmm, Mesen y una prueba real en R36S; sin bloqueos ni fallos al pausar. |
-| **P2 — Una toma completa** | Primera fase de 5–8 minutos con propuesta, dos enemigos, puerta/reparación corta, reescritura, jefe reducido y regreso al guion. Arte y sonido suficientes para juzgarla. | Un jugador nuevo entiende qué busca, identifica el chiste y quiere intentar otra fase. Se mide duración y se registra su confusión. |
+| **P2 — Una parodia completa** | Revisar R01 y concretar su argumento. Primera fase de 5–8 minutos con propuesta en el estudio, dos enemigos, reparación corta con motivo narrativo, aporte de otro integrante, jefe reducido y reacción final. Arte y sonido suficientes para juzgarla. | Un jugador nuevo entiende qué busca y el remate; alguien familiarizado con El Cuartico reconoce la referencia. Se mide duración y se registra confusión. |
 | **P3 — Progreso y equipo** | Estructura de campaña, tres personajes, cambio seguro, contraseña, modo tranquilo, premios y acceso a juegos originales. | Guardar/cargar reconstruye desbloqueos, nadie queda sin salida y la campaña clásica sigue pasando sus pruebas. |
-| **P4 — Ensayos completos** | Completar seis fases, tres jefes, otras dos tareas de producción y guion. Entregar por ensayo en PR separados. | Cada mundo enseña, desarrolla y combina una mecánica; todos los personajes completan la ruta principal. |
-| **P5 — Grabación y epílogo** | Final de tres tramos, remate interactivo, devolución de los gags, cintas y selección de tomas. | Se puede terminar de principio a fin, también usando ayuda y contraseñas. La historia explica por qué se jugó cada ensayo. |
+| **P4 — Parodias completas** | Desarrollar R02–R03 o las alternativas escogidas. Completar seis fases, tres jefes, otras dos tareas de producción y conversaciones del estudio. Entregar por propuesta en PR separados. | Cada mundo convierte su referencia en una mecánica y una pequeña historia; todos los personajes completan la ruta principal. |
+| **P5 — Cierre y epílogo** | Escribir y revisar el cierre con las referencias ya elegidas. Construir el formato que lo sirva, su remate, la reacción del grupo y la selección de tomas. Revisar la meta de duración. | La planificación del sketch llega a una conclusión comprensible. Se puede terminar usando ayuda y contraseñas; ninguna mezcla de mundos carece de motivo. |
 | **P6 — Equilibrio y entrega** | Pruebas externas, lectura portátil, rendimiento, revisión de audio, documentación y paquete. | Criterios de publicación cumplidos y recorrido físico en R36S registrado. |
 
 Dependencia principal: **P0 → P1 → P2 → P3 → P4 → P5 → P6**.
-Los bocetos narrativos pueden prepararse antes, pero la producción masiva de arte y
-mapas espera a P2. Si el desplazamiento no convence, se ajusta P1; no se intenta
+Las referencias iniciales ya están registradas; revisar el contexto de R01 y cerrar
+su adaptación precede al argumento definitivo de P2. Mientras se revisa el guion,
+P0 y P1 avanzan con recursos neutros. Los bocetos narrativos pueden prepararse antes,
+pero la producción masiva de arte y mapas espera a P2. Si el desplazamiento no
+convence, se ajusta P1; no se intenta
 compensar con más mundos. El pequeño jefe de P2 se convierte en el jefe del primer
 ensayo; no constituye contenido adicional que haya que mantener.
 
@@ -431,12 +517,12 @@ ensayo; no constituye contenido adicional que haya que mantener.
 1. Presupuestos, puntos de entrada entre bancos y soporte mínimo de aventura.
 2. Movimiento, colisiones, cámara y pruebas de pausa.
 3. Ataque, enemigos, daño y puntos de control.
-4. Primera toma completa y adaptador de reparación narrativa.
+4. Primera parodia con R01, conversación y remate propios; adaptador de reparación narrativa.
 5. Campaña, menú, personajes, contraseña y aislamiento de progreso clásico.
 6. Ensayo 1 definitivo, arte y primer jefe.
 7. Ensayo 2 y adaptación narrativa del ritmo.
 8. Ensayo 3 y adaptación narrativa de búsqueda.
-9. Grabación final, epílogo y recompensas opcionales.
+9. Cierre del sketch acordado tras R01–R03, epílogo y recompensas opcionales.
 10. Equilibrio, comprobación portátil y versión pública.
 
 Cada PR incluye alcance, instrucciones para probarlo, capturas cuando la imagen
@@ -470,8 +556,10 @@ inacabadas; el menú público no anuncia contenido que todavía no se puede term
 ### Historia, diversión y portátil
 
 Probar con al menos tres personas que no conozcan los mapas, si están disponibles,
-y preguntar qué intentaban hacer, qué parte conservaron del ensayo y qué les hizo
-reír. Registrar tiempo por fase, muertes, abandonos, uso de ayuda y momentos de duda.
+y preguntar qué intentaban hacer, por qué estaban imaginando esa parodia y qué les
+hizo reír. Incluir también una persona familiarizada con El Cuartico para comprobar
+que reconoce el tema y el tono. La prueba con quien no conoce el programa verifica
+que la escena se entiende sin explicaciones externas. Registrar tiempo por fase, muertes, abandonos, uso de ayuda y momentos de duda.
 El criterio de P2 no se sustituye por una prueba automatizada.
 
 En R36S comprobar salto y ataque con sus botones reales, lectura de diálogo y
@@ -514,8 +602,10 @@ estable en lugar de reiniciar el proyecto.
 
 Implementar **P0 y P1**: una sala de prueba con Chucho que permita desplazarse,
 saltar, atacar, recibir daño, reiniciar y pausar con cámara. Entregar su ROM interna
-y un informe de memoria. Después construir **una sola toma completa** según P2.
+y un informe de memoria. En paralelo, revisar las propuestas basadas en las
+referencias aportadas y desarrollar R01 antes de construir **una sola parodia completa** según P2.
 
-El objetivo de esa primera toma es demostrar tres cosas juntas: que se siente bien
-jugar, que el minijuego encaja en la producción del sketch y que el remate recompensa
-haberlo completado. Solo entonces se escala al resto de la campaña.
+El objetivo de esa primera parodia es demostrar que se siente bien jugar, que el
+humor del Cuartico transforma la situación y la mecánica, que el minijuego tiene un
+motivo en la preparación del sketch y que el remate recompensa haberlo completado.
+Solo entonces se escala al resto de la campaña.

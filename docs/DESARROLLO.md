@@ -1,8 +1,9 @@
 # Desarrollo
 
-La propuesta para convertir los ensayos de un sketch en una campaña de plataformas
-está en el [plan de aventura](PLAN-AVENTURA.md). Describe trabajo futuro; las
-secciones siguientes documentan el juego actual.
+La propuesta para jugar las ideas del Cuartico mientras planifican un sketch para
+el videojuego está en el [plan de aventura](PLAN-AVENTURA.md): parodias de juegos
+clásicos con temas y chistes del grupo. Describe trabajo futuro; las secciones
+siguientes documentan el juego actual.
 
 ## Cartucho y código
 
