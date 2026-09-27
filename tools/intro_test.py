@@ -8,7 +8,7 @@ def check(ok,label):
     (h.root/'build/intro-tests.txt').write_text('\n'.join(report)+'\n');assert ok,label
 
 def boot_card(button=8):
-    h.core.retro_reset();h.frames(90);h.press(7);h.press(7);h.frames(60,[button])
+    h.reset();h.frames(90);h.press(7);h.press(7);h.frames(60,[button])
 
 boot_card()
 check(r('mode')==7 and r('completed')==0,'Choosing Daniel shows the title card without earning a stamp')
@@ -29,7 +29,7 @@ check(r('mode')==7 and r('found')==0,'Retry returns to the title card with searc
 start_from_intro()
 check(r('mode')==3 and r('misses')==0,'A also begins the search without consuming a guess')
 # Reset from the extra PRG data bank must still find the fixed startup vectors.
-boot_card(3);h.core.retro_reset();h.frames(90)
+boot_card(3);h.reset();h.frames(90)
 check(r('mode')==0 and r('ex_on')==1,'Reset from the card restores the normal menu and MMC5 bank mapping')
 # Portrait changes must retain atomic text updates and a stable top banner.
 h.screenshot('portraits.png')
@@ -43,7 +43,7 @@ budget=json.loads((h.root/'assets/art-budget.json').read_text())
 ex=(h.root/'assets/dany-intro.exram').read_bytes()
 check(256<budget['backgrounds']['dany_intro']<=512 and set(v&63 for v in ex[:960])=={47,48},'Card uses two populated CHR pages within its 512-tile budget')
 check(set(v>>6 for v in ex[:960])=={0,1,2,3},'Card keeps separate blue, red, grayscale and stone subpalettes')
-check(budget['banks_used']==54 and len(h.rom)==393232,'Intro fits the existing MMC5 cartridge size')
+check(budget['banks_used']==63 and len(h.rom)==393232,'Intro fits the existing MMC5 cartridge size')
 nt=(h.root/'assets/title.exram').read_bytes()
 check([nt[21*32+x]>>6 for x in (4,12,20)]==[3,2,0],'Menu clothing uses Chucho green, Estefania jacket and Daniel white palettes')
 h.close()

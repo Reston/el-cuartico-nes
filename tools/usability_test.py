@@ -9,7 +9,7 @@ def check(ok,label):
     line=('PASS ' if ok else 'FAIL ')+label;print(line,flush=True);report.append(line)
     (h.root/'build/usability-tests.txt').write_text('\n'.join(report)+'\n');assert ok,label
 
-def boot():h.core.retro_reset();h.frames(90)
+def boot():h.reset();h.frames(90)
 def picture():return hashlib.sha256(h.screen[0]).digest()
 def snapshot():
     return tuple(r(n,i) for n in ('seconds','tick','completed','found','hits','repairs','score','attempt_score') for i in range(2 if 'score' in n else 1))
@@ -34,11 +34,11 @@ for host in range(3):
     check(r('mode')==7 and not r('paused'),'Retry opens host '+str(host)+' card')
     start_from_intro()
     check(r('mode')==host+1 and not r('misses'),'A confirms host '+str(host)+' without accidental gameplay input')
-    h.press(3);h.press(8);h.core.retro_reset();h.frames(90)
+    h.press(3);h.press(8);h.reset();h.frames(90)
     check(r('mode')==0 and r('ex_on')==1 and not r('completed'),'Reset from host '+str(host)+' card restores the fixed startup bank')
 check(len(set(cards))==3,'All three characters have distinct illustrated title cards')
 budget=json.loads((h.root/'assets/art-budget.json').read_text())
-check(budget['banks_used']==54 and len(h.rom)==393232,'New posters fit the unchanged cartridge size')
+check(budget['banks_used']==63 and len(h.rom)==393232,'New posters fit the unchanged cartridge size')
 
 
 def help_switches(episode):

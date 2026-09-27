@@ -1,16 +1,18 @@
 # Desarrollo
 
-La propuesta para jugar las ideas del Cuartico mientras planifican un sketch para
-el videojuego está en el [plan de aventura](PLAN-AVENTURA.md): parodias de juegos
-clásicos con temas y chistes del grupo. Describe trabajo futuro; las secciones
-siguientes documentan el juego actual.
+La aventura **Una última toma** está implementada en v0.14.0. Consulta
+[alcance, controles y validación](AVENTURA.md), el [plan de diseño original](PLAN-AVENTURA.md)
+y las [referencias narrativas](REFERENCIAS-PARODIAS.md).
 
 ## Cartucho y código
 
 El juego usa un encabezado iNES, mapper **MMC5 (5)**, 128 KiB de PRG y 256 KiB de
-CHR. Hay 54 bancos gráficos de 4 KiB ocupados. La memoria de batería no se utiliza.
+CHR. Hay 63 bancos gráficos de 4 KiB ocupados. La memoria de batería no se utiliza.
 
-- `src/game.c`: estados, entrada, campaña y minijuegos.
+- `src/game.c`: colección clásica y puente de ensayos breves.
+- `src/adventure.c`: campaña, movimiento, salas, combate y progreso.
+- `src/adventure_ui.c`: guion, menús, pistas y contraseñas.
+- `assets/adventure_art.py`: cinco ambientes, tres actores y cinco jefes originales.
 - `src/start.s`: arranque 6502, NMI, DMA de sprites y configuración MMC5.
 - `src/music.h`: temas y efectos de la APU.
 - `src/nes.cfg`: mapa de memoria de cc65.
@@ -40,8 +42,9 @@ El objetivo del mezclador cambia entre aciertos y no depende de una posición fi
 ## Pruebas
 
 Primero compila con `./build.ps1`. `tools/test_all.py` ejecuta trece suites de
-FCEUmm; `--mesen` añade cinco suites independientes con Mesen: campaña original,
-restauración de imagen, campaña completa de dos episodios, tarjetas/ayuda y registros de la APU. Los resultados se
+clásicas de FCEUmm, tres recorridos completos de la aventura (uno por actor),
+una suite de contraseñas/pausa y controles. `--mesen` añade seis suites independientes: campaña original,
+restauración de imagen, campaña completa de dos episodios, tarjetas/ayuda, registros de la APU y reproducción completa de los botones de la aventura. Los resultados se
 guardan en `build/`, junto a la ROM de trabajo, símbolos y capturas. Cada suite
 falla con un código distinto de cero si detecta una regresión.
 
@@ -270,3 +273,28 @@ El generador fija la página de fuente y su paleta en las filas que `hub()` y
 cada píxel del rótulo inferior con los glifos esperados, al arrancar, tras cambios
 rápidos de personaje y al regresar de una partida. Reproduce el fallo en la ROM
 anterior y pasa con la nueva asignación.
+
+
+## Aventura v0.14.0: bancos y presupuesto
+
+La ventana CPU `$8000–$DFFF` alterna entre bancos PRG 12–14 (colección clásica),
+3–5 (aventura) y 6–8 (interfaz). NMI, biblioteca C y trampolines permanecen en el
+banco fijo 15. Los datos clásicos siguen en 0–2; 9–11 quedan libres.
+Los ensayos guardan/restauran sellos, episodio, Remix, medallas y puntuación clásica.
+
+La aventura usa capacidad fija: cinco plataformas, hasta tres enemigos y tres
+proyectiles. No hay heap ni recursión. Sus temporales se compilan con `-Cl` para
+reducir accesos a la pila; las rutinas no son reentrantes. `adv_shape` escribe OAM
+sin el bucle de llamadas C por tile. NMI no utiliza sus temporales.
+
+CHR 54–58 contiene ambientes; 59 los actores/enemigos; 60 la interfaz; 61–62,
+las cinco páginas de jefes de 1 KiB. Durante la aventura MMC5 usa bancos CHR de
+1 KiB; al abrir una tarjeta vuelve al modo de 4 KiB. Se mantiene el cartucho de
+128 KiB PRG + 256 KiB CHR (393232 bytes incluido el encabezado).
+
+Las pruebas de aventura leen RAM para observar resultados, pero solo envían
+botones: no escriben estado ni cargan partidas del emulador. El recorrido de Chucho
+genera `build/adventure-inputs.txt`; Mesen reproduce esa entrada y comprueba las
+66 salas, las nueve tomas terminadas, las ocho cintas, los tres ensayos y el retorno
+al estudio. Los JSON de rendimiento incluyen transiciones de pantalla, no solo
+las salas vacías. Las capturas y registros de prueba quedan en `build/`.

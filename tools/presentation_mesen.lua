@@ -124,7 +124,14 @@ local runner=coroutine.create(function()
  press('a');check(r('mode')==0 and row(10):find('1/3 SELLOS',1,true)~=nil,'Returning to menu retains the visible earned seal')
  report:close();emu.stop(0)
 end)
+local adventure_boot=0
 emu.addEventCallback(function()
+ -- Enter the preserved classic collection using only controller inputs.
+ if r('mode')==10 then
+  adventure_boot=adventure_boot+1
+  emu.setInput({down=adventure_boot==60 or adventure_boot==80,a=adventure_boot==100},0)
+  return
+ end
  total_frames=total_frames+1
  if total_frames>14000 then report:write('FAIL timeout\n');report:close();emu.stop(2);return end
  local ok,err=coroutine.resume(runner)

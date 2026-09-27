@@ -8,7 +8,7 @@ def check(ok,msg):
     line=('PASS ' if ok else 'FAIL ')+msg;print(line,flush=True);report.append(line)
     (h.root/'build/mmc5-tests.txt').write_text('\n'.join(report)+'\n');assert ok,msg
 def boot(host=None):
-    h.core.retro_reset();h.frames(90)
+    h.reset();h.frames(90)
     if host is not None:
         for _ in range(host):h.press(7)
         h.press(3)
@@ -23,7 +23,7 @@ def steady(n=128,keys=()):
         visuals.add(hashlib.sha256(h.screen[0]).hexdigest())
     return (r('anim_tick')-a)%256,(r('frame')-f)%256,banks,visuals
 budget=json.loads((h.root/'assets/art-budget.json').read_text())
-check(budget['banks_used']==54 and budget['chr_bytes']==262144,'54 populated graphics banks fit 256 KiB CHR ROM')
+check(budget['banks_used']==63 and budget['chr_bytes']==262144,'63 populated graphics banks fit 256 KiB CHR ROM')
 nt=(h.root/'assets/title.nam').read_bytes()
 ex=(h.root/'assets/title.exram').read_bytes()
 check(set(v&63 for v in ex[:960])=={0,26},'Portrait screen uses two simultaneous 4 KiB CHR pages')

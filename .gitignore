@@ -28,3 +28,7 @@ __pycache__/
 *.aac
 *.aiff
 *.mid
+
+# Generated adventure assembly
+/src/adventure.s
+/src/adventure_ui.s

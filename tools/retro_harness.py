@@ -85,3 +85,21 @@ def screenshot(name):
 
 def close():
     core.retro_unload_game();core.retro_deinit()
+
+
+# Classic regression scripts start at their original title through public controls.
+# Adventure suites opt out and exercise the real cartridge boot instead.
+import os
+def classic_boot():
+    frames(90)
+    assert read('mode') == 10 and read('adv_ui_page') == 0
+    press(5);press(5);press(8);frames(30)
+    assert read('mode') == 0
+
+
+def reset():
+    core.retro_reset()
+    classic_boot()
+
+if os.environ.get('ADVENTURE_TEST_BOOT') != '1':
+    classic_boot()

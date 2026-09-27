@@ -55,7 +55,14 @@ local function repair(input)
  end
  if (input.left or input.right or input.up or input.down) and read('cooldown')==0 then input.b=true end
 end
+local adventure_boot=0
 emu.addEventCallback(function()
+ -- Enter the preserved classic collection using only controller inputs.
+ if read('mode')==10 then
+  adventure_boot=adventure_boot+1
+  emu.setInput({down=adventure_boot==60 or adventure_boot==80,a=adventure_boot==100},0)
+  return
+ end
  f=f+1
  if f>14000 then check(false,'timeout');emu.stop(2);return end
  local input={a=false,b=false,start=false,select=false,up=false,down=false,left=false,right=false}

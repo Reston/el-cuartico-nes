@@ -3,6 +3,7 @@
 .export _frame, _ready, _hud, _hud_on, _art_bank, _sprite_bank, _ex_on, _title_extended
 .export _help_dirty, _help_rows, _help_row, _help_line
 .export _menu_dirty, _menu_rows, _status_row, _pause_palette
+.import _adv_sprite_tail
 .import _main, _spr, _mode, _music_act, _paused, _plaza_attrs, zerobss, copydata, incsp3
 .importzp c_sp, ptr1
 .segment "HEADER"
@@ -195,6 +196,30 @@ nmi:
  lsr a
  lsr a
  sta $5127
+ lda _adv_sprite_tail
+ beq @default_chr
+ lda #3
+ sta $5101
+ lda _art_bank
+ asl a
+ asl a
+ sta $5120
+ clc
+ adc #1
+ sta $5121
+ adc #1
+ sta $5122
+ adc #1
+ sta $5123
+ lda #236
+ sta $5124
+ lda #237
+ sta $5125
+ lda #238
+ sta $5126
+ lda _adv_sprite_tail
+ sta $5127
+@default_chr:
  lda _ex_on
  cmp #1
  beq @extended
@@ -618,3 +643,122 @@ ui_map: .incbin "assets/presentation.nam"
 .incbin "assets/mmc5.chr"
 .segment "VECTORS"
 .addr nmi, _main_entry, irq
+
+; Adventure executes in its own 24 KiB window. NMI, cc65 runtime and these
+; trampolines remain fixed at $E000, including during audio/UI bank changes.
+.segment "INTROCODE"
+.import _adv_main, _adv_ui, _classic_service, _adv_bank
+.export _adventure_enter, _adv_present, _adv_service
+adv_map:
+ ora #$80
+ sta $5114
+ clc
+ adc #1
+ sta $5115
+ adc #1
+ sta $5116
+ rts
+adventure_map:
+ lda _adv_bank
+ jmp adv_map
+classic_map:
+ lda #12
+ jmp adv_map
+_adventure_enter:
+ lda #3
+ sta _adv_bank
+ jsr adventure_map
+ jsr _adv_main
+ jmp classic_map
+_adv_present:
+ lda #6
+ sta _adv_bank
+ jsr adventure_map
+ jsr _adv_ui
+ lda #3
+ sta _adv_bank
+ jmp adventure_map
+_adv_service:
+ jsr classic_map
+ jsr _classic_service
+ jmp adventure_map
+
+; Shared adventure metasprite writer: all loops stay off the cc65 software stack.
+.segment "BSS"
+adv_dx: .res 1
+adv_dy: .res 1
+adv_dt: .res 1
+adv_dw: .res 1
+adv_dh: .res 1
+adv_da: .res 1
+adv_dc: .res 1
+.segment "ADVCODE"
+.export _adv_shape
+.import incsp5
+_adv_shape:
+ sta adv_da
+ ldy #0
+ lda (c_sp),y
+ sta adv_dh
+ iny
+ lda (c_sp),y
+ sta adv_dw
+ iny
+ lda (c_sp),y
+ sta adv_dt
+ iny
+ lda (c_sp),y
+ sta adv_dy
+ iny
+ lda (c_sp),y
+ sta adv_dx
+ ldx _spr
+@row:
+ lda #0
+ sta adv_dc
+@column:
+ lda adv_dy
+ sta $0200,x
+ lda adv_da
+ sta $0202,x
+ and #$40
+ beq @forward
+ lda adv_dw
+ sec
+ sbc #1
+ sec
+ sbc adv_dc
+ jmp @tile
+@forward:
+ lda adv_dc
+@tile:
+ clc
+ adc adv_dt
+ sta $0201,x
+ lda adv_dc
+ asl a
+ asl a
+ asl a
+ clc
+ adc adv_dx
+ sta $0203,x
+ inx
+ inx
+ inx
+ inx
+ inc adv_dc
+ lda adv_dc
+ cmp adv_dw
+ bne @column
+ lda adv_dt
+ clc
+ adc adv_dw
+ sta adv_dt
+ lda adv_dy
+ clc
+ adc #8
+ sta adv_dy
+ dec adv_dh
+ bne @row
+ stx _spr
+ jmp incsp5

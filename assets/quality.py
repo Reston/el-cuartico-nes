@@ -504,5 +504,9 @@ def build(root,FONT,rect,text,pack,sprites):
         card,used=build_card(root,FONT,pack,host,len(banks))
         banks.extend(card[offset:offset+4096] for offset in range(0,len(card),4096))
         budgets[name]=used;print(name,used,'/ 512')
+    from adventure_art import build_adventure
+    assert len(banks)==54
+    banks.extend(build_adventure(root,FONT,text,pack))
+    assert len(banks)<=64
     root.joinpath('mmc5.chr').write_bytes(b''.join(banks)+bytes(262144-len(banks)*4096))
     root.joinpath('art-budget.json').write_text(json.dumps({'banks_used':len(banks),'backgrounds':budgets,'sprite_tiles':len(sprites),'chr_bytes':262144,'extended_attributes':'title/ending/character intros, 8x8 palettes and two simultaneous tile pages'},indent=2))

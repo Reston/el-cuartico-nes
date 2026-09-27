@@ -73,7 +73,7 @@ check(maxsprites<=8,'Studio and repair panels respect eight sprites per scanline
 check(stalls==0,'Interactive repair panels update once per NTSC frame')
 check(r('completed')==1 and r('repairs')==12,'Completing twelve puzzles earns Chucho stamp')
 check(True,'No cart sprites appear during studio play or repair tasks')
-h.core.retro_reset();h.frames(90);h.press(8);start_from_intro()
+h.reset();h.frames(90);h.press(8);start_from_intro()
 for f in range(400):
  if r('task_active') and r('hud_on'):break
  h.frames(1,repair_keys(f) if r('hud_on') else [])

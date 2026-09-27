@@ -6,7 +6,7 @@ with tempfile.NamedTemporaryFile(mode='w',encoding='utf-8',suffix='.lua',dir=roo
     temp.write('PROJECT_ROOT = '+json.dumps(root.as_posix()+'/',ensure_ascii=False)+'\n'+script.read_text(encoding='utf-8'))
     temp_path=Path(temp.name)
 try:
-    result=subprocess.run([str(root/'tools/mesen/Mesen.exe'),'--testRunner',str(root/'build/el-cuartico.nes'),str(temp_path),'--timeout=35','--enableStdout'],capture_output=True,text=True,timeout=45)
+    result=subprocess.run([str(root/'tools/mesen/Mesen.exe'),'--testRunner',str(root/'build/el-cuartico.nes'),str(temp_path),'--timeout=60' if script.name=='adventure_mesen.lua' else '--timeout=35','--enableStdout'],capture_output=True,text=True,timeout=70 if script.name=='adventure_mesen.lua' else 45)
 finally:
     temp_path.unlink()
 out=result.stdout+result.stderr

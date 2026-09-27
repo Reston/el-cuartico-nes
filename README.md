@@ -1,62 +1,56 @@
 <div align="center">
 
-# El Cuartico: ¡Estamos grabando!
+# El Cuartico: Una última toma
 
 Este juego fue creado enteramente con IA para probar las capacidades de Astra.
 
-<img src="docs/media/portada.png" alt="Portada de El Cuartico: Estamos grabando" width="260">
+**NES · Un jugador · v0.14.0**
 
-**NES · Un jugador · v0.13.1**
-
-[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.13.1-mmc5.nes) · [Cómo jugar](docs/COMO-JUGAR.md) · [Desarrollo](docs/DESARROLLO.md)
+[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.14.0-mmc5.nes) · [Cómo jugar](docs/AVENTURA.md) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
-Un juego inspirado en **El Cuartico**: elige a Chucho, Estefania o Daniel y
-completa seis misiones repartidas en dos episodios.
+Chucho, Estefania y Daniel intentan planificar un sketch para el videojuego.
+Cada propuesta se convierte en una parodia jugable: escaladas con demasiada
+protección, robots que repiten rumores y pistas que Daniel supuestamente debería entender.
+
+- **Tres historias principales**, dos tomas por historia y un cierre jugable.
+- **Dos capítulos extra** con Nadia, Alí y los apodos que se vuelven literales.
+- Tres personajes, cinco jefes, ocho cintas opcionales y medallas por jugar sin daño.
+- Reintentos sin límite, ayuda opcional y progreso recuperable con contraseña.
+- Los tres minijuegos originales se integran como ensayos breves; la colección
+  completa de dos episodios y Remix sigue en **Juegos del estudio**.
+
+![Menú de la aventura](docs/media/aventura-menu-v0.14.0.png)
 
 ## Jugar
 
-Descarga la ROM con el enlace de arriba y ábrela en un emulador de NES con soporte
-**MMC5**, como FCEUmm o Mesen. Usa el control 1, región NTSC y velocidad normal;
-no hace falta BIOS.
+Abre la ROM en un emulador de NES con **MMC5**, como FCEUmm o Mesen.
+Control 1, NTSC y velocidad normal; no hace falta BIOS.
 
-En **R36S con ArkOS**, copia el archivo `.nes` a la carpeta `nes` de la tarjeta
-de juegos con la consola apagada. Expulsa la tarjeta de forma segura y abre el
-juego desde la lista de NES.
+En **R36S con ArkOS**, copia el `.nes` a la carpeta `nes` de la tarjeta de juegos
+con la consola apagada. Expulsa la tarjeta de forma segura y abre el juego desde NES.
+Inicia desde cero al actualizar; evita estados del emulador de versiones anteriores.
 
-Al actualizar, inicia una partida nueva. No cargues estados de una versión anterior.
-[Instrucciones breves](dist/LEEME.txt) · [Checksum SHA-256](dist/SHA256.txt).
-
-## Los juegos
-
-| Personaje | Desafío |
+| En la aventura | Botón |
 | --- | --- |
-| **Chucho** | Repara el estudio con puzles de cables, enfoque, mezcla y memoria. |
-| **Estefania** | Pulsa el botón o la dirección indicada cuando la nota llegue al marco. |
-| **Daniel** | Explora los barrios, usa la lupa y encuentra su cara entre la multitud. |
+| Moverse | Izquierda/derecha |
+| Saltar; mantener para subir más | A |
+| Golpear, disparar o desviar proyectiles | B |
+| Activar una claqueta, leer una pista o salir | Arriba |
+| Pausa, ayuda y dificultad | Start |
+| Cambiar actor en la mesa de ideas | Select |
+| Ver la contraseña desde la mesa | Start |
 
-Consigue los tres sellos y pulsa **A** para continuar al segundo episodio.
-Al completar ambos se desbloquea **Remix**. El progreso dura la sesión; no hay guardado por batería.
+Anota la contraseña antes de apagar: conserva tomas, cintas, medallas, ensayos y
+dificultad; reanuda en la mesa de ideas. La colección clásica conserva su progreso
+solo durante la sesión.
 
-![Menú del juego](docs/media/menu-footer-v0.13.1.png)
-
-## Controles
-
-| Acción | Botón |
-| --- | --- |
-| Elegir personaje | Izquierda/derecha o Select |
-| Empezar o confirmar | A o Start |
-| Ver la ayuda desde el menú | Arriba |
-| Entrar al estudio desde el menú | B |
-| Pausar o continuar | Start |
-| Ver los controles durante la pausa | Select |
-
-[Guía completa](docs/COMO-JUGAR.md) · [Segundo episodio](docs/SEGUNDO-EPISODIO.md).
+[Guía de aventura](docs/AVENTURA.md) · [Minijuegos clásicos](docs/COMO-JUGAR.md) · [Instrucciones de la ROM](dist/LEEME.txt) · [SHA-256](dist/SHA256.txt).
 
 ## Compilar
 
-En Windows con PowerShell y Python 3.10 o superior, desde la carpeta del proyecto:
+Windows, PowerShell y Python 3.10 o superior:
 
 ```powershell
 python -m pip install -r requirements.txt
@@ -64,17 +58,16 @@ python tools/bootstrap.py
 ./build.ps1
 ```
 
-La ROM se genera en `build/el-cuartico.nes`.
-[Arquitectura, pruebas y publicación](docs/DESARROLLO.md).
+Resultado: `build/el-cuartico.nes`. [Arquitectura y pruebas](docs/DESARROLLO.md).
 
 ## Créditos y licencia
 
-Proyecto fan no oficial inspirado en El Cuartico. Las fotografías y las referencias
-musicales fueron aportadas por el usuario durante el desarrollo.
+Proyecto fan no oficial. Los diálogos nuevos son ficción; las referencias aportadas
+y las fuentes públicas están identificadas en el [catálogo](docs/REFERENCIAS-PARODIAS.md).
+No se distribuyen grabaciones ni archivos de las canciones de referencia.
 
-Hecho con [cc65](https://github.com/cc65/cc65) y
-[Pillow](https://github.com/python-pillow/Pillow); probado en
-[FCEUmm](https://github.com/libretro/libretro-fceumm) y
+Hecho con [cc65](https://github.com/cc65/cc65) y [Pillow](https://github.com/python-pillow/Pillow);
+probado en [FCEUmm](https://github.com/libretro/libretro-fceumm) y
 [Mesen CE](https://github.com/nesdev-org/MesenCE).
 
 [Licencia GNU GPL v3](LICENSE).

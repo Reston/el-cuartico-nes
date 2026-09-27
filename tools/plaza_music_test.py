@@ -10,7 +10,7 @@ def check(ok,msg):
     (h.root/'build/plaza-music-tests.txt').write_text('\n'.join(report)+'\n')
     assert ok,msg
 def boot(host=None):
-    h.core.retro_reset();h.frames(90)
+    h.reset();h.frames(90)
     if host is not None:
         for _ in range(host):h.press(7)
         h.press(3)
