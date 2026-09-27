@@ -8,7 +8,7 @@ FIELDS = dict(zip('stage room world health x facing ground coyote buffer attack 
 FIELDS.update(y=13,vy=15)
 FIELDS.update(zip('checkpoint damaged keys tape exit_y gate_x gate_y tape_x tape_y dead hitstop'.split(),range(17,28)))
 FIELDS.update(zip('boss_hp boss_tick boss_inv room_seen helped flash clue death_count'.split(),range(28,36)))
-FIELDS.update(flags=36,platforms=44,enemies=64,bullets=91,boss_x=109,boss_y=110,props=111)
+FIELDS.update(flags=36,platforms=52,enemies=72,bullets=99,boss_x=117,boss_y=118,props=119,boss_round=124,boss_marks=125,bridge_width=126)
 def read(name, index=0):
     address = h.ram + h.labels['_adv'] + FIELDS[name] + index
     if name in ('y','vy'):return C.c_int16.from_address(address).value
@@ -89,57 +89,110 @@ def jump_to(i, retries=0):
             raise AssertionError(('wrong platform',read('stage'),read('room'),i,read('x'),read('y')/16,target))
     raise AssertionError(('jump timeout',i,read('x'),read('y')/16))
 
+def choose_clue():
+    h.frames(5)
+    for _ in range(read('clue')):h.press(5)
+    h.press(8);h.frames(5)
+
+
+def relay_at(i):
+    mask=4 if read('stage')==2 and read('room')<4 else (6 if read('stage')==2 and read('room')<8 else 7)
+    if not mask&(1<<i) or read('props')&(1<<i):return
+    walk(platform(i)[0]+6)
+    h.frames(1,[7,0])
+    for _ in range(100):
+        if read('props')&(1<<i):return
+        h.frames(1,[0])
+    raise AssertionError(('relay',read('stage'),read('room'),i,read('x'),read('y')/16))
+
+
 def clear_room(collect=False):
-    old=read('room')
-    if h.read('host')==0 and old==0:h.screenshot(f'adventure-world-{read("stage")}.png')
+    old=read('room');stage=read('stage');world=read('world')
+    mystery=stage in (4,5)
+    if h.read('host')==0 and old==0:h.screenshot(f'adventure-world-{stage}.png')
+    if mystery and (old==0 or old<=12 and old%4==0):
+        # The plaza and conversation rooms are safe ground-level interactions.
+        walk(34);h.press(4);h.frames(10)
+        if old==0:
+            assert h.read('adv_ui_page')==12
+            route=next((i for i in range(3) if not read('flags',(i+1)*4)&1),3)
+            for _ in range(route):h.press(5)
+            h.press(8);h.frames(30)
+            assert read('room')==(1+route*4 if route<3 else 13)
+        else:
+            assert h.read('adv_ui_page')==13
+            if collect and read('tape'):
+                # Cancel/accept conversation returns to hub. Collect before talking.
+                raise AssertionError('Tape route should be collected before conversation')
+            h.screenshot(f'adventure-clue-{stage}-{old}.png')
+            h.press(8);h.frames(30)
+            assert read('room')==0 and read('flags',old)&1
+        return
     if read('boss_hp'):
-        # Approach from the left on the arena floor; duck under aerial volleys,
-        # hop over the low shots, attack only during the recovery window.
-        walk(112 if h.read('host')==1 and read('world')==1 else 152)
-        jump_hold=0
-        for f in range(2400):
-            if f==125 and h.read('host')==0:h.screenshot(f'adventure-boss-{read("stage")}.png')
-            if not read('boss_hp'):break
-            t=read('boss_tick');keys=[0]
-            target=112 if h.read('host')==1 and read('world')==1 else 152
-            if read('world') in (0,4):
-                if 44<=t<95:target=112 if t<68 else 152
-            elif h.read('host')==1 and read('world')==1:
-                danger=any(read('bullets',k*6+2) and not read('bullets',k*6+3) and read('x')-4<read('bullets',k*6)<read('x')+60 for k in range(3))
-                if danger and read('ground') and not jump_hold:jump_hold=4
-                if jump_hold:keys.append(8);jump_hold-=1
-            elif 42<=t<73 or 80<=t<104:keys.append(8)
-            if read('world') in (0,4):
-                if read('x')>target+1:keys.append(6)
-                elif read('x')<target-1:keys.append(7)
-            h.frames(1,keys)
-            if h.read('adv_ui_page')==22:raise AssertionError(('boss died',read('stage'),read('boss_hp')))
-        assert not read('boss_hp'), 'Boss should be beatable during its recovery'
+        if world==2:
+            walk(112)
+            for f in range(4000):
+                if not read('boss_hp'):break
+                keys=[];t=read('boss_tick')
+                if t>=100 and not read('boss_marks')&(1<<read('boss_round')):
+                    if abs(read('x')-112)>2:keys.append(7 if read('x')<112 else 6)
+                    elif read('ground'):keys.append(4)
+                elif read('boss_round')==1 and 44<=t<105:
+                    target=72 if t<72 else 112
+                    if abs(read('x')-target)>2:keys.append(7 if read('x')<target else 6)
+                elif read('boss_round')==2 and (42<=t<65 or 72<=t<98):keys.append(8)
+                h.frames(1,keys)
+                if h.read('adv_ui_page')==10:choose_clue()
+                if h.read('adv_ui_page')==22:raise AssertionError(('guardian died',stage,read('boss_hp')))
+            assert not read('boss_hp'), 'Guardian should accept all three learned symbols'
+        else:
+            walk(112 if h.read('host')==1 and world==1 else 152)
+            jump_hold=0
+            for f in range(3600):
+                if f==125 and h.read('host')==0:h.screenshot(f'adventure-boss-{stage}.png')
+                if not read('boss_hp'):break
+                t=read('boss_tick');keys=[0]
+                target=112 if h.read('host')==1 and world==1 else 152
+                rain=world in (0,4) or world==1 and read('boss_round')==2
+                if rain:
+                    if 44<=t<100:target=112 if t<68 else 152
+                elif world==1 and read('boss_round')==1:
+                    pass  # high diagonal passes over the close approach
+                elif h.read('host')==1 and world==1:
+                    danger=any(read('bullets',k*6+2) and not read('bullets',k*6+3) and read('x')-4<read('bullets',k*6)<read('x')+60 for k in range(3))
+                    if danger and read('ground') and not jump_hold:jump_hold=4
+                    if jump_hold:keys.append(8);jump_hold-=1
+                elif 42<=t<73 or 80<=t<104:keys.append(8)
+                if rain:
+                    if read('x')>target+1:keys.append(6)
+                    elif read('x')<target-1:keys.append(7)
+                h.frames(1,keys)
+                if h.read('adv_ui_page')==22:raise AssertionError(('boss died',stage,read('boss_hp')))
+            assert not read('boss_hp'), 'Boss should be beatable during its recovery'
         walk(220);h.press(4);h.frames(30)
         assert read('room')==old+1
         return
+    if world==1:relay_at(0)
     for i in (1,2):
         jump_to(i)
-        if read('world')==3:walk(platform(i)[0]+8)
+        if world==1:relay_at(i)
+        if world==3:walk(platform(i)[0]+8)
         if collect and read('tape') and i==1 and platform(4)[2]:
             jump_to(4);jump_to(1)
-        if i==(1 if read('world')==2 else 2) and read('world')!=3:
+        if i==(1 if world==2 else 2) and world not in (1,3) and not read('keys'):
             walk(read('gate_x')-10)
             h.frames(1,[7,0])
             for f in range(180):
                 if read('keys') or h.read('adv_ui_page') in (10,22):break
                 h.frames(1,[0]+([4] if f%8<4 else []))
-            if h.read('adv_ui_page')==10:
-                h.frames(30)
-                for _ in range(read('clue')):h.press(5)
-                h.press(8);h.frames(30)
-            assert read('keys'), ('gate not activated',read('stage'),read('room'),read('x'),read('y')/16)
+            if h.read('adv_ui_page')==10:choose_clue()
+            assert read('keys'), ('gate not activated',stage,old,read('x'),read('y')/16)
     jump_to(3)
-    if read('world')==3:walk(platform(3)[0]+8)
+    if world==3:walk(platform(3)[0]+8)
     walk(220);h.press(4)
     if h.read('adv_ui_page')==21:h.frames(20);h.press(8)
     h.frames(30)
-    assert read('room')==old+1, ('exit',read('stage'),old,read('keys'),read('x'),read('y')/16)
+    assert read('room')==old+1, ('exit',stage,old,read('keys'),read('x'),read('y')/16)
 
 
 def studio_after_result():

@@ -7,10 +7,10 @@ const char* const level_names[9]={"UNA SUBIDITA TRANQUILA","RESCATE EXAGERADO","
 const char* const intro[9][4]={
  {"CHUCHO: ES SUBIR Y YA.","ESTEFI: Y COMO BAJAS?","DANIEL: PONLE UNA ESCALERA.","SUBE HASTA EL MIRADOR."},
  {"CHUCHO: YA CASI LLEGAMOS.","DANIEL: TRAJE UN RESCATE.","ESTEFI: ESO ES UNA GRUA!","ESQUIVA LA AYUDA EXCESIVA."},
- {"ESTEFI: NO FUE OPERACION.","CHUCHO: MISION SECRETA?","DANIEL: LE PONGO ROBOTS.","APAGA LOS REPETIDORES."},
- {"ESTEFI: ERA EL ESTOMAGO!","DANIEL: FALTA EL JEFE.","CHUCHO: ES UN MEGAFONO.","HAZ QUE OIGAN SU VERSION."},
- {"DANIEL: MI MAMA ES CHILENA.","CHUCHO: TU SABES LLEGAR.","ESTEFI: ESO VIENE CON MAPA?","SIGUE LAS PISTAS DIBUJADAS."},
- {"DANIEL: CASI LO DESCIFRO.","ESTEFI: LEE EL OTRO LADO.","CHUCHO: PRIMERO EL CASTILLO.","ENCUENTRA EL ESCENARIO."},
+ {"ESTEFI: NO FUE OPERACION.","CHUCHO: MISION SECRETA?","DANIEL: LE PONGO ROBOTS.","B: APAGA Y REVELA EL PUENTE."},
+ {"ESTEFI: ERA EL ESTOMAGO!","DANIEL: FALTA EL JEFE.","CHUCHO: ES UN MEGAFONO.","ESQUIVA. GOLPEA AL RECARGAR."},
+ {"DANIEL: MI MAMA ES CHILENA.","CHUCHO: TU SABES LLEGAR.","ESTEFI: ESO VIENE CON MAPA?","ELIGE RUTA. HABLA Y ANOTA."},
+ {"DANIEL: CASI LO DESCIFRO.","ESTEFI: LEE EL OTRO LADO.","CHUCHO: PRIMERO EL CASTILLO.","TRES PISTAS ABREN EL CAMINO."},
  {"NADIA: SOLO UNA COSITA.","ALI: OFERTA EN OTRO PASILLO!","ESTEFI: Y LA CAJA ABIERTA?","SIGUE LA LISTA DE UTILERIA."},
  {"DANIEL: LE PONGO UN APODO.","CHUCHO: AHORA SE VOLVIO ESO!","ALI: NO LO LLAMEN TANQUE.","APRENDE EL NOMBRE Y ESQUIVA."},
  {"CHUCHO: YA TENEMOS IDEAS.","ESTEFI: QUIEN DIO GRABAR?","DANIEL: DESDE EL PRINCIPIO.","TERMINA NUESTRA ULTIMA TOMA."}
@@ -35,8 +35,14 @@ const u8 backdrop[5][3]={{0x01,0x11,0x21},{0x00,0x10,0x20},{0x09,0x19,0x29},{0x0
 const char code_alphabet[]="23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
 const char* const root_options[5]={"CONTINUAR AVENTURA","NUEVA AVENTURA","CARGAR CONTRASENA","JUEGOS DEL ESTUDIO","COMO JUGAR"};
 const char* const pause_options[6]={"CONTINUAR","REINTENTAR DESDE CLAQUETA","VOLVER AL ESTUDIO","CAMBIAR DIFICULTAD","VER CONTRASENA","VER CONTROLES"};
-const char* const clue_lines[9]={"ALUMBRA SIN USAR UNA PILA.","CAE Y NO SE LASTIMA.","TIENE HOJAS Y NO ES LIBRO.","SALE CUANDO ACABA LA NOCHE.","ES PEQUENA, MOJA BASTANTE.","CRECE SIN SUBIR ESCALERAS.","NO LO MIRES DE FRENTE.","LLENA UN VASO CON AMIGAS.","TIENE RAICES, NO PELO."};
-const char* const clue_options[3]={"SOL","GOTA","ARBOL"};
+const char* const clue_options[3]={"AGUACATE","FRESA","MAIZ"};
+const char* const clue_names[3]={"PALTA","FRUTILLA","CHOCLO"};
+const char* const route_names[4]={"HUERTO DE NADIA","MERCADO DE ALI","COCINA DEL ESTUDIO","EL CAMINO DEL GUARDIAN"};
+const char* const npc_lines[3][3]={
+ {"NADIA: BUSCA LA PALTA.","ESTEFI: ESO ES UN AGUACATE!","NADIA: EL MISMO, OTRO NOMBRE."},
+ {"ALI: UNA FRUTILLA DE PISTA.","CHUCHO: DIBUJASTE UNA FRESA.","ALI: EL DIBUJO NO COBRA."},
+ {"DANIEL: MI MAMA DICE CHOCLO.","ESTEFI: UNA MAZORCA DE MAIZ.","CHUCHO: ANOTALO EN EL MAPA."}
+};
 static void service(u8 op,u8 arg){adv_service_op=op;adv_service_arg=arg;adv_service();}
 static void address(u16 a){PPUADDR=a>>8;PPUADDR=(u8)a;}
 static void put(u8 x,u8 y,const char* s){address(0x2000+((u16)y<<5)+x);while(*s)PPUDATA=*s++;}
@@ -70,7 +76,12 @@ static void portrait(u8 who,u8 x,u8 y){u8 row,j;
  address(0x23c0);for(j=0;j<64;++j)PPUDATA=plaza_attrs[j];
 }
 static void title(const char* s){center(4,s);}
-static void card(const char* heading,const char* const* lines,u8 n){u8 i;clear();title(heading);portrait(host,14,6);
+static void card(const char* heading,const char* const* lines,u8 n){u8 i;clear();
+ if(adv_ui_page==UI_INTRO&&(adv.stage==2||adv.stage==4)){
+  center(4,adv.stage==2?"OPERACION: ERA EL ESTOMAGO":"LA LEYENDA DEL HIJO");
+  if(adv.stage==4)center(5,"DE LA CHILENA");
+ }else title(heading);
+ portrait(host,14,7);
  for(i=0;i<n;++i)center(12+i*2,lines[i]);
  center(24,"A / START: SEGUIR");center(26,adv_ui_page==UI_REWRITE?"B: OMITIR":"B: VOLVER AL ESTUDIO");on();
 }
@@ -86,6 +97,26 @@ static u8 open_stage(u8 s){
 }
 extern u8 plaza_attrs[64];
 static void tint(u8 tx,u8 ty,u8 pal){u8 a,shift;a=(ty/4)*8+tx/4;shift=((ty/2)&1)*4+((tx/2)&1)*2;plaza_attrs[a]=(plaza_attrs[a]&~(3<<shift))|(pal<<shift);}
+static void icon(u8 x,u8 y,u8 first){
+ address(0x2000+((u16)y<<5)+x);PPUDATA=first;PPUDATA=first+1;
+ address(0x2000+((u16)(y+1)<<5)+x);PPUDATA=first+2;PPUDATA=first+3;
+}
+/* Repeater hits update only the affected background tiles. A full room redraw
+   here would interrupt every attack with a long black transition. */
+static void relay_scene(void){u8 i,x,y,mask;Platform* p;
+ mask=adv.stage==2?(adv.room<4?4:(adv.room<8?6:7)):7;
+ for(i=0;i<3;++i)if(mask&(1<<i)){
+  p=&adv.platforms[i];icon((p->x+16)/8,(p->y-16)/8,adv.props&(1<<i)?212:208);
+  tint((p->x+16)/8,(p->y-16)/8,1);
+ }
+ put(2,7,"                            ");
+ put(2,7,adv.keys?"SIN RUMOR: PUENTE REVELADO":"B: APAGA LAS ANTENAS CON X");
+ p=&adv.platforms[3];
+ for(y=0;y<2;++y){address(0x2000+((u16)(p->y/8+y)<<5)+p->x/8);
+  for(x=0;x<adv.bridge_width/8;++x)PPUDATA=adv.keys?128+(x&3)+y*4:(y?32:216);
+ }
+ for(x=0;x<adv.bridge_width/8;++x)tint(p->x/8+x,p->y/8,1);
+}
 static void room(void){u8 x,y,i,tile,world=adv.world;Platform* p;
  off();art_bank=54+world;sprite_bank=59*4;R(0x5123)=art_bank;palette(world);
  address(0x2000);
@@ -94,7 +125,7 @@ static void room(void){u8 x,y,i,tile,world=adv.world;Platform* p;
   if(y>=7&&y<26){
    if(y>=19&&y<23)tile=136+(y-19)*4+(x&3);
    else if(y>=9&&y<11&&(x+adv.room*3)%13<4)tile=152+(y-9)*4+(x+adv.room*3)%13;
-   else if((y>=22||((world==1||world==3||world==4)&&y>=11))&&(x+adv.room)%8<2)tile=160+((y+2)&3)*2+(x+adv.room)%8;
+   else if((world!=1||!(adv.props&(1<<(x/11))))&&(y>=22||((world==1||world==3||world==4)&&y>=11))&&(x+adv.room)%8<2)tile=160+((y+2)&3)*2+(x+adv.room)%8;
    else if((x*7+y*3+adv.room)%73==0)tile=168;
   }
   PPUDATA=tile;
@@ -105,10 +136,21 @@ static void room(void){u8 x,y,i,tile,world=adv.world;Platform* p;
   for(x=0;x<p->w/8;++x)tint(p->x/8+x,p->y/8,1);
   if(p->kind==2){address(0x2000+((u16)(p->y/8)<<5)+p->x/8+1);PPUDATA=206;PPUDATA=207;}
  }
+ if(world==1&&!(adv.room==(adv.stage<6?15:11)&&((adv.stage&1)||adv.stage>=6)))relay_scene();
+ if(world==2){
+  if((adv.stage==4||adv.stage==5)&&(!adv.room||(adv.room<=12&&!(adv.room&3)))){
+   icon(5,24,200);put(8,24,adv.room?"ARRIBA: CONVERSAR":"ARRIBA: RUTAS");
+   if(adv.room){icon(5,17,220+(adv.room/4-1)*4);put(9,18,route_names[adv.room/4-1]);}
+  }else if(adv.boss_hp){icon(14,24,200);center(9,"TRES SELLOS, TRES PISTAS");}
+ }
  for(y=0;y<4;++y){address(0x2000+((u16)(adv.exit_y/8-1+y)<<5)+28);PPUDATA=192+y*2;PPUDATA=193+y*2;}
  for(y=0;y<4;++y)tint(28,adv.exit_y/8-1+y,1);
  address(0x23c0);for(i=0;i<64;++i)PPUDATA=plaza_attrs[i];
- put(2,28,"START:PAUSA");put(18,28,"ARRIBA:SALIR");
+ if(world==1)center(4,adv.room<4?"LA FABRICA DEL RUMOR":(adv.room<8?"EL TALLER DE ECOS":(adv.room<12?"LA RED DE ANTENAS":"CENTRAL DEL MEGAFONO")));
+ if(world==2)center(4,!adv.room?"PLAZA DE LAS TRES PISTAS":(adv.room<=12?route_names[(adv.room-1)/4]:"EL CAMINO DEL GUARDIAN"));
+ if(world==0)center(4,adv.room<4?"UNA SUBIDITA TRANQUILA":(adv.room<8?"POR EL BORDE DEL CERRO":(adv.room<12?"COLCHONETAS DE RESCATE":"YA CASI SE VE EL ESTUDIO")));
+ if(world==2){put(2,28,"SELECT:LIBRETA");put(18,28,"START:PAUSA");if(adv.room&&adv.room<=12)put(2,7,"ABAJO AL INICIO: VOLVER");}
+ else{put(2,28,"START:PAUSA");put(18,28,"ARRIBA:SALIR");}
  hud_on=1;on();
 }
 static void menu(u8 page,u8 selected){u8 i,s;clear();
@@ -164,6 +206,7 @@ static void menu_loop(u8 page){u8 selected,count,changed;
 static void help(void){clear();title("COMO JUGAR");
  center(8,"CRUCETA: MOVERSE");center(11,"A: SALTA / MANTEN MAS ALTO");center(14,"B: ACCION DEL PERSONAJE");
  center(17,"ARRIBA: CLAQUETA O PUERTA");center(20,"START: PAUSA Y AYUDA");
+ if(adv.world==2)center(21,"SELECT: MAPA Y LIBRETA");
  center(23,host==0?"CHUCHO: GOLPE Y REBOTE":(host==1?"ESTEFI: DISPARO A DISTANCIA":"DANIEL: DESVIA PROYECTILES"));center(25,"A / B: VOLVER");on();
  for(;;){poll();if(pressed&(A|B|START)){adv_command=0;return;}}
 }
@@ -226,21 +269,66 @@ static void password(void){u8 selected=0,changed,repeat=0;
   }
  }
 }
-static void clue(void){u8 selected=0,i;clear();title("LA PISTA DEL CAMINO");
- center(9,clue_lines[adv.clue]);center(12,"QUE SENAL DEBES SEGUIR?");
- for(i=0;i<3;++i)center(16+i*2,clue_options[i]);center(25,"A: ELEGIR   B: VOLVER");on();
- for(;;){cursor(64,128+selected*16);poll();
-  if(pressed&UP)selected=selected?selected-1:2;if(pressed&DOWN)selected=(selected+1)%3;
+static u8 book_known(u8 i){return adv.stage>=5||(adv.flags[(i+1)*4]&1);}
+static void notebook(void){u8 i,j;clear();title("MAPA Y LIBRETA");
+ center(7,"PLAZA: ELIGE CUALQUIER RUTA");
+ for(i=0;i<3;++i){
+  icon(3,10+i*4,240+i*4);
+  put(6,10+i*4,book_known(i)?clue_names[i]:"???");put(17,10+i*4,book_known(i)?clue_options[i]:"???");
+  for(j=0;j<4;++j){address(0x2000+(12+i*4)*32+8+j*4);PPUDATA=adv.room==1+i*4+j?'>':((adv.flags[1+i*4+j]&128)?'+':'-');}
+ }
+ center(23,"> AQUI   + VISITADA   - NUEVA");center(25,"A / B / SELECT: VOLVER");on();
+ for(;;){poll();if(pressed&(A|B|SELECT|START))return;}
+}
+static void routes_draw(u8 selected){u8 i;clear();title("PLAZA DE LAS TRES PISTAS");
+ center(7,anames[host]);
+ for(i=0;i<4;++i){put(4,11+i*3,route_names[i]);
+  if(i<3){if(adv.flags[(i+1)*4]&1)put(2,11+i*3,"+");}
+  else if(!(adv.flags[4]&adv.flags[8]&adv.flags[12]&1))put(2,20,"-");
+ }
+ center(24,"SELECT: ACTOR    B: VOLVER");center(26,selected==3?"REQUIERE LAS TRES PISTAS":"A: VISITAR / VOLVER A VISITAR");on();
+}
+static void routes(void){u8 selected=0;routes_draw(selected);
+ for(;;){cursor(16,88+selected*24);poll();
+  if(pressed&UP){selected=selected?selected-1:3;routes_draw(selected);}
+  if(pressed&DOWN){selected=(selected+1)%4;routes_draw(selected);}
+  if(pressed&SELECT){host=(host+1)%3;routes_draw(selected);}
   if(pressed&B){adv_command=0;return;}
-  if(pressed&A){if(selected==adv.clue%3){adv_command=1;return;}service(2,2);}
+  if(pressed&A){if(selected==3&&!(adv.flags[4]&adv.flags[8]&adv.flags[12]&1)){service(2,2);continue;}adv_command=selected==3?5:selected+1;return;}
+ }
+}
+static void conversation(void){u8 i;clear();title(route_names[adv.clue]);icon(15,7,240+adv.clue*4);
+ for(i=0;i<3;++i)center(12+i*3,npc_lines[adv.clue][i]);
+ center(22,"PISTA ANOTADA EN TU LIBRETA");center(25,"A / B: VOLVER A LA PLAZA");on();
+ for(;;){poll();if(pressed&(A|B|START)){adv_command=1;return;}}
+}
+static void clue_draw(u8 wrong){u8 i;clear();title(adv.boss_hp?"EL SELLO DEL GUARDIAN":"EL CARTEL DEL CAMINO");
+ center(8,"BUSCA ESTE NOMBRE:");center(10,clue_names[adv.clue]);
+ for(i=0;i<3;++i){icon(8,14+i*3,240+i*4);put(12,15+i*3,clue_options[i]);}
+ center(24,wrong?"MIRA LA LIBRETA: SIN CASTIGO":"SELECT: CONSULTAR LIBRETA");center(26,"A: ELEGIR    B: VOLVER");on();
+}
+static void clue(void){u8 selected=0;clue_draw(0);
+ for(;;){cursor(48,120+selected*24);poll();
+  if(pressed&UP)selected=selected?selected-1:2;if(pressed&DOWN)selected=(selected+1)%3;
+  if(pressed&SELECT){notebook();clue_draw(0);continue;}
+  if(pressed&B){adv_command=0;return;}
+  if(pressed&A){if(selected==adv.clue){adv_command=1;return;}service(2,2);clue_draw(1);}
  }
 }
 void adv_ui(void){u8 i,w=adv.stage<6?adv.stage/2:(adv.stage==6?3:4);
  if(adv_ui_page==UI_ROOM){room();return;}
+ if(adv_ui_page==UI_RELAY){
+  off();art_bank=54+adv.world;R(0x5123)=art_bank;relay_scene();
+  address(0x23c0);for(i=0;i<64;++i)PPUDATA=plaza_attrs[i];
+  adv_ui_page=UI_ROOM;hud_on=1;on();return;
+ }
  adv_command=0;
  if(adv_ui_page==UI_ROOT||adv_ui_page==UI_STUDIO||adv_ui_page==UI_PAUSE){menu_loop(adv_ui_page);return;}
  if(adv_ui_page==UI_PASSWORD){password();return;}
  if(adv_ui_page==UI_HELP){help();return;}
+ if(adv_ui_page==UI_BOOK){notebook();return;}
+ if(adv_ui_page==UI_ROUTES){routes();return;}
+ if(adv_ui_page==UI_NPC){conversation();return;}
  if(adv_ui_page==UI_CLUE){clue();return;}
  if(adv_ui_page==UI_INTRO)card(level_names[adv.stage],intro[adv.stage],4);
  else if(adv_ui_page==UI_REWRITE)card("Y SI CAMBIAMOS ESTO?",rewrite[adv.world],3);

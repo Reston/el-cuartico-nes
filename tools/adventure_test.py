@@ -42,13 +42,15 @@ for stage in range(9):
         try:
             room=a.read('room');a.clear_room(collect=True)
             check(True,f'Stage {stage+1}, room {room+1}: reachable exit')
-        except AssertionError:
+        except AssertionError as error:
+            print("RETRY",error,"health",a.read("health"),"pos",a.read("x"),a.read("y")/16,flush=True)
             if h.read('adv_ui_page')!=22:raise
             failures+=1
             check(failures<5,f'Stage {stage+1}: bounded retries ({failures})')
             h.frames(30);h.press(8);h.frames(30+failures*17)
     h.screenshot(f'adventure-stage-{stage+1}.png')
     a.studio_after_result()
+check(len(samples)==132,'All 132 distinct rooms visited with controller input')
 check(a.saved('cleared')==511,'All nine stages completed')
 check(a.saved('tasks')==7,'All three original activities integrated')
 check(a.saved('tapes')==255,'All eight optional tapes are reachable')

@@ -1,0 +1,141 @@
+{
+  "version": "0.15.0",
+  "date": "2026-09-27",
+  "rom": "dist/el-cuartico-v0.15.0-mmc5.nes",
+  "sha256": "4d4ad8493e7483f085d3b93e95fc09d1936688eab47df3105355a9d80930fbb7",
+  "bytes": 393232,
+  "validation_runs": [
+    {
+      "command": "python tools/test_all.py --mesen",
+      "exit_code": 0,
+      "result": "All suites passed on the packaged ROM"
+    }
+  ],
+  "fceumm_pass_checks": 1163,
+  "fceumm_suites": {
+    "menu-tests.txt": 11,
+    "campaign-tests.txt": 118,
+    "mmc5-tests.txt": 38,
+    "polish-tests.txt": 31,
+    "plaza-music-tests.txt": 37,
+    "expansion-tests.txt": 21,
+    "repair-panel-tests.txt": 31,
+    "episode-tests.txt": 81,
+    "intro-tests.txt": 15,
+    "presentation-tests.txt": 89,
+    "second-episode-tests.txt": 64,
+    "usability-tests.txt": 74,
+    "reference-music-tests.txt": 14,
+    "adventure-tests-0.txt": 158,
+    "adventure-tests-1.txt": 144,
+    "adventure-tests-2.txt": 150,
+    "adventure-animation-tests-0.txt": 11,
+    "adventure-animation-tests-1.txt": 11,
+    "adventure-animation-tests-2.txt": 11,
+    "adventure-polish-tests.txt": 22,
+    "adventure-chapter-tests.txt": 32
+  },
+  "mesen_suites": {
+    "campaign": 18,
+    "presentation": 89,
+    "second-episode": 45,
+    "usability": 20,
+    "reference-music": 15,
+    "adventure": 5
+  },
+  "physical_r36s": "pending",
+  "human_first_playthrough_duration": "not measured",
+  "campaign": {
+    "stages": 9,
+    "rooms": 132,
+    "platform_layouts": 20,
+    "tapes": 8,
+    "actors_completed": [
+      "Chucho",
+      "Estefania",
+      "Daniel"
+    ]
+  },
+  "memory": {
+    "bss_bytes": 970,
+    "bss_end_hex": "06C9",
+    "fixed_code_end_hex": "FEA6",
+    "chr_banks": 64,
+    "chr_bytes": 262144,
+    "prg_bytes": 131072
+  },
+  "performance": {
+    "Chucho": {
+      "rooms_sampled": 132,
+      "sampled_frames": 32152,
+      "frames_without_update_including_transitions": 117,
+      "maximum_sprites_per_scanline": 8
+    },
+    "Estefania": {
+      "rooms_sampled": 132,
+      "sampled_frames": 28785,
+      "frames_without_update_including_transitions": 103,
+      "maximum_sprites_per_scanline": 8
+    },
+    "Daniel": {
+      "rooms_sampled": 132,
+      "sampled_frames": 30346,
+      "frames_without_update_including_transitions": 115,
+      "maximum_sprites_per_scanline": 8
+    }
+  },
+  "gameplay_video": {
+    "file": "docs/media/aventura-capitulos-v0.15.0.mp4",
+    "duration_seconds": 51.83,
+    "capture": "Real FCEUmm output and synthesized game audio, controller inputs only, normal speed; consecutive excerpts joined at cuts",
+    "rom_sha256": "4d4ad8493e7483f085d3b93e95fc09d1936688eab47df3105355a9d80930fbb7",
+    "video_sha256": "587020f272081a18c7971a3bec6f3966e0b4131b8ccb4b46c4eb4681b3342e51",
+    "frame_rate_source": 60.099826520671044,
+    "clips": [
+      {
+        "title": "Mas recorrido - colchonetas y rescate",
+        "source": "build\\gameplay-v0.15.0",
+        "start_frame": 2535,
+        "end_frame": 2978,
+        "duration": 7.371069529587283
+      },
+      {
+        "title": "Operacion - apaga antenas y revela el puente",
+        "source": "build\\gameplay-v0.15.0",
+        "start_frame": 16702,
+        "end_frame": 17165,
+        "duration": 7.7038491923226
+      },
+      {
+        "title": "El megafono - esquiva y ataca al recargar",
+        "source": "build\\gameplay-v0.15.0",
+        "start_frame": 18419,
+        "end_frame": 18818,
+        "duration": 6.638954271569584
+      },
+      {
+        "title": "La leyenda - plaza, mapa y rutas",
+        "source": "build\\chapter-capture-v0.15.0",
+        "start_frame": 3539,
+        "end_frame": 4170,
+        "duration": 10.499198359299267
+      },
+      {
+        "title": "Conversaciones, pistas y libreta",
+        "source": "build\\chapter-capture-v0.15.0",
+        "start_frame": 7630,
+        "end_frame": 8100,
+        "duration": 7.820322074279961
+      },
+      {
+        "title": "El guardian - resuelve sus tres sellos",
+        "source": "build\\gameplay-v0.15.0",
+        "start_frame": 28856,
+        "end_frame": 29565,
+        "duration": 11.797039043967006
+      }
+    ]
+  },
+  "screenshots": "docs/media/aventura-capitulos-v0.15.0.png",
+  "reference_recordings_in_repository": false
+}

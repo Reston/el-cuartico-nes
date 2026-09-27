@@ -1,6 +1,6 @@
 # Desarrollo
 
-La aventura **Una última toma** está implementada en v0.14.1. Consulta
+La aventura **Una última toma** está implementada en v0.15.0. Consulta
 [alcance, controles y validación](AVENTURA.md), el [plan de diseño original](PLAN-AVENTURA.md)
 y las [referencias narrativas](REFERENCIAS-PARODIAS.md).
 
@@ -51,7 +51,7 @@ local de carrera; no dependen del reloj global ni avanzan al detenerse.
 
 Primero compila con `./build.ps1`. `tools/test_all.py` ejecuta trece suites de
 clásicas de FCEUmm, tres recorridos completos de la aventura (uno por actor),
-una suite de contraseñas/pausa y controles, y tres comprobaciones de animación
+una suite de contraseñas/pausa y controles, otra de rutas, libreta y repetidores, y tres comprobaciones de animación
 (una por actor). `--mesen` añade seis suites independientes: campaña original,
 restauración de imagen, campaña completa de dos episodios, tarjetas/ayuda, registros de la APU y reproducción completa de los botones de la aventura. Los resultados se
 guardan en `build/`, junto a la ROM de trabajo, símbolos y capturas. Cada suite
@@ -284,7 +284,7 @@ rápidos de personaje y al regresar de una partida. Reproduce el fallo en la ROM
 anterior y pasa con la nueva asignación.
 
 
-## Aventura v0.14.1: bancos y presupuesto
+## Aventura v0.15.0: bancos y presupuesto
 
 La ventana CPU `$8000–$DFFF` alterna entre bancos PRG 12–14 (colección clásica),
 3–5 (aventura) y 6–8 (interfaz). NMI, biblioteca C y trampolines permanecen en el
@@ -304,6 +304,22 @@ CHR 54–58 contiene ambientes; 59 a Chucho, objetos y enemigos; 60 la interfaz;
 Las pruebas de aventura leen RAM para observar resultados, pero solo envían
 botones: no escriben estado ni cargan partidas del emulador. El recorrido de Chucho
 genera `build/adventure-inputs.txt`; Mesen reproduce esa entrada y comprueba las
-66 salas, las nueve tomas terminadas, las ocho cintas, los tres ensayos y el retorno
+132 salas, las nueve tomas terminadas, las ocho cintas, los tres ensayos y el retorno
 al estudio. Los JSON de rendimiento incluyen transiciones de pantalla, no solo
 las salas vacías. Las capturas y registros de prueba quedan en `build/`.
+
+## Rutas y repetidores · v0.15.0
+
+`MAX_ROOMS` es 16. Las seis tomas principales tienen 16 salas; los extras y el
+cierre, 12. Hay veinte disposiciones de plataformas. Las dos tomas de la leyenda
+usan la plaza 0, rutas 1–4 / 5–8 / 9–12 y final 13–15. El bit 7 de `flags` registra
+visitas; el bit 0 de cada final de ruta conserva su pista durante los reintentos.
+La fábrica usa los bits 0–2 para sus repetidores; el puente solo colisiona cuando
+el conjunto requerido está apagado. El renderizado parcial de antenas y puente
+separa esa interacción del redibujado completo de una sala.
+
+Los iconos y repetidores usan huecos de los bancos CHR existentes. No se aumenta
+el tamaño del cartucho ni la capacidad de sprites. La contraseña sigue en formato
+1, compatible con la entrega anterior: guarda tomas completas, no rutas parciales.
+`adventure_chapter_test.py` carga códigos mediante la interfaz pública para probar
+rutas en otro orden, regreso a la plaza, libreta, reintentos y sellos del guardián.

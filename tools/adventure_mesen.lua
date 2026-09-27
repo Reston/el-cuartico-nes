@@ -32,7 +32,7 @@ emu.addEventCallback(function()
   check(r('adv_save',3)==255,'All eight tapes collected in Mesen')
   check(r('adv_save',2)==7,'All three classic rehearsals complete in Mesen')
   local count=0;for _ in pairs(seen) do count=count+1 end
-  check(count==66,'All 66 rooms were actually entered')
+  check(count==132,'All 132 rooms were actually entered')
   check(r('adv_ui_page')==1,'Ending returns to the studio without a softlock')
   report:close();emu.stop(0);return
  end

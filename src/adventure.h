@@ -31,7 +31,11 @@ typedef signed int s16;
 #define UI_FAILURE 22
 #define UI_OUTRO 23
 #define UI_PROLOGUE 24
-#define MAX_ROOMS 8
+#define UI_RELAY 25
+#define UI_BOOK 11
+#define UI_ROUTES 12
+#define UI_NPC 13
+#define MAX_ROOMS 16
 #define ECOUNT 3
 #define BCOUNT 3
 typedef struct {u8 x,y,w,kind;} Platform;
@@ -52,6 +56,7 @@ typedef struct {
  Bullet bullets[BCOUNT];
  u8 boss_x,boss_y,props,hud_state;
  u8 run_phase,landing,hurt;
+ u8 boss_round,boss_marks,bridge_width;
 } AdvState;
 extern u8 adv_sprite_tail,adv_sprite_actor;
 extern AdvState adv;

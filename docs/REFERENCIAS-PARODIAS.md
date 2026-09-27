@@ -198,3 +198,18 @@ La siguiente entrega de diseño puede ser una escena de estudio y el recorrido c
 de la primera parodia, con principio, dos intervenciones breves y remate. No incluye
 descargas de episodios ni archivos de canciones: esta investigación conserva enlaces
 y notas de diseño solamente.
+
+## 8. Adaptación implementada en v0.15.0
+
+La fábrica del rumor y la leyenda desarrollan las referencias R02/R03 aportadas
+y autorizadas por el usuario para este PR. Las conversaciones, la tarjeta con el
+mapa al reverso y los papeles del huerto, mercado y cocina son ficción del juego,
+no transcripciones ni anécdotas atribuidas al programa.
+
+La libreta enseña las correspondencias palta/aguacate, frutilla/fresa y choclo/maíz
+con dibujos. Se consultaron las entradas de ASALE de [palta](https://www.asale.org/damer/palta),
+[frutilla](https://www.asale.org/damer/frutilla) y [choclo](https://www.asale.org/damer/choclo)
+el 27 de septiembre de 2026. Son vocabulario regional compartido por varios países;
+no se presentan como palabras exclusivas de Chile. La solución se enseña dentro
+del juego y el humor está en asumir que Daniel hereda un mapa, no en ridiculizar
+el vocabulario o el origen familiar. No se descargan grabaciones para estas escenas.

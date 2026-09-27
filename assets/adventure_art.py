@@ -20,6 +20,23 @@ def build_adventure(root, font, text, pack):
                 tiles[first] = pack(im.crop((x, y, x + 8, y + 8)))
                 first += 1
 
+    def food_icons(tiles, first):
+        for kind in range(3):
+            im = Image.new('L', (16, 16)); d = ImageDraw.Draw(im)
+            if kind == 0:
+                d.polygon([(6,1),(10,1),(14,9),(13,13),(8,15),(3,13),(2,9)], fill=2, outline=3)
+                d.ellipse((5,7,10,12), fill=1)
+            elif kind == 1:
+                d.polygon([(2,4),(13,4),(14,8),(8,15),(1,8)], fill=2, outline=3)
+                d.polygon([(3,1),(8,3),(13,1),(10,5),(6,5)], fill=3)
+                for x,y in ((4,7),(9,7),(6,10),(10,10)): d.point((x,y),fill=1)
+            else:
+                d.ellipse((5,0,11,13), fill=3)
+                for y in (3,6,9):d.line((6,y,10,y),fill=1)
+                d.line((8,1,8,11),fill=1)
+                d.polygon([(1,7),(8,13),(14,5),(12,13),(8,15),(3,13)],fill=2)
+            put(tiles, first+kind*4, im)
+
     banks = []
     for world in range(5):
         tiles = tile_bank()
@@ -144,6 +161,19 @@ def build_adventure(root, font, text, pack):
         d.rectangle((0, 3, 15, 7), fill=2); d.line((0, 2, 15, 2), fill=3)
         for x in (3, 11): d.line((x, 4, x + 2, 6), fill=1)
         put(tiles, 206, im)
+        # Background relays avoid consuming the NES eight-sprite scanline budget.
+        for phase in range(2):
+            im=Image.new('L',(16,16));d=ImageDraw.Draw(im)
+            d.line((8,0,8,4),fill=3);d.rectangle((2,4,13,15),fill=1,outline=2)
+            d.rectangle((4,6,11,11),fill=0,outline=3 if not phase else 2)
+            if phase:d.line((5,9,7,11,10,7),fill=3)
+            else:
+                d.line((5,7,10,10),fill=3);d.line((5,10,10,7),fill=3)
+                d.point((0,2),fill=2);d.point((15,2),fill=2)
+            put(tiles,208+phase*4,im)
+        im=Image.new('L',(8,8));d=ImageDraw.Draw(im)
+        d.line((0,0,2,0),fill=2);d.line((5,0,7,0),fill=2);tiles[216]=pack(im)
+        food_icons(tiles,220)
         banks.append(b''.join(tiles))
 
     sprites = [bytes(16) for _ in range(256)]
@@ -226,6 +256,7 @@ def build_adventure(root, font, text, pack):
     put(ui, 192, brand.resize((176, 16), Image.Resampling.NEAREST))
     line = Image.new('L', (8, 8)); ImageDraw.Draw(line).line((0, 4, 7, 4), fill=2)
     ui[238] = pack(line)
+    food_icons(ui,240)
     banks.append(b''.join(ui))
     # Five final 1 KiB sprite pages reuse the enemy tiles and provide distinct bosses.
     tails = []
