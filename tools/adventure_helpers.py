@@ -95,15 +95,15 @@ def clear_room(collect=False):
     if read('boss_hp'):
         # Approach from the left on the arena floor; duck under aerial volleys,
         # hop over the low shots, attack only during the recovery window.
-        walk(112 if h.read('host')==1 and read('world')==1 else 140)
+        walk(112 if h.read('host')==1 and read('world')==1 else 152)
         jump_hold=0
         for f in range(2400):
             if f==125 and h.read('host')==0:h.screenshot(f'adventure-boss-{read("stage")}.png')
             if not read('boss_hp'):break
             t=read('boss_tick');keys=[0]
-            target=112 if h.read('host')==1 and read('world')==1 else 140
+            target=112 if h.read('host')==1 and read('world')==1 else 152
             if read('world') in (0,4):
-                if 44<=t<95:target=112 if t<68 else 140
+                if 44<=t<95:target=112 if t<68 else 152
             elif h.read('host')==1 and read('world')==1:
                 danger=any(read('bullets',k*6+2) and not read('bullets',k*6+3) and read('x')-4<read('bullets',k*6)<read('x')+60 for k in range(3))
                 if danger and read('ground') and not jump_hold:jump_hold=4

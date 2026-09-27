@@ -3,7 +3,7 @@
 .export _frame, _ready, _hud, _hud_on, _art_bank, _sprite_bank, _ex_on, _title_extended
 .export _help_dirty, _help_rows, _help_row, _help_line
 .export _menu_dirty, _menu_rows, _status_row, _pause_palette
-.import _adv_sprite_tail
+.import _adv_sprite_tail, _adv_sprite_actor
 .import _main, _spr, _mode, _music_act, _paused, _plaza_attrs, zerobss, copydata, incsp3
 .importzp c_sp, ptr1
 .segment "HEADER"
@@ -211,9 +211,10 @@ nmi:
  sta $5122
  adc #1
  sta $5123
- lda #236
+ lda _adv_sprite_actor
  sta $5124
- lda #237
+ clc
+ adc #1
  sta $5125
  lda #238
  sta $5126

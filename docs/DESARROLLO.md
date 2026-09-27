@@ -1,17 +1,18 @@
 # Desarrollo
 
-La aventura **Una última toma** está implementada en v0.14.0. Consulta
+La aventura **Una última toma** está implementada en v0.14.1. Consulta
 [alcance, controles y validación](AVENTURA.md), el [plan de diseño original](PLAN-AVENTURA.md)
 y las [referencias narrativas](REFERENCIAS-PARODIAS.md).
 
 ## Cartucho y código
 
 El juego usa un encabezado iNES, mapper **MMC5 (5)**, 128 KiB de PRG y 256 KiB de
-CHR. Hay 63 bancos gráficos de 4 KiB ocupados. La memoria de batería no se utiliza.
+CHR. Hay 64 bancos gráficos de 4 KiB ocupados. La memoria de batería no se utiliza.
 
 - `src/game.c`: colección clásica y puente de ensayos breves.
 - `src/adventure.c`: campaña, movimiento, salas, combate y progreso.
 - `src/adventure_ui.c`: guion, menús, pistas y contraseñas.
+- `assets/adventure_actors.py`: 16 poses nativas por actor y efectos de sus acciones.
 - `assets/adventure_art.py`: cinco ambientes, tres actores y cinco jefes originales.
 - `src/start.s`: arranque 6502, NMI, DMA de sprites y configuración MMC5.
 - `src/music.h`: temas y efectos de la APU.
@@ -39,11 +40,19 @@ Los paneles de reparación comparten el juego de tiles del estudio. El temporiza
 de la secuencia de memoria es de 16 bits: cuatro pasos de 80 cuadros suman 320.
 El objetivo del mezclador cambia entre aciertos y no depende de una posición fija.
 
+Los actores de la aventura ocupan páginas de 2 KiB: Chucho reutiliza la primera
+mitad del banco 59 y Estefania/Daniel comparten el banco 63. MMC5 intercambia
+esas dos páginas de 1 KiB durante vblank sin alterar objetos, enemigos o fondos.
+Cada pose ocupa ocho tiles de 8 × 8; el renderizado mezcla cabeza, brazos y piernas
+para conservar el movimiento durante una acción. Los seis pasos usan un reloj
+local de carrera; no dependen del reloj global ni avanzan al detenerse.
+
 ## Pruebas
 
 Primero compila con `./build.ps1`. `tools/test_all.py` ejecuta trece suites de
 clásicas de FCEUmm, tres recorridos completos de la aventura (uno por actor),
-una suite de contraseñas/pausa y controles. `--mesen` añade seis suites independientes: campaña original,
+una suite de contraseñas/pausa y controles, y tres comprobaciones de animación
+(una por actor). `--mesen` añade seis suites independientes: campaña original,
 restauración de imagen, campaña completa de dos episodios, tarjetas/ayuda, registros de la APU y reproducción completa de los botones de la aventura. Los resultados se
 guardan en `build/`, junto a la ROM de trabajo, símbolos y capturas. Cada suite
 falla con un código distinto de cero si detecta una regresión.
@@ -275,7 +284,7 @@ rápidos de personaje y al regresar de una partida. Reproduce el fallo en la ROM
 anterior y pasa con la nueva asignación.
 
 
-## Aventura v0.14.0: bancos y presupuesto
+## Aventura v0.14.1: bancos y presupuesto
 
 La ventana CPU `$8000–$DFFF` alterna entre bancos PRG 12–14 (colección clásica),
 3–5 (aventura) y 6–8 (interfaz). NMI, biblioteca C y trampolines permanecen en el
@@ -287,8 +296,8 @@ proyectiles. No hay heap ni recursión. Sus temporales se compilan con `-Cl` par
 reducir accesos a la pila; las rutinas no son reentrantes. `adv_shape` escribe OAM
 sin el bucle de llamadas C por tile. NMI no utiliza sus temporales.
 
-CHR 54–58 contiene ambientes; 59 los actores/enemigos; 60 la interfaz; 61–62,
-las cinco páginas de jefes de 1 KiB. Durante la aventura MMC5 usa bancos CHR de
+CHR 54–58 contiene ambientes; 59 a Chucho, objetos y enemigos; 60 la interfaz;
+61–62, las cinco páginas de jefes de 1 KiB; 63 a Estefania y Daniel. Durante la aventura MMC5 usa bancos CHR de
 1 KiB; al abrir una tarjeta vuelve al modo de 4 KiB. Se mantiene el cartucho de
 128 KiB PRG + 256 KiB CHR (393232 bytes incluido el encabezado).
 

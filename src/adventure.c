@@ -3,7 +3,7 @@
    on the handheld; connected rooms provide height and changing routes. */
 u8 adv_bank,adv_service_op,adv_service_arg,adv_ui_page,adv_command,adv_ui_sel;
 u8 adv_trial,adv_code[12],adv_code_error,adv_activity_result,adv_task_fails,adv_password_load;
-u8 adv_sprite_tail;
+u8 adv_sprite_tail,adv_sprite_actor;
 AdvSave adv_save;
 AdvState adv;
 const Platform layouts[8][5]={
@@ -57,6 +57,9 @@ static void load_room(u8 entrance){u8 i,layout;Platform* p;Enemy* e;
  adv.world=adv.stage==8?adv.room/2:stage_world[adv.stage];
  layout=room_layout[adv.stage][adv.room];
  for(i=0;i<5;++i)adv.platforms[i]=layouts[layout][i];
+ /* Leave the boss approach open: the old right ledge caught evasive jumps
+    directly above melee range, forcing a blind drop onto the boss. */
+ if(boss_room()){adv.platforms[2].x=88;adv.platforms[2].y=128;}
  if(adv.world==0&&adv.room>=3&&adv.platforms[1].kind==0)adv.platforms[1].kind=2;
  adv.exit_y=adv.platforms[3].y-24;
  adv.gate_x=adv.platforms[2].x+12;adv.gate_y=adv.platforms[2].y-16;
@@ -68,6 +71,7 @@ static void load_room(u8 entrance){u8 i,layout;Platform* p;Enemy* e;
  adv.boss_tick=adv.boss_inv=0;adv.boss_x=176;adv.boss_y=184;adv.props=0;adv.vy=0;adv.ground=1;adv.coyote=5;
  adv.x=entrance?216:16;adv.y=((u16)(entrance?adv.exit_y:adv.platforms[0].y-24))<<4;
  adv.attack=adv.cooldown=adv.buffer=adv.dead=adv.hitstop=adv.flash=0;
+ adv.run_phase=adv.landing=adv.hurt=0;
  adv.inv=45;adv.tick=0;adv.facing=entrance;adv.clue=0;
  for(i=0;i<BCOUNT;++i)adv.bullets[i].life=0;
  for(i=0;i<ECOUNT;++i){
@@ -80,13 +84,36 @@ static void load_room(u8 entrance){u8 i,layout;Platform* p;Enemy* e;
  screen(UI_ROOM);hud_line();
  service(5,stage_music[adv.world]);
 }
-static void draw(void){u8 i,pose,y;Enemy* e;Bullet* b;Platform* p;
+/* Animation clocks follow actual grounded movement. Facing is applied to both
+   tile order and pixels, so limbs and the direction of the action agree. */
+static u8 actor_pose(void){
+ if(adv.hurt>78)return 15;
+ if(adv.attack)return adv.attack>11?12:(adv.attack>5?13:14);
+ if(!adv.ground)return adv.vy<-20?8:(adv.vy>24?10:9);
+ if(adv.landing)return 11;
+ if(adv.run_phase)return 2+((adv.run_phase-1)>>2);
+ return (adv.tick&127)>=124?1:0;
+}
+static void draw(void){u8 i,pose,legs,y,flip;Enemy* e;Bullet* b;Platform* p;
  hide();art_bank=54+adv.world;sprite_bank=59*4;adv_sprite_tail=244+adv.world;
- y=ypixel();pose=adv.attack?3:(!adv.ground?2:((pad&(LEFT|RIGHT))?((adv.tick>>3)&1):0));
- if(!adv.inv||(adv.inv&4))shape(adv.x-4,y-8,host*48+pose*12,3,4,host|(adv.facing?64:0));
+ adv_sprite_actor=host==0?236:(host==1?252:254);
+ y=ypixel();pose=actor_pose();legs=pose;flip=adv.facing?64:0;
+ /* Keep the stride/jump underneath an upper-body action. Holding B must not
+    turn running into a sliding, frozen full-body attack pose. */
+ if(adv.attack&&adv.hurt<=78){
+  if(!adv.ground)legs=adv.vy<-20?8:(adv.vy>24?10:9);
+  else if(adv.run_phase)legs=2+((adv.run_phase-1)>>2);
+  else if(adv.landing)legs=11;
+ }
+ if(!adv.hurt||adv.hurt>78||(adv.hurt&2)){
+  shape(adv.x,y-8,pose*8,2,2,flip);
+  shape(adv.x,y+8,pose*8+4,2,1,1|flip);
+  shape(adv.x,y+16,legs*8+6,2,1,2|flip);
+  if(pose==13)shape(adv.facing?adv.x-8:adv.x+16,y+4,128+host*2,1,2,flip);
+ }
  if(!adv.keys&&!boss_room()&&adv.world!=3)sprite8(adv.gate_x,adv.gate_y,158,3);
  if(adv.tape)sprite8(adv.tape_x+4,adv.tape_y+4-((adv.tick>>4)&1),154,3);
- if(boss_room()&&adv.boss_hp){
+ if(boss_room()&&adv.boss_hp&&(!adv.boss_inv||(adv.boss_inv&2))){
   shape(adv.boss_x+4,adv.boss_y,216+(adv.boss_tick<45?0:(adv.boss_tick<85?18:9)),2,3,3);
 
  }
@@ -96,11 +123,12 @@ static void draw(void){u8 i,pose,y;Enemy* e;Bullet* b;Platform* p;
   sprite8(adv.platforms[i].x+16,adv.platforms[i].y,164,3);sprite8(adv.platforms[i].x+24,adv.platforms[i].y,165,3);
  }
  for(i=0;i<ECOUNT;++i){e=&adv.enemies[i];if(e->hp&&(!e->inv||(e->inv&2)))shape(e->x,e->y,168+e->type*8+((e->tick>>4)&1)*4,2,2,3|(e->dir<0?64:0));}
- for(i=0;i<BCOUNT;++i){b=&adv.bullets[i];if(b->life)sprite8(b->x,b->y,160,b->owner?1:3);}
+ for(i=0;i<BCOUNT;++i){b=&adv.bullets[i];if(b->life)sprite8(b->x,b->y,160,b->owner?0:3);}
 }
 static void damage(void){
  if(adv.inv||adv.dead)return;
- adv.damaged=1;adv.inv=90;adv.hitstop=4;
+ adv.damaged=1;adv.inv=90;adv.hurt=90;adv.hitstop=4;
+ adv.attack=0;adv.cooldown=12;
  if(adv.ground){adv.vy=-36;adv.ground=0;}
  if(adv.health)--adv.health;
  service(2,2);
@@ -110,8 +138,8 @@ static void shoot(u8 x,u8 y,s8 vx,s8 vy,u8 owner){u8 i;
  for(i=0;i<BCOUNT;++i)if(!adv.bullets[i].life){adv.bullets[i].x=x;adv.bullets[i].y=y;adv.bullets[i].vx=vx;adv.bullets[i].vy=vy;adv.bullets[i].owner=owner;adv.bullets[i].life=70;break;}
 }
 static u8 attack_hits(u8 x,u8 y,u8 width){s16 a,b;
- if(!adv.attack||distance(ypixel()+12,y+8)>20)return 0;
- a=adv.facing?(s16)adv.x-24:adv.x+10;b=adv.facing?adv.x+6:adv.x+40;
+ if(adv.attack>11||adv.attack<6||distance(ypixel()+12,y+8)>20)return 0;
+ a=adv.facing?(s16)adv.x-14:adv.x+10;b=adv.facing?adv.x+6:adv.x+30;
  return b>x&&a<(s16)x+width;
 }
 static void enemies(void){u8 i,py;Enemy* e;Bullet* b;s16 x,y;
@@ -137,7 +165,7 @@ static void enemies(void){u8 i,py;Enemy* e;Bullet* b;s16 x,y;
   x=(s16)b->x+b->vx;y=(s16)b->y+b->vy;
   if(x<4||x>248||y<48||y>228){b->life=0;continue;}
   b->x=(u8)x;b->y=(u8)y;--b->life;
-  if(!b->owner&&host==2&&adv.attack&&distance(adv.x+8,b->x)<30&&distance(py+12,b->y)<20){b->owner=1;b->vx=-b->vx;b->vy=0;service(2,1);}
+  if(!b->owner&&host==2&&attack_hits(b->x,b->y,8)){b->owner=1;b->vx=-b->vx;b->vy=0;service(2,1);}
   if(!b->owner&&distance(adv.x+8,b->x)<12&&distance(py+12,b->y)<16){damage();b->life=0;}
   if(b->owner){
    for(py=0;py<ECOUNT;++py){e=&adv.enemies[py];if(e->hp&&!e->inv&&distance(e->x+8,b->x)<12&&distance(e->y+8,b->y)<12){--e->hp;e->inv=18;b->life=0;service(2,1);break;}}
@@ -178,13 +206,21 @@ static void physics(void){u8 i,py,landed,nx;Platform* p;s16 next,top;
   if(adv.ground&&ypixel()+24==p->y&&adv.x+12>p->x&&adv.x<p->x+p->w)adv.x+=nx-p->x;
   p->x=nx;
  }}
+ if(adv.hurt)--adv.hurt;if(adv.landing)--adv.landing;
  if(adv.inv)--adv.inv;if(adv.cooldown)--adv.cooldown;if(adv.attack)--adv.attack;
  if(adv.buffer)--adv.buffer;if(adv.coyote)--adv.coyote;
  if(pressed&A)adv.buffer=6;
  if(pad&LEFT){adv.facing=1;if(adv.x>9)adv.x-=2;}
  else if(pad&RIGHT){adv.facing=0;if(adv.x<230)adv.x+=2;}
- if((pad&B)&&!adv.cooldown){adv.attack=host==1?9:14;adv.cooldown=host==1?28:20;
-  if(host==1)shoot(adv.facing?adv.x-2:adv.x+18,ypixel()+12,adv.facing?-3:3,0,1);service(2,3);}
+ if(adv.ground&&(pad&(LEFT|RIGHT))&&adv.x>9&&adv.x<230){
+  if(++adv.run_phase>24)adv.run_phase=1;
+ }else adv.run_phase=0;
+ if((pad&B)&&!adv.cooldown&&adv.hurt<=78){adv.attack=14;adv.cooldown=host==1?28:20;
+ }
+ if(adv.attack==11){
+  if(host==1)shoot(adv.facing?adv.x-4:adv.x+16,ypixel()+8,adv.facing?-3:3,0,1);
+  service(2,3);
+ }
  if(adv.buffer&&adv.coyote){adv.vy=-94;
   for(i=0;i<5;++i){p=&adv.platforms[i];if(p->kind==2&&ypixel()+24==p->y&&adv.x+12>p->x&&adv.x<p->x+p->w)adv.vy=-112;}adv.ground=adv.coyote=adv.buffer=0;service(2,4);}
  if(!(pad&A)&&adv.vy<-36)adv.vy=-36;
@@ -199,6 +235,7 @@ static void physics(void){u8 i,py,landed,nx;Platform* p;s16 next,top;
   }
  }
  if(next<48*16){next=48*16;if(adv.vy<0)adv.vy=0;}
+ if(landed&&!adv.ground)adv.landing=5;
  adv.y=next;adv.ground=landed;if(landed)adv.coyote=5;
  if(next>232*16){adv.damaged=1;adv.dead=1;service(2,2);}
  py=ypixel();

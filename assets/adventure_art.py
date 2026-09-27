@@ -147,29 +147,9 @@ def build_adventure(root, font, text, pack):
         banks.append(b''.join(tiles))
 
     sprites = [bytes(16) for _ in range(256)]
-    for who in range(3):
-        for pose in range(4):
-            im = Image.new('L', (24, 32)); d = ImageDraw.Draw(im)
-            face = bust(who).crop((12, 0, 52, 48)).resize((20, 20), Image.Resampling.NEAREST)
-            # Round head cutout; no portrait halo in the moving sprite.
-            mask = Image.new('1', (20, 20)); ImageDraw.Draw(mask).ellipse((1, 0, 18, 19), fill=1)
-            im.paste(face.point(lambda v: (0, 1, 3, 2)[v % 4]), (2, 0), mask)
-            d.polygon([(8, 18), (15, 18), (18, 22), (16, 27), (7, 27), (5, 22)], fill=3)
-            d.line((7, 21, 3, 25 - (pose & 1)), fill=2, width=2)
-            d.line((16, 21, 20, 25 + (pose & 1)), fill=2, width=2)
-            if pose == 2:
-                d.line((8, 27, 5, 29, 3, 29), fill=1, width=2)
-                d.line((15, 27, 18, 28, 21, 28), fill=1, width=2)
-                d.line((2, 30, 5, 30), fill=3); d.line((18, 29, 22, 29), fill=3)
-            else:
-                for x, direction in ((8, -1), (15, 1)):
-                    dx = direction * (pose & 1) * 2
-                    d.line((x, 27, x + dx, 30), fill=1, width=2)
-                    d.line((x + dx - 2, 31, x + dx + 2, 31), fill=3)
-            if pose == 3:
-                d.line((16, 21, 22, 20), fill=2, width=2)
-                d.line((22, 16, 22, 23), fill=3, width=2)
-            put(sprites, who * 48 + pose * 12, im)
+    from adventure_actors import actor_tiles, action_tiles
+    sprites[:128] = actor_tiles(0, pack)
+    sprites[128:134] = action_tiles(pack)
     for index in range(144, 168):
         im = Image.new('L', (8, 8)); d = ImageDraw.Draw(im)
         if index in (152, 153):
@@ -286,5 +266,8 @@ def build_adventure(root, font, text, pack):
         tails.append(b''.join(tiles))
     pages = b''.join(tails).ljust(8192, b'\0')
     banks.extend((pages[:4096], pages[4096:]))
-    assert len(banks) == 9 and all(len(b) == 4096 for b in banks)
+    # Last previously unused 4 KiB: two 2 KiB actor pages. Actor 0 reuses
+    # the old hero area in bank 59; shared props/enemies stay in its last half.
+    banks.append(b''.join(actor_tiles(1, pack) + actor_tiles(2, pack)))
+    assert len(banks) == 10 and all(len(b) == 4096 for b in banks)
     return banks

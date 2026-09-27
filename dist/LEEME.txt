@@ -1,8 +1,13 @@
-EL CUARTICO: UNA ULTIMA TOMA - v0.14.0 - MMC5
+EL CUARTICO: UNA ULTIMA TOMA - v0.14.1 - MMC5
 
-Abre el-cuartico-v0.14.0-mmc5.nes. Control 1, NTSC, velocidad normal.
+Abre el-cuartico-v0.14.1-mmc5.nes. Control 1, NTSC, velocidad normal.
 R36S/ArkOS: copia el archivo a nes en la tarjeta de juegos.
 Inicia desde cero, sin estados del emulador de otra version.
+
+NOVEDADES DE ESTA REVISION
+Personajes redibujados, seis pasos de carrera y acciones combinadas con el salto.
+Golpe, microfono y defensa tienen preparacion, accion y recuperacion visibles.
+Esta revision sigue en pulido; aun requiere revision visual y prueba en R36S.
 
 AVENTURA
 Cruceta: moverse. A: saltar (manten para mas altura).

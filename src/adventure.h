@@ -51,8 +51,9 @@ typedef struct {
  Enemy enemies[ECOUNT];
  Bullet bullets[BCOUNT];
  u8 boss_x,boss_y,props,hud_state;
+ u8 run_phase,landing,hurt;
 } AdvState;
-extern u8 adv_sprite_tail;
+extern u8 adv_sprite_tail,adv_sprite_actor;
 extern AdvState adv;
 extern AdvSave adv_save;
 extern u8 adv_bank,adv_service_op,adv_service_arg,adv_ui_page,adv_command,adv_ui_sel;

@@ -69,7 +69,7 @@ for actor in range(3):
     while h.read('host')!=actor:h.press(2)
     h.press(8);h.frames(30);h.press(8);h.frames(30)
     h.frames(100)
-    h.frames(1,[0]);h.frames(1)
+    h.frames(1,[0]);h.frames(4)
     if actor==1:check(any(a.read('bullets',i*6+2) and a.read('bullets',i*6+3) for i in range(3)),'Estefania fires a player projectile')
     check(h.read('host')==actor,'Selected actor remains active: '+str(actor))
     a.clear_room();check(a.read('room')==1,'Opening route works for actor '+str(actor))

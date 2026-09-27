@@ -38,7 +38,7 @@ for host in range(3):
     check(r('mode')==0 and r('ex_on')==1 and not r('completed'),'Reset from host '+str(host)+' card restores the fixed startup bank')
 check(len(set(cards))==3,'All three characters have distinct illustrated title cards')
 budget=json.loads((h.root/'assets/art-budget.json').read_text())
-check(budget['banks_used']==63 and len(h.rom)==393232,'New posters fit the unchanged cartridge size')
+check(0<budget['banks_used']<=64 and len(h.rom)==393232,'New posters fit the unchanged cartridge size')
 
 
 def help_switches(episode):

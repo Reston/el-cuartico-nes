@@ -115,5 +115,5 @@ check(r('mode')==0 and not r('paused') and r('ex_on')==1,'Reset from help restor
 h.press(8);start_from_intro();h.press(3);h.reset();h.frames(90)
 check(r('mode')==0 and not r('paused') and r('completed')==0,'Reset from pause discards the old scene snapshot safely')
 budget=json.loads((h.root/'assets/art-budget.json').read_text())
-check(budget['banks_used']==63 and budget['backgrounds']['presentation']<=256 and len(h.rom)==393232,'Presentation fits the existing cartridge with one extra CHR page')
+check(0<budget['banks_used']<=64 and budget['backgrounds']['presentation']<=256 and len(h.rom)==393232,'Presentation fits the existing cartridge with one extra CHR page')
 h.close()

@@ -49,7 +49,10 @@ static void palette(u8 world){u8 i;
  for(i=0;i<4;++i)PPUDATA=colors[world][i];
  PPUDATA=0x0f;for(i=0;i<3;++i)PPUDATA=backdrop[world][i];
  PPUDATA=0x0f;PPUDATA=0x09;PPUDATA=0x19;PPUDATA=0x29;
- for(i=0;i<3;++i){PPUDATA=0x0f;PPUDATA=0x0f;PPUDATA=0x37;PPUDATA=i==0?0x2b:(i==1?0x21:0x30);}
+ /* Shared face / selected actor clothing / trousers / enemy palettes. */
+ PPUDATA=0x0f;PPUDATA=0x0f;PPUDATA=0x37;PPUDATA=0x30;
+ PPUDATA=0x0f;PPUDATA=0x0f;PPUDATA=0x37;PPUDATA=host==0?0x2b:(host==1?0x21:0x30);
+ PPUDATA=0x0f;PPUDATA=0x0f;PPUDATA=0x00;PPUDATA=host==2?0x00:0x12;
  PPUDATA=0x0f;PPUDATA=0x0f;PPUDATA=0x16;PPUDATA=0x30;
 }
 extern u8 plaza_attrs[64];

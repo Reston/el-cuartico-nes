@@ -4,9 +4,9 @@
 
 Este juego fue creado enteramente con IA para probar las capacidades de Astra.
 
-**NES · Un jugador · v0.14.0**
+**NES · Un jugador · v0.14.1 · En pulido**
 
-[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.14.0-mmc5.nes) · [Cómo jugar](docs/AVENTURA.md) · [Desarrollo](docs/DESARROLLO.md)
+[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.14.1-mmc5.nes) · [Cómo jugar](docs/AVENTURA.md) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
@@ -21,7 +21,9 @@ protección, robots que repiten rumores y pistas que Daniel supuestamente deber�
 - Los tres minijuegos originales se integran como ensayos breves; la colección
   completa de dos episodios y Remix sigue en **Juegos del estudio**.
 
-![Menú de la aventura](docs/media/aventura-menu-v0.14.0.png)
+[![Personajes en movimiento: captura ampliada de la ROM](docs/media/aventura-personajes-v0.14.1.gif)](docs/media/aventura-personajes-v0.14.1.mp4)
+
+[Ver las animaciones dentro del juego](docs/media/aventura-personajes-v0.14.1.mp4).
 
 ## Jugar
 

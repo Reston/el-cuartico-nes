@@ -21,6 +21,9 @@ local names={[0]='b',[2]='select',[3]='start',[4]='up',[5]='down',[6]='left',[7]
 local seen={}
 emu.addEventCallback(function()
  frame=frame+1
+ if frame%3000==0 then
+  report:write('PROGRESS '..frame..' frames, stage '..(r('adv')+1)..', room '..(r('adv',1)+1)..'\n');report:flush()
+ end
  if r('mode')==10 and r('adv_command')==10 and r('adv_ui_page')==20 then
   seen[r('adv')..':'..r('adv',1)]=true
  end
