@@ -10,7 +10,7 @@ const char* const intro[9][4]={
  {"ESTEFI: NO FUE OPERACION.","CHUCHO: MISION SECRETA?","DANIEL: LE PONGO ROBOTS.","B: APAGA Y REVELA EL PUENTE."},
  {"ESTEFI: ERA EL ESTOMAGO!","DANIEL: FALTA EL JEFE.","CHUCHO: ES UN MEGAFONO.","ESQUIVA. GOLPEA AL RECARGAR."},
  {"DANIEL: MI MAMA ES CHILENA.","CHUCHO: TU SABES LLEGAR.","ESTEFI: ESO VIENE CON MAPA?","ELIGE RUTA. HABLA Y ANOTA."},
- {"DANIEL: CASI LO DESCIFRO.","ESTEFI: LEE EL OTRO LADO.","CHUCHO: PRIMERO EL CASTILLO.","TRES PISTAS ABREN EL CAMINO."},
+ {"DANIEL: CASI LO DESCIFRO.","ESTEFI: LEE EL OTRO LADO.","CHUCHO: YA TENEMOS PISTAS.","USALAS PARA ABRIR LOS SELLOS."},
  {"NADIA: SOLO UNA COSITA.","ALI: OFERTA EN OTRO PASILLO!","ESTEFI: Y LA CAJA ABIERTA?","SIGUE LA LISTA DE UTILERIA."},
  {"DANIEL: LE PONGO UN APODO.","CHUCHO: AHORA SE VOLVIO ESO!","ALI: NO LO LLAMEN TANQUE.","APRENDE EL NOMBRE Y ESQUIVA."},
  {"CHUCHO: YA TENEMOS IDEAS.","ESTEFI: QUIEN DIO GRABAR?","DANIEL: DESDE EL PRINCIPIO.","TERMINA NUESTRA ULTIMA TOMA."}
@@ -104,7 +104,7 @@ static void icon(u8 x,u8 y,u8 first){
 /* Repeater hits update only the affected background tiles. A full room redraw
    here would interrupt every attack with a long black transition. */
 static void relay_scene(void){u8 i,x,y,mask;Platform* p;
- mask=adv.stage==2?(adv.room<4?4:(adv.room<8?6:7)):7;
+ mask=adv.stage==2?(adv.room==0?4:(adv.room<3?6:7)):(adv.stage==3?(adv.room==3?4:(adv.room==1?6:7)):(adv.stage==8&&adv.room==2?6:7));
  for(i=0;i<3;++i)if(mask&(1<<i)){
   p=&adv.platforms[i];icon((p->x+16)/8,(p->y-16)/8,adv.props&(1<<i)?212:208);
   tint((p->x+16)/8,(p->y-16)/8,1);
@@ -136,20 +136,20 @@ static void room(void){u8 x,y,i,tile,world=adv.world;Platform* p;
   for(x=0;x<p->w/8;++x)tint(p->x/8+x,p->y/8,1);
   if(p->kind==2){address(0x2000+((u16)(p->y/8)<<5)+p->x/8+1);PPUDATA=206;PPUDATA=207;}
  }
- if(world==1&&!(adv.room==(adv.stage<6?15:11)&&((adv.stage&1)||adv.stage>=6)))relay_scene();
+ if(world==1&&!(adv.room==(adv.stage<4?4:(adv.stage==8?5:3))&&((adv.stage&1)||adv.stage>=6)))relay_scene();
  if(world==2){
-  if((adv.stage==4||adv.stage==5)&&(!adv.room||(adv.room<=12&&!(adv.room&3)))){
+  if(adv.stage==4&&(!adv.room||(adv.room<=6&&!(adv.room&1)))){
    icon(5,24,200);put(8,24,adv.room?"ARRIBA: CONVERSAR":"ARRIBA: RUTAS");
-   if(adv.room){icon(5,17,220+(adv.room/4-1)*4);put(9,18,route_names[adv.room/4-1]);}
+   if(adv.room){icon(5,17,220+(adv.room/2-1)*4);put(9,18,route_names[adv.room/2-1]);}
   }else if(adv.boss_hp){icon(14,24,200);center(9,"TRES SELLOS, TRES PISTAS");}
  }
  for(y=0;y<4;++y){address(0x2000+((u16)(adv.exit_y/8-1+y)<<5)+28);PPUDATA=192+y*2;PPUDATA=193+y*2;}
  for(y=0;y<4;++y)tint(28,adv.exit_y/8-1+y,1);
  address(0x23c0);for(i=0;i<64;++i)PPUDATA=plaza_attrs[i];
- if(world==1)center(4,adv.room<4?"LA FABRICA DEL RUMOR":(adv.room<8?"EL TALLER DE ECOS":(adv.room<12?"LA RED DE ANTENAS":"CENTRAL DEL MEGAFONO")));
- if(world==2)center(4,!adv.room?"PLAZA DE LAS TRES PISTAS":(adv.room<=12?route_names[(adv.room-1)/4]:"EL CAMINO DEL GUARDIAN"));
- if(world==0)center(4,adv.room<4?"UNA SUBIDITA TRANQUILA":(adv.room<8?"POR EL BORDE DEL CERRO":(adv.room<12?"COLCHONETAS DE RESCATE":"YA CASI SE VE EL ESTUDIO")));
- if(world==2){put(2,28,"SELECT:LIBRETA");put(18,28,"START:PAUSA");if(adv.room&&adv.room<=12)put(2,7,"ABAJO AL INICIO: VOLVER");}
+ if(world==1)center(4,adv.room==0?"LA FABRICA DEL RUMOR":(adv.room==1?"EL TALLER DE ECOS":(adv.room==2?"LA RED DE ANTENAS":"CENTRAL DEL MEGAFONO")));
+ if(world==2)center(4,adv.stage==4?(!adv.room?"PLAZA DE LAS TRES PISTAS":(adv.room<=6?route_names[(adv.room-1)/2]:"EL CAMINO DEL GUARDIAN")):"LAS PISTAS ABREN EL CAMINO");
+ if(world==0)center(4,adv.room<2?"UNA SUBIDITA TRANQUILA":(adv.room==2?"POR EL BORDE DEL CERRO":(adv.room==3?"COLCHONETAS DE RESCATE":"YA CASI SE VE EL ESTUDIO")));
+ if(world==2){put(2,28,"SELECT:LIBRETA");put(18,28,"START:PAUSA");if(adv.stage==4&&adv.room&&adv.room<=6)put(2,7,"ABAJO AL INICIO: VOLVER");}
  else{put(2,28,"START:PAUSA");put(18,28,"ARRIBA:SALIR");}
  hud_on=1;on();
 }
@@ -269,13 +269,13 @@ static void password(void){u8 selected=0,changed,repeat=0;
   }
  }
 }
-static u8 book_known(u8 i){return adv.stage>=5||(adv.flags[(i+1)*4]&1);}
+static u8 book_known(u8 i){return adv.stage>=5||(adv.flags[(i+1)*2]&1);}
 static void notebook(void){u8 i,j;clear();title("MAPA Y LIBRETA");
- center(7,"PLAZA: ELIGE CUALQUIER RUTA");
+ center(7,adv.stage==4?"PLAZA: ELIGE CUALQUIER RUTA":"TRES PISTAS. UN GUARDIAN.");
  for(i=0;i<3;++i){
   icon(3,10+i*4,240+i*4);
   put(6,10+i*4,book_known(i)?clue_names[i]:"???");put(17,10+i*4,book_known(i)?clue_options[i]:"???");
-  for(j=0;j<4;++j){address(0x2000+(12+i*4)*32+8+j*4);PPUDATA=adv.room==1+i*4+j?'>':((adv.flags[1+i*4+j]&128)?'+':'-');}
+  for(j=0;j<(adv.stage==4?2:1);++j){address(0x2000+(12+i*4)*32+10+j*4);PPUDATA=adv.room==(adv.stage==4?1+i*2+j:i)?'>':((adv.flags[adv.stage==4?1+i*2+j:i]&128)?'+':'-');}
  }
  center(23,"> AQUI   + VISITADA   - NUEVA");center(25,"A / B / SELECT: VOLVER");on();
  for(;;){poll();if(pressed&(A|B|SELECT|START))return;}
@@ -283,8 +283,8 @@ static void notebook(void){u8 i,j;clear();title("MAPA Y LIBRETA");
 static void routes_draw(u8 selected){u8 i;clear();title("PLAZA DE LAS TRES PISTAS");
  center(7,anames[host]);
  for(i=0;i<4;++i){put(4,11+i*3,route_names[i]);
-  if(i<3){if(adv.flags[(i+1)*4]&1)put(2,11+i*3,"+");}
-  else if(!(adv.flags[4]&adv.flags[8]&adv.flags[12]&1))put(2,20,"-");
+  if(i<3){if(adv.flags[(i+1)*2]&1)put(2,11+i*3,"+");}
+  else if(!(adv.flags[2]&adv.flags[4]&adv.flags[6]&1))put(2,20,"-");
  }
  center(24,"SELECT: ACTOR    B: VOLVER");center(26,selected==3?"REQUIERE LAS TRES PISTAS":"A: VISITAR / VOLVER A VISITAR");on();
 }
@@ -294,7 +294,7 @@ static void routes(void){u8 selected=0;routes_draw(selected);
   if(pressed&DOWN){selected=(selected+1)%4;routes_draw(selected);}
   if(pressed&SELECT){host=(host+1)%3;routes_draw(selected);}
   if(pressed&B){adv_command=0;return;}
-  if(pressed&A){if(selected==3&&!(adv.flags[4]&adv.flags[8]&adv.flags[12]&1)){service(2,2);continue;}adv_command=selected==3?5:selected+1;return;}
+  if(pressed&A){if(selected==3&&!(adv.flags[2]&adv.flags[4]&adv.flags[6]&1)){service(2,2);continue;}adv_command=selected==3?5:selected+1;return;}
  }
 }
 static void conversation(void){u8 i;clear();title(route_names[adv.clue]);icon(15,7,240+adv.clue*4);

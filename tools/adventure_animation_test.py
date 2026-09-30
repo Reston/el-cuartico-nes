@@ -50,7 +50,7 @@ shot_frames=[];action_frames=[]
 for f in range(17):
     h.frames(1,[0] if f==0 else [])
     if any(a.read('bullets',i*6+2) and a.read('bullets',i*6+3) for i in range(3)):shot_frames.append(f)
-    if oam(8,1)==128+actor*2:action_frames.append(f)
+    if oam(8,0)<230 and oam(8,1)==128+actor*2:action_frames.append(f)
 check(bool(action_frames) and action_frames[0]>=2,'The visible action follows a short anticipation')
 if actor==1:
     check(bool(shot_frames) and 2<=shot_frames[0]<=4 and abs(shot_frames[0]-action_frames[0])<=1,'A projectile begins with the microphone action, never before it')

@@ -50,7 +50,7 @@ for stage in range(9):
             h.frames(30);h.press(8);h.frames(30+failures*17)
     h.screenshot(f'adventure-stage-{stage+1}.png')
     a.studio_after_result()
-check(len(samples)==132,'All 132 distinct rooms visited with controller input')
+check(len(samples)==46,'All 46 authored rooms visited with controller input')
 check(a.saved('cleared')==511,'All nine stages completed')
 check(a.saved('tasks')==7,'All three original activities integrated')
 check(a.saved('tapes')==255,'All eight optional tapes are reachable')

@@ -87,24 +87,26 @@ check(h.read('adv_ui_page')==12 and a.read('room')==0,'Final path stays locked b
 h.press(0);h.frames(10)
 check(position==(a.read('x'),a.read('y')),'Cancel route selection returns to the same plaza position')
 pick(2)
-check(a.read('room')==9,'Player can visit the third clue route first')
+check(a.read('room')==5,'Player can visit the third clue route first')
 h.press(5);h.frames(20)
-check(a.read('room')==0 and a.read('flags',9)&128,'Returning to plaza preserves explored rooms')
+check(a.read('room')==0 and a.read('flags',5)&128,'Returning to plaza preserves explored rooms')
 for route in (2,0,1):
     pick(route)
     for _ in range(20):
         if a.read("room")==0:break
         finish_room()
-    check(a.read('room')==0 and a.read('flags',(route+1)*4)&1,f'Conversation records clue {route+1} and returns to plaza')
+    check(a.read('room')==0 and a.read('flags',(route+1)*2)&1,f'Conversation records clue {route+1} and returns to plaza')
     retry()
-    check(a.read('flags',(route+1)*4)&1,f'Clue {route+1} survives checkpoint retry')
+    check(a.read('flags',(route+1)*2)&1,f'Clue {route+1} survives checkpoint retry')
 h.press(2);h.frames(30);h.screenshot('chapters-book-complete.png');h.press(2);h.frames(30)
 routes();h.screenshot('chapters-routes-complete.png');h.press(0);h.frames(30)
 pick(3)
-check(a.read('room')==13,'All three learned clues unlock the final route')
+check(a.read('room')==7,'All three learned clues unlock the final route')
 while not a.saved("cleared")&16:finish_room()
 check(a.saved('cleared')&16,'Nonlinear first mystery chapter completes normally')
 a.studio_after_result();a.start_stage(5)
+check(a.read('room')==0 and not a.read('keys'),
+      'Second mystery take starts at a clue gate instead of repeating the plaza')
 # Exercise a wrong answer and nested notebook using the actual chapter interaction.
 original_choose=a.choose_clue
 question_tested=False
@@ -125,8 +127,8 @@ def checked_choice():
         question_tested=True
     original_choose()
 a.choose_clue=checked_choice
-while a.read('room')!=15:finish_room()
-check(question_tested,'Second mystery chapter applies the vocabulary learned in its first half')
+while a.read('room')!=3:finish_room()
+check(question_tested,'Second mystery chapter uses learned clues without repeating their collection')
 a.walk(152)
 for _ in range(150):
     h.frames(1,[0])

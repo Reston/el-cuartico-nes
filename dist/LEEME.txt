@@ -1,28 +1,31 @@
-EL CUARTICO: UNA ULTIMA TOMA - v0.15.0 - MMC5
+EL CUARTICO: UNA ULTIMA TOMA - v0.16.0 - MMC5
 
-Abre el-cuartico-v0.15.0-mmc5.nes. Control 1, NTSC, velocidad normal.
+Abre el-cuartico-v0.16.0-mmc5.nes. Control 1, NTSC, velocidad normal.
 R36S/ArkOS: copia el archivo a nes en la tarjeta de juegos.
 Inicia desde cero, sin estados del emulador de otra version.
 
 NOVEDADES
-132 salas, veinte disposiciones de plataformas y checkpoints frecuentes.
+Recorrido concentrado: encuentros escogidos, descansos y menos tareas repetidas.
+Chucho atraviesa las plataformas sin activar claquetas en cada sala.
 Operacion: era el estomago. Apaga todos los repetidores con B para revelar
 el puente. El megafono anuncia rafaga baja, diagonal y eco desde arriba.
 La leyenda del hijo de la chilena. Tres rutas en cualquier orden, conversaciones,
-mapa y libreta. Aprende las pistas y resuelve los tres sellos del guardian.
+mapa y libreta. Aprende las pistas una vez y aplicalas en la segunda toma.
+Resuelve los tres sellos del guardian. La aproximacion a la caja de Nadia es segura.
 Se conservan los personajes, seis pasos de carrera y acciones de v0.14.1.
 
 AVENTURA
 Izquierda/derecha: moverse. A: saltar (manten para mas altura).
 B: accion. Chucho golpea, Estefania dispara, Daniel devuelve proyectiles.
 Arriba: claqueta, pista o puerta. START: pausa, ayuda y dificultad.
-En la leyenda, SELECT abre mapa y libreta; ABAJO al inicio vuelve a la plaza.
+En la leyenda, SELECT abre mapa y libreta; ABAJO al inicio de una ruta de la
+primera toma vuelve a la plaza.
 En el selector de rutas, SELECT cambia actor. Los carteles no castigan errores.
 Al recargar el guardian, ARRIBA en su claqueta permite resolver un sello.
 Mesa de ideas: SELECT cambia actor, izquierda/derecha elige toma,
 A empieza y START muestra la contrasena.
 
-Tres historias de dos tomas, un cierre y dos historias extra: 132 salas.
+Tres historias de dos tomas, un cierre y dos historias extra: 46 salas.
 Antes de cada historia hay un ensayo corto del minijuego correspondiente.
 Tras dos ensayos fallidos, SELECT permite que el equipo ayude.
 Los otros jefes se atacan durante su descanso. Los checkpoints recuperan vida.

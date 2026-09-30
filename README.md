@@ -4,9 +4,9 @@
 
 Este juego fue creado enteramente con IA para probar las capacidades de Astra.
 
-**NES · Un jugador · v0.15.0**
+**NES · Un jugador · v0.16.0**
 
-[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.15.0-mmc5.nes) · [Cómo jugar](docs/AVENTURA.md) · [Desarrollo](docs/DESARROLLO.md)
+[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.16.0-mmc5.nes) · [Cómo jugar](docs/AVENTURA.md) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
@@ -14,17 +14,18 @@ Chucho, Estefania y Daniel intentan planificar un sketch para el videojuego.
 Cada propuesta se convierte en una parodia jugable: escaladas con demasiada
 protección, robots que repiten rumores y pistas que Daniel supuestamente debería entender.
 
-- **132 salas**, tres historias principales de dos tomas y un cierre jugable.
-- Apaga la fábrica del rumor; explora tres rutas y resuelve las pistas de la leyenda.
+- **Nueve tomas breves**: tres historias, dos extras y un cierre jugable.
+- Plataformas sin paradas innecesarias, encuentros distintos y descansos antes de los jefes.
+- Apaga la fábrica del rumor; aprende tres pistas y úsalas después en la leyenda.
 - **Dos capítulos extra** con Nadia, Alí y los apodos que se vuelven literales.
 - Tres personajes, cinco jefes, ocho cintas opcionales y medallas por jugar sin daño.
 - Reintentos sin límite, ayuda opcional y progreso recuperable con contraseña.
 - Los tres minijuegos originales se integran como ensayos breves; la colección
   completa de dos episodios y Remix sigue en **Juegos del estudio**.
 
-[![Nuevos capítulos: captura real de la ROM](docs/media/aventura-capitulos-v0.15.0.gif)](docs/media/aventura-capitulos-v0.15.0.mp4)
+[![Recorrido revisado: captura real de la ROM](docs/media/aventura-capitulos-v0.16.0.gif)](docs/media/aventura-capitulos-v0.16.0.mp4)
 
-[Ver gameplay de los capítulos ampliados](docs/media/aventura-capitulos-v0.15.0.mp4).
+[Ver gameplay del recorrido revisado](docs/media/aventura-capitulos-v0.16.0.mp4).
 
 ## Jugar
 

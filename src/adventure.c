@@ -28,27 +28,47 @@ const Platform layouts[20][5]={
  {{0,208,96,0},{96,168,48,0},{160,136,40,0},{208,176,48,0},{48,120,32,0}},
  {{0,208,128,0},{56,160,48,0},{144,128,48,0},{128,208,128,0},{16,128,32,0}}
 };
+/* Each room has a role: introduction, variation, combination, breather or payoff.
+   The opening rooms introduce traversal before the first patrol. */
 const u8 room_layout[9][16]={
- {0,6,1,8,2,9,10,11,3,12,13,14,15,16,17,19},
- {3,1,5,8,6,9,10,11,12,13,14,15,16,17,18,7},
- {4,0,6,8,1,9,10,11,12,14,15,16,17,18,19,4},
- {1,4,8,9,0,10,11,12,14,15,16,17,18,19,2,7},
- {19,0,8,9,1,6,10,11,12,2,14,15,16,17,18,4},
- {19,6,8,9,1,0,10,11,12,2,14,15,16,17,18,7},
- {4,6,0,8,3,9,10,11,12,14,19,7},
- {2,3,6,8,5,9,10,11,12,13,18,7},
- {0,5,8,9,4,10,11,12,2,14,19,7}
+ {0,6,1,3,13},             /* walk/jump, descent, first patrol, moving ledge, spring */
+ {5,3,14,19,7},            /* rescue spring, moving ledge, summit, breather, crane */
+ {4,0,6,1,8},              /* one relay, two, straight shots, three, final bridge */
+ {0,12,17,19,7},           /* low shot, diagonal, combined relays, breather, speaker */
+ {19,0,4,6,4,2,4,19},      /* plaza; short route + conversation, three choices; exit */
+ {8,11,17,7},              /* apply PALTA, FRUTILLA, CHOCLO; guardian */
+ {4,6,19,7},               /* list, aisle, checkout approach, cart */
+ {2,3,5,7},                /* patrol, loudspeaker, bird, dragon */
+ {13,3,4,17,19,7}          /* two rooms per idea: a short montage, then guardian */
 };
 const u8 stage_world[9]={0,0,1,1,2,2,3,4,0};
-const u8 stage_rooms[9]={16,16,16,16,16,16,12,12,12};
+const u8 stage_rooms[9]={5,5,5,5,8,4,4,4,6};
+const u8 tape_room[8]={3,3,3,3,1,2,2,2};
+/* Enemy roles are authored with the route instead of cycling through types.
+   255 leaves the slot empty; quiet rooms give optional exploration some space. */
+const u8 room_enemy[9][8][2]={
+ {{255,255},{255,255},{2,255},{0,255},{2,255}},
+ {{0,255},{2,255},{0,2},{255,255},{255,255}},
+ {{255,255},{0,255},{1,255},{1,4},{2,255}},
+ {{1,255},{4,255},{1,4},{255,255},{255,255}},
+ {{255,255},{0,255},{255,255},{2,255},{255,255},{1,255},{255,255},{255,255}},
+ {{0,255},{2,255},{1,255},{255,255}},
+ {{3,255},{3,2},{255,255},{255,255}},
+ {{0,255},{4,255},{5,255},{255,255}},
+ {{2,255},{0,2},{1,255},{4,255},{255,255},{255,255}}
+};
 const u8 stage_music[5]={11,12,13,14,15};
 
 static void service(u8 op,u8 arg){adv_service_op=op;adv_service_arg=arg;adv_service();}
 static void screen(u8 page){adv_ui_page=page;adv_present();}
 static u8 ypixel(void){return (u8)(adv.y>>4);}
 static u8 distance(u8 a,u8 b){return a>b?a-b:b-a;}
-static u8 mystery(void){return adv.stage==4||adv.stage==5;}
-static u8 relay_mask(void){return adv.stage==2?(adv.room<4?4:(adv.room<8?6:7)):7;}
+static u8 clue_routes(void){return adv.stage==4;}
+static u8 relay_mask(void){
+ if(adv.stage==2)return adv.room==0?4:(adv.room<3?6:7);
+ if(adv.stage==3)return adv.room==3?4:(adv.room==1?6:7);
+ return adv.stage==8&&adv.room==2?6:7;
+}
 static u8 boss_room(void){return adv.room==stage_rooms[adv.stage]-1&&(adv.stage&1||adv.stage>=6);}
 /* At most 47 sprites: use the fixed-bank OAM writer shared with the classic game. */
 #define sprite8 sprite
@@ -64,7 +84,8 @@ static void hud_line(void){u8 i;const char* hint;
  if(adv.world==1&&!adv.keys&&!boss_room())hint="B: APAGA EL REPETIDOR";
  if(adv.world==3&&!adv.keys&&!boss_room())hint="LISTA: 0/3 BUSCA ENCARGOS";
  if(adv.world==4&&!adv.keys&&!boss_room())hint="PAJARITO VUELA. BOCINA TIRA.";
- if(mystery())hint=adv.room==0?"ARRIBA: ELIGE UNA RUTA":(adv.room<=12&&!(adv.room&3)?"ARRIBA: HABLAR CON EL EQUIPO":(adv.keys?"SELECT: MAPA Y LIBRETA":"ARRIBA: LEE LA PISTA"));
+ if(adv.world==2&&!adv.keys&&!boss_room())hint="ARRIBA: LEE LA PISTA";
+ if(clue_routes())hint=adv.room==0?"ARRIBA: ELIGE UNA RUTA":(adv.room<=6&&!(adv.room&1)?"ARRIBA: HABLAR CON EL EQUIPO":(adv.keys?"SELECT: MAPA Y LIBRETA":"ARRIBA: LEE LA PISTA"));
  if(boss_room()&&adv.boss_hp){
   if(adv.world==1)hint=adv.boss_tick>=100?"RECARGANDO! AHORA ATACA":(adv.boss_round==0?"AVISO: RAFAGA BAJA. SALTA!":(adv.boss_round==1?"AVISO: DIAGONAL. BUSCA HUECO":"AVISO: ECO DESDE ARRIBA"));
   if(adv.world==2)hint=adv.boss_tick>=100?((adv.boss_marks&(1<<adv.boss_round))?"SELLO LISTO. ESPERA EL OTRO":"RECARGA: ARRIBA LEE EL SELLO"):(adv.boss_round==0?"SELLO PALTA: ONDA DIAGONAL":(adv.boss_round==1?"SELLO FRUTILLA: LLUVIA":"SELLO CHOCLO: ONDA BAJA"));
@@ -77,19 +98,19 @@ static void hud_line(void){u8 i;const char* hint;
  hud_on=1;
 }
 static void load_room(u8 entrance){u8 i,layout;Platform* p;Enemy* e;
- adv.world=adv.stage==8?adv.room/4:stage_world[adv.stage];
+ adv.world=adv.stage==8?adv.room/2:stage_world[adv.stage];
  layout=room_layout[adv.stage][adv.room];
  for(i=0;i<5;++i)adv.platforms[i]=layouts[layout][i];
  /* Leave the boss approach open: the old right ledge caught evasive jumps
     directly above melee range, forcing a blind drop onto the boss. */
  if(boss_room()){adv.platforms[2].x=88;adv.platforms[2].y=128;}
- if(adv.world==0&&adv.room>=3&&adv.platforms[1].kind==0)adv.platforms[1].kind=2;
+ if(adv.stage==1&&(adv.room==0||adv.room==2))adv.platforms[1].kind=2;
  adv.exit_y=adv.platforms[3].y-24;
  adv.gate_x=adv.platforms[2].x+12;adv.gate_y=adv.platforms[2].y-16;
  if(adv.world==2){adv.gate_x=adv.platforms[1].x+12;adv.gate_y=adv.platforms[1].y-16;}
  adv.tape_x=adv.platforms[4].w?adv.platforms[4].x+8:adv.platforms[2].x+16;
  adv.tape_y=(adv.platforms[4].w?adv.platforms[4].y:adv.platforms[2].y)-16;
- adv.tape=adv.stage<8&&adv.room==(mystery()?3:4)&&!(adv_save.tapes&(1<<adv.stage));
+ adv.tape=adv.stage<8&&adv.room==tape_room[adv.stage]&&!(adv_save.tapes&(1<<adv.stage));
  adv.flags[adv.room]|=128;
  adv.keys=adv.flags[adv.room]&1;adv.boss_hp=boss_room()?(adv.world==2?3:(adv_save.easy?4:6)):0;
  adv.bridge_width=adv.platforms[3].w;
@@ -97,11 +118,9 @@ static void load_room(u8 entrance){u8 i,layout;Platform* p;Enemy* e;
   adv.keys=(adv.flags[adv.room]&relay_mask())==relay_mask();
   if(!adv.keys)adv.platforms[3].w=0;
  }
- if(mystery()&&!boss_room()){
-  adv.keys=adv.room&&((adv.room&3)!=0)&&!(adv.stage==5&&((adv.room&3)==2||adv.room>=13));
-  if(adv.flags[adv.room]&1)adv.keys=1;
-  if(adv.room&&adv.room<=12&&!(adv.room&3))adv.keys=0;
- }
+ if(adv.world==0&&!boss_room())adv.keys=1; /* Let the platforming flow. */
+ if(clue_routes()&&!boss_room())adv.keys=adv.room&&(adv.room&1);
+
  adv.boss_round=adv.boss_marks=0;
  adv.boss_tick=adv.boss_inv=0;adv.boss_x=176;adv.boss_y=184;adv.props=0;adv.vy=0;adv.ground=1;adv.coyote=5;
  adv.x=entrance?216:16;adv.y=((u16)(entrance?adv.exit_y:adv.platforms[0].y-24))<<4;
@@ -110,16 +129,17 @@ static void load_room(u8 entrance){u8 i,layout;Platform* p;Enemy* e;
  adv.inv=45;adv.tick=0;adv.facing=entrance;adv.clue=0;
  if(adv.world==1&&!boss_room())adv.props=adv.flags[adv.room]&7;
  if(adv.world==3&&adv.keys)adv.props=7;
+ if(adv.stage==6&&adv.room==2){adv.keys=1;adv.props=7;} /* Breathe before checkout. */
  if(adv.world==2&&boss_room()){adv.gate_x=112;adv.gate_y=192;}
- if(mystery()&&(!adv.room||(adv.room<=12&&!(adv.room&3)))){adv.gate_x=adv.platforms[0].x+40;adv.gate_y=adv.platforms[0].y-16;}
+ if(clue_routes()&&(!adv.room||(adv.room<=6&&!(adv.room&1)))){adv.gate_x=adv.platforms[0].x+40;adv.gate_y=adv.platforms[0].y-16;}
  for(i=0;i<BCOUNT;++i)adv.bullets[i].life=0;
  for(i=0;i<ECOUNT;++i){
   e=&adv.enemies[i];e->hp=0;
-  if(boss_room()||(mystery()&&(!adv.room||(adv.room<=12&&!(adv.room&3))))||i>1||(adv.stage==0&&(adv.room<2||i>0))||(adv_save.easy&&i>0))continue;
+  if(boss_room()||(clue_routes()&&(!adv.room||(adv.room<=6&&!(adv.room&1))))||i>1||room_enemy[adv.stage][adv.room][i]==255||(adv_save.easy&&i>0))continue;
   p=&adv.platforms[i+1];e->lo=p->x;e->hi=p->x+p->w-16;e->x=e->hi;e->y=p->y-16;
-  e->type=(adv.world*2+i+adv.room)%6;e->hp=adv_save.easy?1:2;e->tick=i*53;e->inv=0;e->dir=-1;
+  e->type=room_enemy[adv.stage][adv.room][i];e->hp=adv_save.easy?1:2;e->tick=i*53;e->inv=0;e->dir=-1;
  }
- if((mystery()?(!adv.room||(adv.room&1)):((adv.room&1)==0))||boss_room()){
+ if((clue_routes()?(!adv.room||(adv.room&1)):((adv.room&1)==0))||boss_room()){
   if(adv.room!=adv.checkpoint)adv.health=adv_save.easy?6:4;adv.checkpoint=adv.room;
  }
  screen(UI_ROOM);hud_line();
@@ -152,7 +172,7 @@ static void draw(void){u8 i,pose,legs,y,flip;Enemy* e;Bullet* b;Platform* p;
   shape(adv.x,y+16,legs*8+6,2,1,2|flip);
   if(pose==13)shape(adv.facing?adv.x-8:adv.x+16,y+4,128+host*2,1,2,flip);
  }
- if(!adv.keys&&!boss_room()&&adv.world!=3&&adv.world!=1&&!(mystery()&&(!adv.room||(adv.room<=12&&!(adv.room&3)))))sprite8(adv.gate_x,adv.gate_y,158,3);
+ if(!adv.keys&&!boss_room()&&adv.world!=3&&adv.world!=1&&!(clue_routes()&&(!adv.room||(adv.room<=6&&!(adv.room&1)))))sprite8(adv.gate_x,adv.gate_y,158,3);
  if(adv.tape)sprite8(adv.tape_x+4,adv.tape_y+4-((adv.tick>>4)&1),154,3);
  if(boss_room()&&adv.boss_hp&&(!adv.boss_inv||(adv.boss_inv&2))){
   shape(adv.boss_x+4,adv.boss_y,216+(adv.boss_tick<45?0:(adv.boss_tick<85?18:9)),2,3,3);
@@ -315,14 +335,14 @@ static void physics(void){u8 i,py,landed,nx;Platform* p;s16 next,top;
      screen(UI_ROOM);hud_line();adv_command=10;
     }
    }
-  }else if(mystery()&&!adv.room){
+  }else if(clue_routes()&&!adv.room){
    screen(UI_ROUTES);adv_command=adv_command?adv_command+30:34;return;
-  }else if(mystery()&&adv.room<=12&&!(adv.room&3)){
-   adv.clue=adv.room/4-1;screen(UI_NPC);
+  }else if(clue_routes()&&adv.room<=6&&!(adv.room&1)){
+   adv.clue=adv.room/2-1;screen(UI_NPC);
    adv.flags[adv.room]|=1;adv_command=30;return;
   }else{
    if(adv.world==2){
-    adv.clue=adv.room>=13?(adv.room-13)%3:((adv.room-1)/4)%3;
+    adv.clue=adv.stage==5?adv.room:(adv.room-4)%3;
     screen(UI_CLUE);if(adv_command!=1){screen(UI_ROOM);adv_command=10;return;}screen(UI_ROOM);adv_command=10;
    }
    adv.keys=1;adv.flags[adv.room]|=1;service(2,1);
@@ -364,14 +384,14 @@ static void play(void){u8 cmd;
   if(adv.world==2&&(pressed&SELECT)){
    paused=1;service(3,0);screen(UI_BOOK);paused=0;screen(UI_ROOM);hud_line();service(5,stage_music[adv.world]);adv_command=10;continue;
   }
-  if(mystery()&&adv.room&&(pressed&DOWN)&&adv.x<40&&adv.ground){adv.room=0;load_room(0);adv_command=10;continue;}
+  if(clue_routes()&&adv.room&&adv.room<=6&&(pressed&DOWN)&&adv.x<40&&adv.ground){adv.room=0;load_room(0);adv_command=10;continue;}
   service(0,0);++adv.tick;
   if(pressed&A)adv.buffer=6;
   if(adv.hitstop){--adv.hitstop;continue;}
   physics();
   if(adv_command>=30){
    cmd=adv_command;
-   if(cmd!=34)adv.room=cmd==30?0:(cmd==35?13:1+(cmd-31)*4);
+   if(cmd!=34)adv.room=cmd==30?0:(cmd==35?7:1+(cmd-31)*2);
    if(cmd==34){screen(UI_ROOM);hud_line();}else load_room(0);adv_command=10;continue;
   }
   enemies();
@@ -387,7 +407,7 @@ static void play(void){u8 cmd;
   }
   if((pressed&UP)&&adv.keys&&adv.x>=212&&distance(ypixel(),adv.exit_y)<18){
    if(++adv.room==stage_rooms[adv.stage]){stage_done();return;}
-   if(adv.room==(adv.stage<6?8:6)&&!(adv.room_seen&1)){adv.room_seen|=1;screen(UI_REWRITE);}
+   if(adv.room==2&&adv.stage!=4&&adv.stage!=5&&!(adv.room_seen&1)){adv.room_seen|=1;screen(UI_REWRITE);}
    load_room(0);adv_command=10;
   }
  }

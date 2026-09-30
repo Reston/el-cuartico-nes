@@ -1,6 +1,6 @@
 # Plan de aventura: El Cuartico — Una última toma
 
-**Estado:** plan original de diseño. La campaña implementada y ampliada en v0.15.0, sus decisiones de alcance y su validación se describen en [AVENTURA.md](AVENTURA.md). Las duraciones y alternativas de este plan son metas de diseño, no mediciones ni funciones adicionales prometidas.
+**Estado:** plan original de diseño. La campaña implementada y concentrada en v0.16.0, sus decisiones de alcance y su validación se describen en [AVENTURA.md](AVENTURA.md). Se prioriza variedad y ritmo sobre cantidad de salas. Las duraciones y alternativas de este plan son metas históricas de diseño, no mediciones ni funciones adicionales prometidas.
 **Fecha:** 26 de septiembre de 2026. **Base:** juego v0.13.1.
 **Plataforma:** NES, un jugador, mando de dos botones; R36S como dispositivo principal de prueba portátil.
 

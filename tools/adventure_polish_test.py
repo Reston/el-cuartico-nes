@@ -32,6 +32,8 @@ def enter_code(wanted):
     h.press(8);h.frames(30)
 
 a.begin();check(h.read('mode')==10,'Boot introduces the adventure and playable preparation')
+check(a.read('keys') and not any(a.read('enemies',i*9+5) for i in range(3)),
+      'Opening platforming teaches movement with an open exit and no patrol')
 h.frames(80)
 x=a.read('x');tick=a.read('tick');h.frames(15,[7])
 check(a.read('x')==x+30 and (a.read('tick')-tick)&255==15,'Movement advances at 60 Hz')

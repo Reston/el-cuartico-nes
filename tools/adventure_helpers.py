@@ -96,7 +96,8 @@ def choose_clue():
 
 
 def relay_at(i):
-    mask=4 if read('stage')==2 and read('room')<4 else (6 if read('stage')==2 and read('room')<8 else 7)
+    stage,room=read('stage'),read('room')
+    mask=(4 if room==0 else (6 if room<3 else 7)) if stage==2 else ((4 if room==3 else (6 if room==1 else 7)) if stage==3 else (6 if stage==8 and room==2 else 7))
     if not mask&(1<<i) or read('props')&(1<<i):return
     walk(platform(i)[0]+6)
     h.frames(1,[7,0])
@@ -108,17 +109,17 @@ def relay_at(i):
 
 def clear_room(collect=False):
     old=read('room');stage=read('stage');world=read('world')
-    mystery=stage in (4,5)
+    mystery=stage==4
     if h.read('host')==0 and old==0:h.screenshot(f'adventure-world-{stage}.png')
-    if mystery and (old==0 or old<=12 and old%4==0):
+    if mystery and (old==0 or old<=6 and old%2==0):
         # The plaza and conversation rooms are safe ground-level interactions.
         walk(34);h.press(4);h.frames(10)
         if old==0:
             assert h.read('adv_ui_page')==12
-            route=next((i for i in range(3) if not read('flags',(i+1)*4)&1),3)
+            route=next((i for i in range(3) if not read('flags',(i+1)*2)&1),3)
             for _ in range(route):h.press(5)
             h.press(8);h.frames(30)
-            assert read('room')==(1+route*4 if route<3 else 13)
+            assert read('room')==(1+route*2 if route<3 else 7)
         else:
             assert h.read('adv_ui_page')==13
             if collect and read('tape'):

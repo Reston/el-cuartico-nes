@@ -1,6 +1,6 @@
 # Desarrollo
 
-La aventura **Una última toma** está implementada en v0.15.0. Consulta
+La aventura **Una última toma** está implementada en v0.16.0. Consulta
 [alcance, controles y validación](AVENTURA.md), el [plan de diseño original](PLAN-AVENTURA.md)
 y las [referencias narrativas](REFERENCIAS-PARODIAS.md).
 
@@ -284,7 +284,7 @@ rápidos de personaje y al regresar de una partida. Reproduce el fallo en la ROM
 anterior y pasa con la nueva asignación.
 
 
-## Aventura v0.15.0: bancos y presupuesto
+## Aventura v0.16.0: bancos y presupuesto
 
 La ventana CPU `$8000–$DFFF` alterna entre bancos PRG 12–14 (colección clásica),
 3–5 (aventura) y 6–8 (interfaz). NMI, biblioteca C y trampolines permanecen en el
@@ -304,19 +304,23 @@ CHR 54–58 contiene ambientes; 59 a Chucho, objetos y enemigos; 60 la interfaz;
 Las pruebas de aventura leen RAM para observar resultados, pero solo envían
 botones: no escriben estado ni cargan partidas del emulador. El recorrido de Chucho
 genera `build/adventure-inputs.txt`; Mesen reproduce esa entrada y comprueba las
-132 salas, las nueve tomas terminadas, las ocho cintas, los tres ensayos y el retorno
+46 salas, las nueve tomas terminadas, las ocho cintas, los tres ensayos y el retorno
 al estudio. Los JSON de rendimiento incluyen transiciones de pantalla, no solo
 las salas vacías. Las capturas y registros de prueba quedan en `build/`.
 
-## Rutas y repetidores · v0.15.0
+## Rutas y repetidores · v0.16.0
 
-`MAX_ROOMS` es 16. Las seis tomas principales tienen 16 salas; los extras y el
-cierre, 12. Hay veinte disposiciones de plataformas. Las dos tomas de la leyenda
-usan la plaza 0, rutas 1–4 / 5–8 / 9–12 y final 13–15. El bit 7 de `flags` registra
+`MAX_ROOMS` conserva capacidad para 16 salas sin alterar el estado en RAM. Las
+tomas usan 5/5/5/5/8/4/4/4/6 salas. La tabla de enemigos asigna encuentros y
+descansos por sala; 255 indica una ranura vacía. La leyenda primero usa la plaza 0,
+rutas 1–2 / 3–4 / 5–6 y salida 7; después aplica las pistas en 0–2 y afronta el
+guardián en 3, sin repetir la recolección. El bit 7 de `flags` registra
 visitas; el bit 0 de cada final de ruta conserva su pista durante los reintentos.
 La fábrica usa los bits 0–2 para sus repetidores; el puente solo colisiona cuando
 el conjunto requerido está apagado. El renderizado parcial de antenas y puente
-separa esa interacción del redibujado completo de una sala.
+separa esa interacción del redibujado completo de una sala. Los conjuntos de
+repetidores varían por sala. Chucho tiene salidas ordinarias abiertas y el cierre
+cambia de mundo cada dos salas. Las cintas se ubican explícitamente por toma.
 
 Los iconos y repetidores usan huecos de los bancos CHR existentes. No se aumenta
 el tamaño del cartucho ni la capacidad de sprites. La contraseña sigue en formato
