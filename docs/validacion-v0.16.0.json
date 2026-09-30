@@ -1,0 +1,169 @@
+{
+  "version": "0.16.0",
+  "date": "2026-09-29",
+  "rom": "dist/el-cuartico-v0.16.0-mmc5.nes",
+  "sha256": "9ffaf37775454ee20480fc69d2775e7b270bccdf945a3d5bbb6415d03aca5f16",
+  "bytes": 393232,
+  "validation_runs": [
+    {
+      "command": "python tools/test_all.py --mesen",
+      "exit_code": 0,
+      "result": "All suites passed on the packaged ROM"
+    }
+  ],
+  "fceumm_pass_checks": 878,
+  "fceumm_suites": {
+    "menu-tests.txt": 11,
+    "campaign-tests.txt": 118,
+    "mmc5-tests.txt": 38,
+    "polish-tests.txt": 31,
+    "plaza-music-tests.txt": 37,
+    "expansion-tests.txt": 21,
+    "repair-panel-tests.txt": 31,
+    "episode-tests.txt": 81,
+    "intro-tests.txt": 15,
+    "presentation-tests.txt": 89,
+    "second-episode-tests.txt": 64,
+    "usability-tests.txt": 74,
+    "reference-music-tests.txt": 14,
+    "adventure-tests-0.txt": 55,
+    "adventure-tests-1.txt": 55,
+    "adventure-tests-2.txt": 55,
+    "adventure-animation-tests-0.txt": 11,
+    "adventure-animation-tests-1.txt": 11,
+    "adventure-animation-tests-2.txt": 11,
+    "adventure-polish-tests.txt": 23,
+    "adventure-chapter-tests.txt": 33
+  },
+  "mesen_suites": {
+    "campaign": 18,
+    "presentation": 89,
+    "second-episode": 45,
+    "usability": 20,
+    "reference-music": 15,
+    "adventure": 5
+  },
+  "physical_r36s": "pending",
+  "human_first_playthrough_duration": "not measured",
+  "campaign": {
+    "stages": 9,
+    "rooms": 46,
+    "platform_layouts": 15,
+    "tapes": 8,
+    "actors_completed": [
+      "Chucho",
+      "Estefania",
+      "Daniel"
+    ]
+  },
+  "memory": {
+    "bss_bytes": 970,
+    "bss_end_hex": "06C9",
+    "fixed_code_end_hex": "FEA6",
+    "chr_banks": 64,
+    "chr_bytes": 262144,
+    "prg_bytes": 131072
+  },
+  "performance": {
+    "Chucho": {
+      "rooms_sampled": 46,
+      "sampled_frames": 10904,
+      "frames_without_update_including_transitions": 29,
+      "maximum_sprites_per_scanline": 7
+    },
+    "Estefania": {
+      "rooms_sampled": 46,
+      "sampled_frames": 10419,
+      "frames_without_update_including_transitions": 33,
+      "maximum_sprites_per_scanline": 8
+    },
+    "Daniel": {
+      "rooms_sampled": 46,
+      "sampled_frames": 10850,
+      "frames_without_update_including_transitions": 30,
+      "maximum_sprites_per_scanline": 7
+    }
+  },
+  "gameplay_video": {
+    "file": "docs/media/aventura-capitulos-v0.16.0.mp4",
+    "duration_seconds": 103.062,
+    "capture": "Real FCEUmm output and synthesized game audio, controller inputs only, normal speed; consecutive excerpts joined at cuts",
+    "rom_sha256": "9ffaf37775454ee20480fc69d2775e7b270bccdf945a3d5bbb6415d03aca5f16",
+    "video_sha256": "3f3358ec0bf0909be2c79d47e558359ccfd554f13a064069855c3ca384304e2b",
+    "frame_rate_source": 60.099826520671044,
+    "clips": [
+      {
+        "title": "Chucho - plataformas sin paradas",
+        "source": "build\\gameplay-v0.16.0",
+        "start_frame": 760,
+        "end_frame": 1514,
+        "duration": 12.54579328512147
+      },
+      {
+        "title": "Rescate - colchonetas y plataforma movil",
+        "source": "build\\gameplay-v0.16.0",
+        "start_frame": 1922,
+        "end_frame": 2574,
+        "duration": 10.84861700517135
+      },
+      {
+        "title": "El rumor - aprende y combina los repetidores",
+        "source": "build\\gameplay-v0.16.0",
+        "start_frame": 4459,
+        "end_frame": 5005,
+        "duration": 9.084884792674167
+      },
+      {
+        "title": "Megafono - esquiva y ataca al recargar",
+        "source": "build\\gameplay-v0.16.0",
+        "start_frame": 7067,
+        "end_frame": 7465,
+        "duration": 6.6223152884328185
+      },
+      {
+        "title": "La leyenda - tres rutas, un obstaculo y una pista",
+        "source": "build\\gameplay-v0.16.0",
+        "start_frame": 7891,
+        "end_frame": 8401,
+        "duration": 8.485881399750596
+      },
+      {
+        "title": "Pistas aprendidas - consulta tu libreta",
+        "source": "build\\chapter-capture-v0.16.0",
+        "start_frame": 6130,
+        "end_frame": 6918,
+        "duration": 13.11151871177151
+      },
+      {
+        "title": "Segunda toma - usa las pistas sin repetir rutas",
+        "source": "build\\gameplay-v0.16.0",
+        "start_frame": 9716,
+        "end_frame": 9964,
+        "duration": 4.126467817917937
+      },
+      {
+        "title": "Guardian - resuelve los tres sellos",
+        "source": "build\\gameplay-v0.16.0",
+        "start_frame": 10625,
+        "end_frame": 11334,
+        "duration": 11.797039043967006
+      },
+      {
+        "title": "Nadia - descanso antes del carrito",
+        "source": "build\\gameplay-v0.16.0",
+        "start_frame": 12200,
+        "end_frame": 12987,
+        "duration": 13.094879728634744
+      },
+      {
+        "title": "Apodos - patrulla, bocina y pajaro",
+        "source": "build\\gameplay-v0.16.0",
+        "start_frame": 13265,
+        "end_frame": 14067,
+        "duration": 13.344464475686232
+      }
+    ]
+  },
+  "screenshots": "docs/media/aventura-capitulos-v0.16.0.png",
+  "reference_recordings_in_repository": false
+}

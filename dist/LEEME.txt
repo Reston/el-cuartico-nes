@@ -1,58 +1,50 @@
-EL CUARTICO: ESTAMOS GRABANDO! - v0.13.1 - MMC5
-DOS EPISODIOS, SEIS MISIONES.
+EL CUARTICO: UNA ULTIMA TOMA - v0.16.0 - MMC5
 
-Abre el-cuartico-v0.13.1-mmc5.nes. Control 1, NTSC, velocidad normal.
-Inicia desde cero, sin estados guardados de otra version.
+Abre el-cuartico-v0.16.0-mmc5.nes. Control 1, NTSC, velocidad normal.
+R36S/ArkOS: copia el archivo a nes en la tarjeta de juegos.
+Inicia desde cero, sin estados del emulador de otra version.
 
-MENU: izquierda/derecha o SELECT elige. A/START juega. B abre el estudio.
-Arriba abre la ayuda. En el estudio, camina hasta un personaje y pulsa A.
+NOVEDADES
+Recorrido concentrado: encuentros escogidos, descansos y menos tareas repetidas.
+Chucho atraviesa las plataformas sin activar claquetas en cada sala.
+Operacion: era el estomago. Apaga todos los repetidores con B para revelar
+el puente. El megafono anuncia rafaga baja, diagonal y eco desde arriba.
+La leyenda del hijo de la chilena. Tres rutas en cualquier orden, conversaciones,
+mapa y libreta. Aprende las pistas una vez y aplicalas en la segunda toma.
+Resuelve los tres sellos del guardian. La aproximacion a la caja de Nadia es segura.
+Se conservan los personajes, seis pasos de carrera y acciones de v0.14.1.
 
-EPISODIO 1
-Cada personaje tiene una intro: Chuchito el Rufian, The Lion Queen y Dany.
-A/START confirma; B vuelve al menu. El reloj espera en las tres tarjetas.
-CHUCHO: 12 reparaciones. Cruceta mueve, B corre y A abre el panel.
-Cables: arriba/abajo y A. Enfoque: izquierda/derecha y A.
-Mezcladora: A en el recuadro. Memoria: mira y repite las direcciones.
-B cierra el panel. SIN LIMITE: reloj y averias esperan dentro de los puzles.
-Tras 3, 6 y 9 reparaciones, resuelve el evento indicado para conseguir su premio.
-ESTEFANIA: 20 aciertos antes de cinco fallos. Primera A de practica.
-Las notas vienen de la derecha: pulsa el simbolo al llegar al marco izquierdo.
-Cada acto cuenta cuatro tiempos. Dejan de entrar notas extra antes del cierre.
-Si fallas la ultima nota, puedes recuperarte con otra. No hay cuenta atras.
-DANIEL: explora uno, dos y cuatro lugares. B: lupa. A: elige.
-Las flechas en los bordes despejados indican por donde pasar a otra zona.
-Una respuesta incorrecta cuesta cinco segundos.
+AVENTURA
+Izquierda/derecha: moverse. A: saltar (manten para mas altura).
+B: accion. Chucho golpea, Estefania dispara, Daniel devuelve proyectiles.
+Arriba: claqueta, pista o puerta. START: pausa, ayuda y dificultad.
+En la leyenda, SELECT abre mapa y libreta; ABAJO al inicio de una ruta de la
+primera toma vuelve a la plaza.
+En el selector de rutas, SELECT cambia actor. Los carteles no castigan errores.
+Al recargar el guardian, ARRIBA en su claqueta permite resolver un sello.
+Mesa de ideas: SELECT cambia actor, izquierda/derecha elige toma,
+A empieza y START muestra la contrasena.
 
-Al conseguir los tres sellos, A continua al EPISODIO 2: EN DIRECTO.
-Conservas tus puntos y las medallas del primer episodio.
+Tres historias de dos tomas, un cierre y dos historias extra: 46 salas.
+Antes de cada historia hay un ensayo corto del minijuego correspondiente.
+Tras dos ensayos fallidos, SELECT permite que el equipo ayude.
+Los otros jefes se atacan durante su descanso. Los checkpoints recuperan vida.
+No hay limite de vidas. Desde pausa puedes activar ENSAYO TRANQUILO.
+Ocho cintas opcionales desbloquean una linea extra al final.
+Completar una toma sin dano ni asistencia concede su medalla.
 
-EPISODIO 2
-Cada mision tiene una tarjeta sin reloj. A/START empieza; B vuelve al menu.
-CHUCHO: completa tres enlaces. Primero restaura energia en los cables.
-Despues arregla camara y mezcladora, en el orden que elijas.
-La memoria cierra el enlace. El reloj sigue parado dentro de los paneles.
-ESTEFANIA: 49 aciertos, incluidas notas con cola. Manten el boton hasta
-que termine la barra. Tras pausar una sostenida, retoma su boton para seguir.
-DANIEL: tres encuentros. Microfono y guion son opcionales, dos por mundo.
-Acercate y pulsa A: cada objeto da pista, 150 puntos y hasta diez segundos.
-Los objetos recogidos no reaparecen al volver a su zona.
+Anota la CONTRASENA antes de apagar. Conserva tomas, cintas, medallas,
+ensayos y dificultad. Reanuda en la mesa, no en mitad de una sala.
+Las pistas y antenas parciales duran esa toma; no se guardan en la contrasena.
+Los codigos de v0.14.1 siguen siendo compatibles. Nueva aventura pide confirmar.
 
-START pausa. En pausa: START sigue, A reintenta, B vuelve al menu.
-SELECT abre controles del juego o panel. B/SELECT vuelve de controles a pausa.
-Los reintentos conservan los sellos de los otros personajes.
+JUEGOS DEL ESTUDIO
+Conserva completos los dos episodios y Remix de la coleccion original.
+Izquierda/derecha o SELECT elige. A/START juega. Arriba abre ayuda.
+B entra al estudio clasico. ABAJO vuelve al menu de aventura.
+START pausa; durante la pausa SELECT abre los controles especificos.
+El progreso de esta coleccion dura la sesion y es independiente de la aventura.
 
-Final del episodio 1: A continua al episodio 2.
-Final del episodio 2: A comienza REMIX desde el primer episodio.
-En ambos finales, B anima la fiesta y START comienza una campana normal.
-REMIX: otras notas, tres enfoques, cuatro senales y mas senuelos en episodio 1.
-
-El progreso dura esta sesion. No se anade guardado por bateria.
-Guia: README.md, docs/SEGUNDO-EPISODIO.md y docs/ENTRADAS-CONTROLES.md.
-
-MUSICA v0.13.0
-Menu: arreglo corto de elcuartico_song_2, cuatro compases (~9.6 segundos).
-Estefania: arreglo de elcuartico_song_3, cuatro compases (~8 segundos).
-La melodia cambia de compas inicial entre actos; las notas siguen a 120 BPM.
-La musica se genera con la APU de NES, sin voces ni reproduccion de archivos.
-
-v0.13.1 corrige las letras de la linea inferior del menu principal.
+Guia: docs/AVENTURA.md y docs/COMO-JUGAR.md.
+La musica se sintetiza con la APU de NES. No se incluyen grabaciones.
+Validacion fisica de esta version en R36S pendiente; ver docs/AVENTURA.md.

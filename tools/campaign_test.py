@@ -92,7 +92,7 @@ check(read('mode')==0 and read('completed')==0,'Boots into free-selection hub wi
 h.screenshot('campaign-hub.png')
 # Complete every permutation: each character can be first, middle or last.
 for index,order in enumerate(itertools.permutations(range(3))):
-    if index:h.core.retro_reset();h.frames(90)
+    if index:h.reset();h.frames(90)
     for host in order:beat(host,do_pause=index==0,shots=index==0)
     check(read('completed')==7,'Completion order '+str(order))
     if index==0:h.screenshot('campaign-ending.png')
@@ -122,7 +122,7 @@ check(read('mode')==4 and read('last_win')==0 and read('health')==0,'Five missed
 h.press(0)
 # A completed character stays marked; it cannot clear or replace its stamp.
 select(2);h.press(3);check(read('mode')==0 and read('completed')==4,'Completed character remains stamped')
-h.core.retro_reset();h.frames(90);select(2);h.press(3);start_from_intro()
+h.reset();h.frames(90);select(2);h.press(3);start_from_intro()
 first=read('previous_target')
 # Deliberately select the empty corner, away from all hiding spots.
 while read('cursor_x')>8:h.frames(1,[6])

@@ -10,7 +10,7 @@ const char* const live_help[3][5]={
 const char* const link_names[3]={"ENLACE 1: ABRIMOS EL PROGRAMA","ENLACE 2: INVITADO EN LINEA","ENLACE 3: SALIMOS AL AIRE"};
 const char* game_title(void){return episode?live_titles[host]:titles[host];}
 const char* game_goal(void){return episode?live_goals[host]:goals[host];}
-u8 rhythm_goal(void){return episode?49:20;}
+u8 rhythm_goal(void){return story_activity?12:(episode?49:20);}
 void mission_screen(void){u8 i;
  slate();ui_heading("EPISODIO 2: EN DIRECTO",3);center(12,live_titles[host]);
  for(i=0;i<5;++i)center(14+i*2,live_help[host][i]);

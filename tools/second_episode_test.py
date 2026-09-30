@@ -183,6 +183,6 @@ for host in (1,0):
 check(r('mode')==5 and r('completed')==7 and r('episode')==1,'A full Remix campaign reaches the second finale')
 h.press(3)
 check(r('mode')==0 and r('episode')==0 and r('remix')==0 and word('score')==0,'Start at the finale begins a fresh normal campaign')
-h.core.retro_reset();h.frames(90)
+h.reset();h.frames(90)
 check(r('mode')==0 and r('episode')==0 and r('completed')==0 and r('remix_unlocked')==0,'Console reset discards session progress without saving')
 h.close()

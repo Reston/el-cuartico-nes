@@ -120,6 +120,9 @@ const u8 hero_dy[15]={0,0,0,8,8,8,16,16,16,24,24,24,32,32,32};
 const u8 hero_base[4]={96,111,126,141};
 const u8 cue_chart[32]={0,0,1,1,2,3,0,1,4,5,0,1,2,2,3,3,0,4,1,5,2,0,3,1,4,0,5,1,2,3,0,1};
 
+extern void adventure_enter(void);
+extern unsigned char adv_service_op,adv_service_arg,adv_activity_result;
+u8 story_activity;
 void start_game(void);
 void lounge(void);
 void act_start(u8 act);
@@ -211,7 +214,7 @@ void hub(void){
  line_clear(14);center(14,game_title());line_clear(24);center(24,names[host]);
  line_clear(26);center(26,(completed&masks[host])?"LISTO!":game_goal());
  for(i=0;i<3;++i)if(completed&masks[i])print(6+i*8,23,"OK");
- line_clear(10);episode_progress(10);line_clear(12);center(12,"ARRIBA: COMO JUGAR");
+ line_clear(10);episode_progress(10);line_clear(12);center(12,"ARRIBA:AYUDA ABAJO:AVENTURA");
  line_clear(28);center(28,"< > ELIGE A:JUEGA B:ESTUDIO");
  mode=HUB;on();
 }
@@ -230,6 +233,7 @@ void ending(void){
  line_clear(28);center(28,episode?"A:REMIX START:NUEVO":"A:EPISODIO 2 START:NUEVO");mode=ENDING;on();
 }
 void finish(u8 won){
+ if(story_activity){adv_activity_result=won?1:2;return;}
  last_win=won;paused=0;result_grade=won?((misses==0&&task_mistakes==0)?3:((misses<=2&&task_mistakes<=2)?2:1)):0;
  if(won){medals[host]=result_grade;if(!(completed&masks[host]))score+=attempt_score;completed|=masks[host];sound(1);if(completed==7){ending();return;}}
  else sound(2);
@@ -315,6 +319,7 @@ void move(void){u8 nx=px,ny=py,speed=2;
 void studio_success(u8 i){
  alarm[i]=0;studio_charge=0;attempt_score+=100*combo;if(combo<5)++combo;
  ++repairs;feedback=35;flash=i;hud_dirty=1;sound(1);react(0);
+ if(story_activity&&repairs==2){finish(1);return;}
  if(episode){linked_success(i);return;}
  if(studio_event&&i==event_station){studio_event=0;attempt_score+=200;if(health<5)++health;cheer=60;}
  if(repairs==3||repairs==6||repairs==9){
@@ -436,7 +441,7 @@ void cue_result(u8 success){
   if(rhythm_chain%5==0){attempt_score+=100;cheer=24;}
  }else if(!success){rhythm_chain=0;cheer=0;}
  if(cue_head<3)note_live[cue_head]=0;
- if(success){++hits;attempt_score+=100;pose=cue_key;sound(1);if(rhythm_chain&&rhythm_chain%5==0)react(0);if(hits==(episode?17:7)||hits==(episode?33:13))act_start(hits==(episode?17:7)?1:2);if(hits==rhythm_goal()){finish(1);return;}}
+ if(success){++hits;attempt_score+=100;pose=cue_key;sound(1);if(rhythm_chain&&rhythm_chain%5==0)react(0);if(!story_activity&&(hits==(episode?17:7)||hits==(episode?33:13)))act_start(hits==(episode?17:7)?1:2);if(hits==rhythm_goal()){finish(1);return;}}
  else{++misses;react(1);pose=6;sound(2);if(misses==5){finish(0);return;}}
 }
 void cue_front(void){u8 i;cue_head=255;cue_wait=1;
@@ -454,7 +459,7 @@ void rhythm_step(void){u8 keys,i,pending,limit;
  for(i=0;i<3;++i)if(note_live[i]&&i!=hold_slot)++note_age[i];
  /* Reserve only the cues still needed by this act. A miss opens a new slot. */
  pending=hits;for(i=0;i<3;++i)if(note_live[i])++pending;
- limit=music_act==2?rhythm_goal():(episode?(music_act?33:17):(music_act?13:7));
+ limit=story_activity?rhythm_goal():music_act==2?rhythm_goal():(episode?(music_act?33:17):(music_act?13:7));
  if(!rhythm_phase&&pending<limit){for(i=0;i<3;++i)if(!note_live[i]){
   note_live[i]=1;note_age[i]=0;note_hold[i]=episode&&(chart_step&3)==3;note_key[i]=music_act==0?cue_chart[chart_step]:(music_act==1?2+(chart_step&3):cue_chart[(chart_step+12)&31]);if(remix)note_key[i]=(note_key[i]+3)%6;chart_step=(chart_step+1)&31;++pending;break;}}
  if(music_act==2&&rhythm_outro!=(pending>=limit)){rhythm_outro=pending>=limit;hud_dirty=1;}
@@ -508,7 +513,7 @@ void search_step(void){u8 speed=pad&B?1:2,moved=0;
   feedback_x=hover_npc<24?npc_x[hover_npc]:cursor_x;
   feedback_y=hover_npc<24?npc_y[hover_npc]:cursor_y;
   if(target<24&&hover_npc==target){++found;attempt_score+=500+seconds*10;feedback=40;sound(1);react(0);hud_dirty=1;
-   if(found==3){finish(1);return;}search_wait=45;return;
+   if(found==(story_activity?1:3)){finish(1);return;}search_wait=45;return;
   }else{++misses;react(1);feedback=30;sound(2);seconds=seconds>5?seconds-5:0;hud_dirty=1;if(!seconds){finish(0);return;}}
  }
  if(++tick==60){tick=0;hud_dirty=1;if(seconds)--seconds;if(!seconds)finish(0);}
@@ -613,8 +618,20 @@ void draw(void){u8 i,x,y,step;hide();sprite_bank=(mode==SEARCH||(mode==RHYTHM&&e
   if(episode&&zoom_npc==255)props_draw();
  }
 }
+void gameplay_step(void){
+   if(pressed&START){if(paused)pause_close();else pause_open();return;}
+   if(paused){
+    if((pressed&SELECT)||(pause_help&&(pressed&B))){pause_help=!pause_help;if(pause_help)help_screen();else pause_screen();}
+    else if(pressed&B)hub();else if((pressed&A)&&!pause_help)start_game();return;
+   }
+   if(!hold_resume)audio();if(reaction_time){--reaction_time;if(!reaction_time)hud_dirty=1;}if(feedback)--feedback;if(cheer)--cheer;
+   if(mode==REPAIR){studio_step();if(mode==REPAIR&&!task_active&&++tick==60){tick=0;repair_second();}}
+   else if(mode==RHYTHM)rhythm_step();
+   else search_step();
+   if(mode>=REPAIR&&mode<=SEARCH&&hud_dirty)hud_update();
+}
 void main(void){mode=HUB;host=0;completed=0;rng=91;score=0;best=0;previous_target=255;music_track=255;bg_bank=0;sprite_bank=96;
- off();chr_bank(0);load_palette(palette,32);REG(0x4015)=0x0f;REG(0x4001)=0;REG(0x4005)=0;hub();
+ off();chr_bank(0);load_palette(palette,32);REG(0x4015)=0x0f;REG(0x4001)=0;REG(0x4005)=0;hub();adventure_enter();hub();
  for(;;){
   if(!paused)++anim_tick;draw();wait_frame();oldpad=pad;pad=pad_read();pressed=pad&~oldpad;
   if(mode==HUB){
@@ -622,6 +639,7 @@ void main(void){mode=HUB;host=0;completed=0;rng=91;score=0;best=0;previous_targe
    if(pressed&(RIGHT|SELECT)){host=(host+1)%3;menu_selection();sound(4);}
    else if(pressed&LEFT){host=host?host-1:2;menu_selection();sound(4);}
    else if(pressed&UP){menu_help();sound(4);}
+   else if(pressed&DOWN){adventure_enter();hub();}
    else if(pressed&B)lounge();
    else if(pressed&(START|A)){if(!(completed&masks[host]))start_game();else sound(2);}
   }else if(mode==HELP){
@@ -642,19 +660,35 @@ void main(void){mode=HUB;host=0;completed=0;rng=91;score=0;best=0;previous_targe
    hud_update();if(pressed&B)hub();
    else if((pressed&A)&&lounge_near<3){host=lounge_near;if(!(completed&masks[host]))start_game();else sound(2);}
   }else if(mode>=REPAIR&&mode<=SEARCH){
-   if(pressed&START){if(paused)pause_close();else pause_open();continue;}
-   if(paused){
-    if((pressed&SELECT)||(pause_help&&(pressed&B))){pause_help=!pause_help;if(pause_help)help_screen();else pause_screen();}
-    else if(pressed&B)hub();else if((pressed&A)&&!pause_help)start_game();continue;
-   }
-   if(!hold_resume)audio();if(reaction_time){--reaction_time;if(!reaction_time)hud_dirty=1;}if(feedback)--feedback;if(cheer)--cheer;
-   if(mode==REPAIR){studio_step();if(mode==REPAIR&&!task_active&&++tick==60){tick=0;repair_second();}}
-   else if(mode==RHYTHM)rhythm_step();
-   else search_step();
-   if(mode>=REPAIR&&mode<=SEARCH&&hud_dirty)hud_update();
+   gameplay_step();
   }else if(mode==RESULT){
    audio();if(last_win){if(pressed&(A|B|START))hub();}
    else if(pressed&B)hub();else if(pressed&(A|START))start_game();
   }else if(mode==ENDING){audio();if(finale_cheer)--finale_cheer;if(pressed&B){finale_cheer=120;sound(1);}if(pressed&(START|A)){campaign_next((pressed&START)!=0);}}
  }
+}
+
+void classic_activity(void){
+ u8 saved[11],i;u16 saved_score=score,saved_best=best;
+ saved[0]=host;saved[1]=episode;saved[2]=completed;saved[3]=remix;saved[4]=remix_unlocked;
+ for(i=0;i<3;++i){saved[5+i]=medals[i];saved[8+i]=first_medals[i];}
+ host=adv_service_arg;episode=remix=0;story_activity=host+1;adv_activity_result=0;
+ mode=CHARACTER_INTRO;start_game();
+ while(!adv_activity_result){
+  if(!paused)++anim_tick;draw();wait_frame();oldpad=pad;pad=pad_read();pressed=pad&~oldpad;
+  gameplay_step();
+  if(mode==CHARACTER_INTRO)start_game();
+  if(mode==HUB)adv_activity_result=3;
+ }
+ off();story_activity=0;host=saved[0];episode=saved[1];completed=saved[2];remix=saved[3];remix_unlocked=saved[4];
+ for(i=0;i<3;++i){medals[i]=saved[5+i];first_medals[i]=saved[8+i];}
+ score=saved_score;best=saved_best;paused=0;mode=10;
+}
+void classic_service(void){
+ if(adv_service_op==0)audio();
+ else if(adv_service_op==1)music_start(adv_service_arg);
+ else if(adv_service_op==2)sound(adv_service_arg);
+ else if(adv_service_op==4)classic_activity();
+ else if(adv_service_op==5){if(music_track!=adv_service_arg)music_start(adv_service_arg);else music_restore=1;}
+ else silence();
 }

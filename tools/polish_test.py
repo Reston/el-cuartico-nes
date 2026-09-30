@@ -11,7 +11,7 @@ def check(ok,msg):
     line=('PASS ' if ok else 'FAIL ')+msg;print(line,flush=True);report.append(line)
     (h.root/'build/polish-tests.txt').write_text('\n'.join(report)+'\n');assert ok,msg
 def boot(host=None):
-    h.core.retro_reset();h.frames(90)
+    h.reset();h.frames(90)
     if host is not None:
         for _ in range(host):h.press(7)
         h.press(3)

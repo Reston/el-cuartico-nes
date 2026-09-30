@@ -1,5 +1,10 @@
 # Cómo jugar
 
+El cartucho abre **Una última toma**, la nueva aventura. Sus controles, contraseñas
+y objetivos están en la [guía de aventura](AVENTURA.md).
+
+Selecciona **Juegos del estudio** para jugar la colección original descrita aquí.
+
 Estas reglas describen el **episodio 1**. El [episodio 2](SEGUNDO-EPISODIO.md)
 conserva los controles básicos y añade sus propias misiones.
 

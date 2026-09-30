@@ -16,7 +16,7 @@ def check(ok, label):
 scores = json.loads((h.root / 'assets/song-arrangements.json').read_text(encoding='utf-8'))['scores']
 
 for score, track, tempo in zip(scores, [0, 2], [18, 15]):
-    h.core.retro_reset(); h.frames(90)
+    h.reset(); h.frames(90)
     if track:
         h.press(7); h.press(8); start_from_intro()
     check(r('music_track') == track, score['id'] + ' selects its reference arrangement')

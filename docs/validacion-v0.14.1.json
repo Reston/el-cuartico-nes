@@ -1,0 +1,67 @@
+{
+  "version": "0.14.1",
+  "date": "2026-09-26",
+  "rom": "dist/el-cuartico-v0.14.1-mmc5.nes",
+  "sha256": "a2f53eac21c942f474270ae9d194475be920090a812f4049f224093cd5bf9eb2",
+  "bytes": 393232,
+  "validation_runs": [
+    {
+      "command": "python tools/test_all.py --mesen",
+      "exit_code": 1,
+      "result": "906 FCEUmm checks and five Mesen suites passed; last adventure replay exceeded its 60-second wall-clock allowance"
+    },
+    {
+      "command": "python tools/run_test.py tools/adventure_mesen.lua",
+      "exit_code": 0,
+      "result": "Full adventure replay passed with 120-second allowance; same ROM; all five progression assertions retained"
+    }
+  ],
+  "result": "All suites passed after rerunning the timed-out adventure replay",
+  "fceumm_pass_checks": 906,
+  "mesen_suites": 6,
+  "animation_checks": 33,
+  "physical_r36s": "pending",
+  "release_status": "visual polish review in progress",
+  "campaign": {
+    "stages": 9,
+    "rooms": 66,
+    "tapes": 8,
+    "actors_completed": [
+      "Chucho",
+      "Estefania",
+      "Daniel"
+    ]
+  },
+  "character_art": {
+    "native_pixels": [
+      16,
+      32
+    ],
+    "poses_per_actor": 16,
+    "run_frames": 6,
+    "chr_banks_used": 64,
+    "chr_bytes": 262144
+  },
+  "performance": {
+    "Chucho": {
+      "sampled_frames": 18993,
+      "frames_without_update_including_transitions": 41,
+      "maximum_sprites_per_scanline": 8
+    },
+    "Estefania": {
+      "sampled_frames": 17435,
+      "frames_without_update_including_transitions": 36,
+      "maximum_sprites_per_scanline": 8
+    },
+    "Daniel": {
+      "sampled_frames": 18907,
+      "frames_without_update_including_transitions": 41,
+      "maximum_sprites_per_scanline": 8
+    }
+  },
+  "motion_preview": {
+    "video": "docs/media/aventura-personajes-v0.14.1.mp4",
+    "gif": "docs/media/aventura-personajes-v0.14.1.gif",
+    "capture": "FCEUmm controller input only; all three actors; normal speed; GIF crops actual video output"
+  }
+}
