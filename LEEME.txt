@@ -1,0 +1,50 @@
+EL CUARTICO: UNA ULTIMA TOMA - v0.16.0 - MMC5
+
+Abre el-cuartico-v0.16.0-mmc5.nes. Control 1, NTSC, velocidad normal.
+R36S/ArkOS: copia el archivo a nes en la tarjeta de juegos.
+Inicia desde cero, sin estados del emulador de otra version.
+
+NOVEDADES
+Recorrido concentrado: encuentros escogidos, descansos y menos tareas repetidas.
+Chucho atraviesa las plataformas sin activar claquetas en cada sala.
+Operacion: era el estomago. Apaga todos los repetidores con B para revelar
+el puente. El megafono anuncia rafaga baja, diagonal y eco desde arriba.
+La leyenda del hijo de la chilena. Tres rutas en cualquier orden, conversaciones,
+mapa y libreta. Aprende las pistas una vez y aplicalas en la segunda toma.
+Resuelve los tres sellos del guardian. La aproximacion a la caja de Nadia es segura.
+Se conservan los personajes, seis pasos de carrera y acciones de v0.14.1.
+
+AVENTURA
+Izquierda/derecha: moverse. A: saltar (manten para mas altura).
+B: accion. Chucho golpea, Estefania dispara, Daniel devuelve proyectiles.
+Arriba: claqueta, pista o puerta. START: pausa, ayuda y dificultad.
+En la leyenda, SELECT abre mapa y libreta; ABAJO al inicio de una ruta de la
+primera toma vuelve a la plaza.
+En el selector de rutas, SELECT cambia actor. Los carteles no castigan errores.
+Al recargar el guardian, ARRIBA en su claqueta permite resolver un sello.
+Mesa de ideas: SELECT cambia actor, izquierda/derecha elige toma,
+A empieza y START muestra la contrasena.
+
+Tres historias de dos tomas, un cierre y dos historias extra: 46 salas.
+Antes de cada historia hay un ensayo corto del minijuego correspondiente.
+Tras dos ensayos fallidos, SELECT permite que el equipo ayude.
+Los otros jefes se atacan durante su descanso. Los checkpoints recuperan vida.
+No hay limite de vidas. Desde pausa puedes activar ENSAYO TRANQUILO.
+Ocho cintas opcionales desbloquean una linea extra al final.
+Completar una toma sin dano ni asistencia concede su medalla.
+
+Anota la CONTRASENA antes de apagar. Conserva tomas, cintas, medallas,
+ensayos y dificultad. Reanuda en la mesa, no en mitad de una sala.
+Las pistas y antenas parciales duran esa toma; no se guardan en la contrasena.
+Los codigos de v0.14.1 siguen siendo compatibles. Nueva aventura pide confirmar.
+
+JUEGOS DEL ESTUDIO
+Conserva completos los dos episodios y Remix de la coleccion original.
+Izquierda/derecha o SELECT elige. A/START juega. Arriba abre ayuda.
+B entra al estudio clasico. ABAJO vuelve al menu de aventura.
+START pausa; durante la pausa SELECT abre los controles especificos.
+El progreso de esta coleccion dura la sesion y es independiente de la aventura.
+
+Guia: docs/AVENTURA.md y docs/COMO-JUGAR.md.
+La musica se sintetiza con la APU de NES. No se incluyen grabaciones.
+Validacion fisica de esta version en R36S pendiente; ver docs/AVENTURA.md.
