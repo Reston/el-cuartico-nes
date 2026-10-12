@@ -41,6 +41,8 @@ del menú y la licencia. Los enlaces de código y guía apuntan al commit de mai
 del que procede la ROM. La captura del menú es `menu-footer-v0.13.1.png` de main;
 la versión del juego cargado se muestra sobre la pantalla. Los cambios
 experimentales de otras ramas no se publican como el juego principal.
+Los archivos de configuración, interfaz e imagen llevan una revisión en su URL
+para que una recarga no combine la página nueva con una ROM anterior en caché.
 
 Se carga **EmulatorJS 4.2.3 / FCEUmm**, fijado a esa versión, desde su CDN oficial
 solo al pulsar Jugar ahora. Por tanto, el primer inicio necesita conexión y acceso

@@ -1,5 +1,5 @@
 // No npm dependencies. The public player always packages the game from origin/main.
-import { mkdir, copyFile, writeFile, readdir, rm } from 'node:fs/promises';
+import { readFile, mkdir, copyFile, writeFile, readdir, rm } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
@@ -30,6 +30,10 @@ await mkdir(path.join(output, 'roms'), { recursive: true });
 for (const name of await readdir(path.join(root, 'web'))) {
   await copyFile(path.join(root, 'web', name), path.join(output, name));
 }
+const websiteCommit = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
+const revision = `${commit.slice(0, 12)}-${websiteCommit.slice(0, 12)}`;
+const html = await readFile(path.join(output, 'index.html'), 'utf8');
+await writeFile(path.join(output, 'index.html'), html.replaceAll('__WEB_REVISION__', revision));
 await writeFile(path.join(output, 'roms', romName), rom);
 await writeFile(path.join(output, 'title-screen.png'), releaseFile('docs/media/menu-footer-v0.13.1.png'));
 await writeFile(path.join(output, 'LICENSE.txt'), releaseFile('LICENSE'));
