@@ -6,7 +6,7 @@ Este juego fue creado enteramente con IA para probar las capacidades de Astra.
 
 **NES · Un jugador · v0.16.0**
 
-[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.16.0-mmc5.nes) · [Cómo jugar](docs/AVENTURA.md) · [Desarrollo](docs/DESARROLLO.md)
+[▶ Jugar en el navegador](https://reston.github.io/el-cuartico-nes/) · [🎮 Descargar ROM](dist/el-cuartico-v0.16.0-mmc5.nes) · [Cómo jugar](docs/AVENTURA.md) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
@@ -28,6 +28,11 @@ protección, robots que repiten rumores y pistas que Daniel supuestamente deber�
 [Ver gameplay del recorrido revisado](docs/media/aventura-capitulos-v0.16.0.mp4).
 
 ## Jugar
+
+[Juega gratis en el navegador](https://reston.github.io/el-cuartico-nes/): flechas,
+X para A, Z para B, Enter para Start y Shift para Select. En móvil aparecen
+controles táctiles. Anota la contraseña para continuar otro día.
+[Alojamiento y publicación](docs/WEB.md).
 
 Abre la ROM en un emulador de NES con **MMC5**, como FCEUmm o Mesen.
 Control 1, NTSC y velocidad normal; no hace falta BIOS.
