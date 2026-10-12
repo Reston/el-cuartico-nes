@@ -13,6 +13,9 @@ __pycache__/
 # Intermedios de cc65
 /src/*.o
 /src/game.s
+# Generated assembly left by adventure experiments
+/src/adventure.s
+/src/adventure_ui.s
 # dist contiene solo la entrega actual, sin ZIP ni resultados de pruebas
 /dist/*.zip
 /dist/*.dbg

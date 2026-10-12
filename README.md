@@ -8,7 +8,7 @@ Este juego fue creado enteramente con IA para probar las capacidades de Astra.
 
 **NES · Un jugador · v0.13.1**
 
-[🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.13.1-mmc5.nes) · [Cómo jugar](docs/COMO-JUGAR.md) · [Desarrollo](docs/DESARROLLO.md)
+[▶ Jugar en el navegador](https://reston.github.io/el-cuartico-nes/) · [🎮 Descargar ROM](https://raw.githubusercontent.com/Reston/el-cuartico-nes/main/dist/el-cuartico-v0.13.1-mmc5.nes) · [Cómo jugar](docs/COMO-JUGAR.md) · [Desarrollo](docs/DESARROLLO.md)
 
 </div>
 
@@ -16,6 +16,10 @@ Un juego inspirado en **El Cuartico**: elige a Chucho, Estefania o Daniel y
 completa seis misiones repartidas en dos episodios.
 
 ## Jugar
+
+[Juega gratis en el navegador](https://reston.github.io/el-cuartico-nes/): flechas,
+X para A, Z para B, Enter para Start y Shift para Select.
+[Alojamiento y publicación desde main](docs/WEB.md).
 
 Descarga la ROM con el enlace de arriba y ábrela en un emulador de NES con soporte
 **MMC5**, como FCEUmm o Mesen. Usa el control 1, región NTSC y velocidad normal;
