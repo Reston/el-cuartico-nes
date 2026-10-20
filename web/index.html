@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11110f">
+  <meta name="description" content="Juega El Cuartico: ¡Estamos grabando! en tu navegador. Gratis, sin instalar nada.">
+  <title>El Cuartico · ¡Estamos grabando!</title>
+  <link rel="icon" href="favicon.svg?v=__WEB_REVISION__" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css?v=__WEB_REVISION__">
+  <script defer src="game-config.js?v=__WEB_REVISION__"></script>
+  <script defer src="player.js?v=__WEB_REVISION__"></script>
+</head>
+<body>
+  <a class="skip-link" href="#jugar">Ir al juego</a>
+  <div class="page">
+    <header>
+      <div class="wordmark"><h1>el cuartico</h1><p>¡ESTAMOS GRABANDO!</p></div>
+      <a class="download" id="download" href="#" download>ROM <span aria-hidden="true">↓</span></a>
+    </header>
+    <main id="jugar" aria-label="Jugar El Cuartico">
+      <div class="screen-frame">
+        <div class="screen" id="screen">
+          <div id="game" aria-label="Emulador de NES"></div>
+          <div class="launch" id="launch">
+            <img class="title-screen" src="title-screen.png?v=__WEB_REVISION__" alt="Menú de El Cuartico: ¡Estamos grabando!" width="256" height="240">
+            <button class="play-button" id="play" type="button"><span aria-hidden="true">▶</span> Jugar</button>
+          </div>
+        </div>
+        <div class="screen-bottom"><span id="status" role="status" aria-live="polite">LISTO</span><span id="version">NES</span></div>
+      </div>
+      <div class="controls" aria-label="Controles de teclado">
+        <span><kbd>↑ ↓ ← →</kbd> Mover</span>
+        <span><kbd>X</kbd> A</span>
+        <span><kbd>Z</kbd> B</span>
+        <span><kbd>Enter</kbd> Start</span>
+        <span><kbd>Shift</kbd> Select</span>
+      </div>
+      <div class="load-error" id="load-error" role="alert" hidden>
+        <p>No se pudo cargar el juego. Comprueba tu conexión o descarga la ROM.</p>
+        <button type="button" id="retry">Reintentar</button>
+      </div>
+    </main>
+    <footer><span>Fan game</span><nav aria-label="Enlaces del proyecto"><a id="guide" href="https://github.com/Reston/el-cuartico-nes">Guía</a><a id="source" href="https://github.com/Reston/el-cuartico-nes">Código</a><a href="https://emulatorjs.org/">EmulatorJS</a><a href="LICENSE.txt">GPL v3</a></nav></footer>
+    <noscript><p class="load-error">Activa JavaScript para jugar o <a href="https://github.com/Reston/el-cuartico-nes">descarga la ROM</a>.</p></noscript>
+  </div>
+</body>
+</html>
