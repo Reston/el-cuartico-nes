@@ -17,8 +17,8 @@ completa seis misiones repartidas en dos episodios.
 
 ## Jugar
 
-[Juega gratis en el navegador](https://reston.github.io/el-cuartico-nes/): flechas,
-X para A, Z para B, Enter para Start y Shift para Select.
+[Juega directamente en el navegador](https://reston.github.io/el-cuartico-nes/), gratis y sin instalar nada.
+Controles: flechas, X para A, Z para B, Enter para Start y Shift para Select.
 [Alojamiento y publicación desde main](docs/WEB.md).
 
 Descarga la ROM con el enlace de arriba y ábrela en un emulador de NES con soporte
